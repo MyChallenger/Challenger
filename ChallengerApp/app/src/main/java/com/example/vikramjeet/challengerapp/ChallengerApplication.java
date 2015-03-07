@@ -1,4 +1,4 @@
-package com.example.vikramjeet.challengerapp.activities;
+package com.example.vikramjeet.challengerapp;
 
 import android.app.Application;
 
