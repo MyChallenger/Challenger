@@ -1,4 +1,4 @@
-package com.example.vikramjeet.challengerapp;
+package com.example.vikramjeet.challengerapp.activities;
 
 import com.parse.ui.ParseLoginDispatchActivity;
 

@@ -1,4 +1,4 @@
-package com.example.vikramjeet.challengerapp;
+package com.example.vikramjeet.challengerapp.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.vikramjeet.challengerapp.R;
 import com.parse.ParseUser;
 
 import butterknife.ButterKnife;
