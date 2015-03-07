@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/pshah/AndroidStudioProjects/Challenger/ChallengerApp/ParseLoginUI/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/3.21.1/res/values-es/values.xml -->
+    <!-- From: file:/Users/Vikramjeet/Documents/AndroidProjects/ChallengerProject/Challenger/ChallengerApp/ParseLoginUI/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/3.21.1/res/values-es/values.xml -->
     <eat-comment/>
     <string name="com_facebook_choose_friends">Elige Amigos</string>
     <string name="com_facebook_dialogloginactivity_ok_button">Aceptar</string>

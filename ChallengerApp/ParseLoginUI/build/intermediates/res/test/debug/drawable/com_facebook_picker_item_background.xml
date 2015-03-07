@@ -24,4 +24,4 @@
     <item android:state_focused="true"                                                             android:drawable="@drawable/com_facebook_picker_list_focused" />
     <item                                                                                          android:drawable="@android:color/transparent" />
 </selector>
-<!-- From: file:/Users/gokhanc/src/sdkrm/out/android-sdk/facebook/res/drawable/com_facebook_picker_item_background.xml --><!-- From: file:/Users/pshah/AndroidStudioProjects/Challenger/ChallengerApp/ParseLoginUI/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/3.21.1/res/drawable/com_facebook_picker_item_background.xml -->
+<!-- From: file:/Users/gokhanc/src/sdkrm/out/android-sdk/facebook/res/drawable/com_facebook_picker_item_background.xml --><!-- From: file:/Users/Vikramjeet/Documents/AndroidProjects/ChallengerProject/Challenger/ChallengerApp/ParseLoginUI/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/3.21.1/res/drawable/com_facebook_picker_item_background.xml -->

@@ -1,7 +1,8 @@
-package com.example.vikramjeet.challengerapp;
+package com.example.vikramjeet.challengerapp.activities;
 
 import android.app.Application;
 
+import com.example.vikramjeet.challengerapp.R;
 import com.parse.Parse;
 import com.parse.ParseTwitterUtils;
 
