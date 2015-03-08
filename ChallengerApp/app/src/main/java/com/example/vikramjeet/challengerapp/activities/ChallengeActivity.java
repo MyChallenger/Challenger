@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.fragments.CompletedChallengesFragment;
 import com.parse.ParseUser;
 
 import butterknife.ButterKnife;
@@ -26,15 +27,14 @@ public class ChallengeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenge);
-
-        // Set view page adapter for the pager
-        // Attach tabstrip to the viewpager
-
-
+        // Inject Butterknife
         ButterKnife.inject(this);
+        // Set view page adapter for the pager
+        vpPager.setAdapter(new ChallengePagerAdapter(getSupportFragmentManager()));
+        // Attach tabstrip to the viewpager
+        tabStrip.setViewPager(vpPager);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,21 +81,20 @@ public class ChallengeActivity extends ActionBarActivity {
         }
     }
 
-    public class ChallengeListAdapter extends FragmentPagerAdapter {
+    public class ChallengePagerAdapter extends FragmentPagerAdapter {
 
         private String tabTitles[] = { getString(R.string.open_challenges), getString(R.string.completed_challenges) };
 
-        public ChallengeListAdapter(FragmentManager fm) {
+        public ChallengePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-//                return OpenChallengesFragment();
+//                return new OpenChallengesFragment();
             }
-//            return CompletedChallengesFragment();
-            return null;
+            return new CompletedChallengesFragment();
         }
 
         @Override
