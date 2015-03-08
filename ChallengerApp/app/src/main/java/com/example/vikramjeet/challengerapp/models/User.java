@@ -1,11 +1,13 @@
 package com.example.vikramjeet.challengerapp.models;
 
+import com.parse.ParseUser;
+
 import java.util.List;
 
 /**
  * Created by Vikramjeet on 3/7/15.
  */
-public class User {
+public class User extends ParseUser {
 
     private String name;
     private String photoURL;
@@ -18,5 +20,6 @@ public class User {
     public User() {
         super();
     }
+
 
 }
