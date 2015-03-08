@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/ivProfile"
+        android:src="@mipmap/ic_launcher"
+        android:paddingRight="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textStyle="bold"
+        android:id="@+id/tvTitle"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivProfile"
+        android:layout_toEndOf="@+id/ivProfile" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:id="@+id/tvCategory"
+        android:layout_below="@+id/tvTitle"
+        android:layout_toRightOf="@+id/ivProfile"
+        android:layout_toEndOf="@+id/ivProfile" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal : $100"
+        android:id="@+id/tvGoal"
+        android:layout_below="@+id/tvCategory"
+        android:layout_toRightOf="@+id/ivProfile"
+        android:layout_toEndOf="@+id/ivProfile" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Expiry Date"
+        android:id="@+id/tvExpiry"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textColor="@color/primary_blue"
+        android:id="@+id/btnAdd"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/ivProfile"
+        android:layout_alignTop="@+id/tvCategory"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"/>
+
+</RelativeLayout>
