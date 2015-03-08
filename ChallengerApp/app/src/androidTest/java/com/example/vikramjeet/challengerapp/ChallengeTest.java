@@ -3,10 +3,9 @@ package com.example.vikramjeet.challengerapp;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.util.Log;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -16,6 +15,7 @@ import junit.framework.TestCase;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
+import java.util.List;
 
 public class ChallengeTest extends TestCase {
 
@@ -59,6 +59,7 @@ public class ChallengeTest extends TestCase {
         }
         assertFalse(challenge.isDirty());
         assertTrue(isSaved);
+
     }
 
     public void testAddAsync() {
@@ -95,6 +96,28 @@ public class ChallengeTest extends TestCase {
                 }
             });
         }
+    }
+
+    public void testGetOpenChallengesAsync() {
+        Challenge.getOpenChallenges(new FindCallback<Challenge>() {
+            @Override
+            public void done(List<Challenge> results, ParseException e) {
+                for (Challenge challenge : results) {
+                    // ...
+                }
+            }
+        });
+    }
+
+    public void testGetFinishedChallengesAsync() {
+        Challenge.getFinishedChallenges(new FindCallback<Challenge>() {
+            @Override
+            public void done(List<Challenge> results, ParseException e) {
+                for (Challenge challenge : results) {
+                    // ...
+                }
+            }
+        });
     }
 }
 
