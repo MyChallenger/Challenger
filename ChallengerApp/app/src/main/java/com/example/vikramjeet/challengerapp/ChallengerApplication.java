@@ -3,13 +3,19 @@ package com.example.vikramjeet.challengerapp;
 import android.app.Application;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseTwitterUtils;
 
 public class ChallengerApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Register Subclasses
+        ParseObject.registerSubclass(Challenge.class);
+
         // Required - Initialize the Parse SDK
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
