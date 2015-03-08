@@ -1,9 +1,11 @@
 package com.example.vikramjeet.challengerapp.models;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.Date;
 
@@ -126,4 +128,21 @@ public class Challenge extends ParseObject {
     public void setCompleted(Boolean isCompleted) {
         put(FIELD_IS_COMPLETED, isCompleted);
     }
+
+    public static void getOpenChallenges(FindCallback<Challenge> findCallback) {
+        ParseQuery<Challenge> query = getChallengeParseQuery();
+        query.whereEqualTo(FIELD_IS_COMPLETED, false);
+        query.findInBackground(findCallback);
+    }
+
+    public static void getFinishedChallenges(FindCallback<Challenge> findCallback) {
+        ParseQuery<Challenge> query = getChallengeParseQuery();
+        query.whereEqualTo(FIELD_IS_COMPLETED, true);
+        query.findInBackground(findCallback);
+    }
+
+    private static ParseQuery<Challenge> getChallengeParseQuery() {
+        return ParseQuery.getQuery(Challenge.class);
+    }
+
 }
