@@ -6,21 +6,35 @@ Parse.Cloud.define("hello", function(request, response) {
 });
 
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
-  var authData = request.object.get("authData");
-  if(typeof authData !== 'undefined') {
-    var facebook = request.object.get("authData").facebook;
-    var twitter = request.object.get("authData").twitter;
-    // console.log(request.object.get("authData"));
-    // Determine the provider
-    if(typeof facebook !== 'undefined') {
-      request.object.set("provider", "FACEBOOK");
-      request.object.set("providerId", request.object.get("authData").facebook.id);
-    } else if(typeof twitter !== 'undefined') {
-      request.object.set("provider", "TWITTER");
-      request.object.set("providerId", request.object.get("authData").twitter.id);
-    } else {
-      request.object.set("provider", "PARSE");
-    }
-  };
+  var user = request.object;
+  // Only do this during User creation.
+  // This seems like a fair assumption at this point!
+  if (user.isNew()) {
+    var authData = user.get("authData");
+    if(typeof authData !== 'undefined') {
+      var facebook = user.get("authData").facebook;
+      var twitter = user.get("authData").twitter;
+      // console.log(user.get("authData"));
+      // Determine the provider
+      if(typeof facebook !== 'undefined') {
+        user.set("provider", "FACEBOOK");
+        user.set("providerId", user.get("authData").facebook.id);
+      } else if(typeof twitter !== 'undefined') {
+        user.set("provider", "TWITTER");
+        user.set("providerId", user.get("authData").twitter.id);
+      } else {
+        user.set("provider", "PARSE");
+      }
+    };
+  }
+  response.success();
+});
+
+Parse.Cloud.beforeSave("Challenge", function(request, response) {
+  var challenge = request.object;
+  if (challenge.isNew()) {
+    var user = Parse.User.current();
+    challenge.set("poster", user);
+  }
   response.success();
 });

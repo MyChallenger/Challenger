@@ -6,6 +6,7 @@ import com.example.vikramjeet.challengerapp.models.User;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -31,6 +32,21 @@ public class UserTest extends AndroidTestCase {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public void testUpdate() {
+        User user = (User) ParseUser.getCurrentUser();
+        user.setLocation("Palo Alto, CA");
+        boolean isSaved;
+        try {
+            user.save();
+            isSaved = true;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            isSaved = false;
+        }
+        assertFalse(user.isDirty());
+        assertTrue(isSaved);
     }
 }
 

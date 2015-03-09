@@ -28,6 +28,8 @@ public class Challenge extends ParseObject {
     private static final String FIELD_PRIZE = "prize";
     private static final String FIELD_CATEGORY = "category";
     private static final String FIELD_IS_COMPLETED = "isCompleted";
+    private static final String FIELD_POSTER = "poster";
+    private static final String FIELD_BACKER = "backer";
 
     public Challenge() {
         // A default constructor is required.
@@ -142,7 +144,18 @@ public class Challenge extends ParseObject {
     }
 
     private static ParseQuery<Challenge> getChallengeParseQuery() {
-        return ParseQuery.getQuery(Challenge.class);
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+        query.include(FIELD_POSTER);
+        query.include(FIELD_BACKER);
+        return query;
+    }
+
+    public User poster() {
+        return (User) getParseUser(FIELD_POSTER);
+    }
+
+    public User backer() {
+        return (User) getParseUser(FIELD_BACKER);
     }
 
 }
