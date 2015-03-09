@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.models.User;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 
 import butterknife.ButterKnife;
@@ -52,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         // Set up the profile page based on the current user.
-        ParseUser user = ParseUser.getCurrentUser();
+        User user = (User) ParseUser.getCurrentUser();
         showProfile(user);
     }
 
@@ -61,10 +64,11 @@ public class MainActivity extends ActionBarActivity {
      *
      * @param user
      */
-    private void showProfile(ParseUser user) {
+    private void showProfile(User user) {
         if (user != null) {
 //            tvUserName.setText(user.getEmail());
             String fullName = user.getString("name");
+            ParseFacebookUtils.isLinked(user);
             if (fullName != null) {
                 tvUserName.setText(fullName);
             }

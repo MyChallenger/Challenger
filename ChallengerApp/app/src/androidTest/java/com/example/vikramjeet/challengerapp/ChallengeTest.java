@@ -3,26 +3,104 @@ package com.example.vikramjeet.challengerapp;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.test.AndroidTestCase;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.SaveCallback;
 
-import junit.framework.TestCase;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.List;
 
-public class ChallengeTest extends TestCase {
+public class ChallengeTest extends AndroidTestCase {
 
     protected void setUp() {
+        Parse.initialize(getContext(), getContext().getString(R.string.parse_app_id),
+                getContext().getString(R.string.parse_client_key));
+    }
+
+    private void populateSampleData() {
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        for (int i = 0; i < 50; i++) {
+            Challenge challenge = new Challenge();
+            challenge.setTitle("Open Challenge # " + (i + 1));
+            challenge.setDescription("Will record a video and post!");
+            Date aWeekFromNow = new Date(System.currentTimeMillis() + (7 * DAY_IN_MS));
+            challenge.setExpiryDate(aWeekFromNow);
+//            ParseFile createdMedia = new ParseFile("createdMedia.txt", "I'm a created media!".getBytes());
+//            try {
+//                createdMedia.save();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            challenge.setCreatedMedia(createdMedia);
+//            ParseFile completedMedia = new ParseFile("completedMedia.txt", "I'm a completed media!".getBytes());
+//            try {
+//                completedMedia.save();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            challenge.setCompletedMedia(completedMedia);
+//
+            challenge.setNumberOfLikes(100);
+            challenge.setNumberOfViews(205678);
+            challenge.setNumberOfComments(15);
+            // 1 Market Street, San Francisco CA
+            challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+            challenge.setPrize("Asking for $10 for beer");
+            challenge.setCategory("Dare");
+            challenge.setCompleted(false);
+            try {
+                challenge.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < 50; i++) {
+            Challenge challenge = new Challenge();
+            challenge.setTitle("Finished Challenge # " + (i + 1));
+            challenge.setDescription("Will record a video and post!");
+            Date yesterday = new Date(System.currentTimeMillis() - (1 * DAY_IN_MS));
+            challenge.setExpiryDate(yesterday);
+//            ParseFile createdMedia = new ParseFile("createdMedia.txt", "I'm a created media!".getBytes());
+//            try {
+//                createdMedia.save();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            challenge.setCreatedMedia(createdMedia);
+//            ParseFile completedMedia = new ParseFile("completedMedia.txt", "I'm a completed media!".getBytes());
+//            try {
+//                completedMedia.save();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            challenge.setCompletedMedia(completedMedia);
+//
+            challenge.setNumberOfLikes(100);
+            challenge.setNumberOfViews(205678);
+            challenge.setNumberOfComments(15);
+            // 1 Market Street, San Francisco CA
+            challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+            challenge.setPrize("Asking for $10 for beer");
+            challenge.setCategory("Dare");
+            challenge.setCompleted(true);
+            try {
+                challenge.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void testAdd() {
+//        populateSampleData();
         Challenge challenge = new Challenge();
         challenge.setTitle("Stand on top of a checkout counter in a public store");
         challenge.setDescription("Will record a video and post!");

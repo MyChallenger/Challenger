@@ -19,8 +19,8 @@ public class Challenge extends ParseObject {
     private static final String FIELD_TITLE = "title";
     private static final String FIELD_DESCRIPTION = "description";
     private static final String FIELD_EXPIRY_DATE = "expiryDate";
-    private static final String FIELD_CREATED_MEDIA_URL = "createdMediaURL";
-    private static final String FIELD_COMPLETED_MEDIA_URL = "completedMediaURL";
+    private static final String FIELD_CREATED_MEDIA = "createdMedia";
+    private static final String FIELD_COMPLETED_MEDIA = "completedMedia";
     private static final String FIELD_NUMBER_OF_LIKES = "numberOfLikes";
     private static final String FIELD_NUMBER_OF_VIEWS = "numberOfViews";
     private static final String FIELD_NUMBER_OF_COMMENTS = "numberOfComments";
@@ -58,19 +58,19 @@ public class Challenge extends ParseObject {
     }
 
     public ParseFile getCreatedMedia() {
-        return getParseFile(FIELD_CREATED_MEDIA_URL);
+        return getParseFile(FIELD_CREATED_MEDIA);
     }
 
     public void setCreatedMedia(ParseFile createdMedia) {
-        put(FIELD_CREATED_MEDIA_URL, createdMedia);
+        put(FIELD_CREATED_MEDIA, createdMedia);
     }
 
     public ParseFile getCompletedMedia() {
-        return getParseFile(FIELD_COMPLETED_MEDIA_URL);
+        return getParseFile(FIELD_COMPLETED_MEDIA);
     }
 
     public void setCompletedMedia(ParseFile completedMedia) {
-        put(FIELD_COMPLETED_MEDIA_URL, completedMedia);
+        put(FIELD_COMPLETED_MEDIA, completedMedia);
     }
 
     public int getNumberOfLikes() {
