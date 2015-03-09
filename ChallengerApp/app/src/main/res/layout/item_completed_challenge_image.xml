@@ -26,8 +26,9 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="165dp"
+        android:layout_height="180dp"
         android:id="@+id/ivCompletedChallenge"
+        android:src="@drawable/photo_placeholder"
         android:layout_below="@+id/ivCompletedUserPhoto_2"
         android:layout_alignLeft="@+id/ivCompletedUserPhoto_2"
         android:layout_alignStart="@+id/ivCompletedUserPhoto_2"

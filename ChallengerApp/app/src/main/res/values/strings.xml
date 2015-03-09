@@ -8,6 +8,9 @@
     <string name="completed_challenges">Completed Challenges</string>
     <string name="description">Description</string>
     <string name="comments">Comments</string>
+    <string name="challenge_completed_by">Completed By:</string>
+    <string name="challenge_backed_by">Backed By:</string>
+    <string name="challenge_category">Category</string>
 
     <!-- Please put your application's app ID and keys here -->
     <string name="parse_app_id">gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1</string>
@@ -16,4 +19,5 @@
     <string name="twitter_consumer_key">GSgWyeJO5crdazkeDKNjBoybt</string>
     <string name="twitter_consumer_secret">bXiqrwAprJxVoUUPSNK98xrURZ0QKHoDLBjYkCi97L5fwcgc7E</string>
     <string name="title_activity_completed_challenge_detail">CompletedChallengeDetailActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
 </resources>

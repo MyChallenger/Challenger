@@ -11,15 +11,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by Vikramjeet on 3/8/15.
@@ -34,10 +34,15 @@ public class ChallengeDetailFragment extends Fragment {
     private int fragmentType;
     private FragmentActivity myContext;
 
-    @InjectView(R.id.vpChallengerDetail)
-    ViewPager vpPager;
-    @InjectView(R.id.challengeDetailTabs)
-    PagerSlidingTabStrip tabStrip;
+    private ViewPager vpPager;
+    private PagerSlidingTabStrip tabStrip;
+    private ImageView ivUserPhoto;
+    private TextView tvUsername;
+    private ImageView ivChallengeImage;
+    private VideoView vvChallengeVideo;
+    private TextView tvLikes;
+    private TextView tvViews;
+    private TextView tvCategory;
 
     public static ChallengeDetailFragment newInstance(String challengeID, boolean isVideoChallenge) {
         // Create fragment
@@ -65,17 +70,7 @@ public class ChallengeDetailFragment extends Fragment {
 
         // Get arguments and populate fragmentType
         challengeId = getArguments().getString("challenge_id");
-
-
-        // Get challenge from challenge_id
-        Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
-            public void done(Challenge item, ParseException e) {
-                if (e == null) {
-                    // item was found
-                    challenge = item;
-                }
-            }
-        });
+        fragmentType = getArguments().getInt("challenge_fragment_type");
     }
 
     @Override
@@ -85,17 +80,47 @@ public class ChallengeDetailFragment extends Fragment {
         // Inflate the fragment view
         if (fragmentType == CHALLENGE_TYPE_IMAGE) {
             view = inflater.inflate(R.layout.fragment_challenge_detail_image, parent, false);
+            ivChallengeImage = (ImageView) view.findViewById(R.id.ivChallengeDetail);
         } else {
             view = inflater.inflate(R.layout.fragment_challenge_detail_video, parent, false);
+            vvChallengeVideo = (VideoView) view.findViewById(R.id.vvChallengeDetail);
         }
-        // Inject Butterknife
-        ButterKnife.inject(this, view);
+
+        ivUserPhoto = (ImageView) view.findViewById(R.id.ivChallengeDetailUserPhoto);
+        tvUsername = (TextView) view.findViewById(R.id.tvChallengeDetailUserName);
+        tvLikes = (TextView) view.findViewById(R.id.tvChallengeDetailLike);
+        tvViews = (TextView) view.findViewById(R.id.tvChallengeDetailViews);
+        tvCategory = (TextView) view.findViewById(R.id.tvChallengeCategory);
+        vpPager = (ViewPager) view.findViewById(R.id.vpChallengerDetail);
+        tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.challengeDetailTabs);
+        populateViews();
         // Set view page adapter for the pager
         vpPager.setAdapter(new ChallengeDetailPagerAdapter(myContext.getSupportFragmentManager()));
         // Attach tabstrip to the viewpager
         tabStrip.setViewPager(vpPager);
 
         return view;
+    }
+
+    private void populateViews() {
+//        Get challenge from challenge_id
+        Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
+            public void done(Challenge item, ParseException e) {
+                if (e == null) {
+                    // item was found
+                    challenge = item;
+                    // Populate views
+                    // tvUserName = challenge.getUserPosted().getName();
+                    // Todo: Show userphoto
+                    // Check completed video/imahe
+
+
+//                    tvCategory.setText(challenge.getCategory());
+                    tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                    tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
+                }
+            }
+        });
     }
 
     public class ChallengeDetailPagerAdapter extends FragmentPagerAdapter {
@@ -109,9 +134,9 @@ public class ChallengeDetailFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-//                return new OpenChallengesFragment();
+                return new ChallengeDescriptionFragment();
             }
-            return new CompletedChallengesFragment();
+            return new CommentListFragment();
         }
 
         @Override
