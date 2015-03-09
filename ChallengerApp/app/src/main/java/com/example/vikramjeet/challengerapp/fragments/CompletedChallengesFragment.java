@@ -1,5 +1,6 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.adapters.CompletedChallengesAdapter;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.FindCallback;
@@ -45,14 +48,29 @@ public class CompletedChallengesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         // Inflate the view
-        View view = inflater.inflate(R.layout.fragment_completed_challenges, container, false);
+        View view = inflater.inflate(R.layout.fragment_completed_challenges, parent, false);
         // Inject Butterknife
         ButterKnife.inject(this, view);
 
         // Hook adapter with list view
         lvCompletedChallenges.setAdapter(completedAdapter);
+        // Add OnItemClickListener to Listview
+        lvCompletedChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Create an intent
+                Intent challengeDetailIntent = new Intent(getActivity(), CompletedChallengeDetailActivity.class);
+                // Get the challenge
+                Challenge challenge = challenges.get(position);
+                // Pass challenge into the intent
+                challengeDetailIntent.putExtra("challenge_id", challenge.getObjectId());
+                // Start activity
+                startActivity(challengeDetailIntent);
+            }
+        });
+
         // Get completed Challenges
         fetchCompletedChallenges();
 
@@ -78,22 +96,7 @@ public class CompletedChallengesFragment extends Fragment {
     }
 
     public void fetchCompletedChallenges() {
-//        Challenge.getFinishedChallenges(new FindCallback<Challenge>() {
-//            @Override
-//            public void done(List<Challenge> challenges, ParseException e) {
-//                if (e == null) {
-//                    completedAdapter.clear();
-//                    // Add new data to tweetAdapter
-//                    completedAdapter.addAll(challenges);
-//                    // Now we call setRefreshing(false) to signal refresh has finished
-//                    swipeContainer.setRefreshing(false);
-//                } else {
-//                    Log.d("Completed Challenges", "Error: " + e.getMessage());
-//                }
-//            }
-//        });
-//
-        Challenge.getOpenChallenges(new FindCallback<Challenge>() {
+        Challenge.getFinishedChallenges(new FindCallback<Challenge>() {
             @Override
             public void done(List<Challenge> challenges, ParseException e) {
                 if (e == null) {

@@ -1,6 +1,7 @@
 package com.example.vikramjeet.challengerapp.models;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -162,6 +163,35 @@ public class Challenge extends ParseObject {
 
     private static ParseQuery<Challenge> getChallengeParseQuery() {
         return ParseQuery.getQuery(Challenge.class);
+    }
+
+    public static void getChallengeByID(String challengeID, GetCallback<Challenge> getCallback) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+        // First try to find from the cache and only then go to network
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
+        // Execute the query to find the object with ID
+        query.getInBackground(challengeID, getCallback);
+    }
+
+    public static boolean isVideo(String mediaURL) {
+        String extension = "";
+
+        int index = mediaURL.lastIndexOf('.');
+        if (index >= 0) {
+            extension = mediaURL.substring(index + 1);
+        }
+
+        // Check if extension is an image extension
+        if (extension.equals("jpg")
+                || extension.equals("jpeg")
+                || extension.equals("png")
+                || extension.equals("gif")
+                || extension.equals("tiff")
+                || extension.equals("tif")) {
+
+            return false;
+        }
+        return true;
     }
 
 }

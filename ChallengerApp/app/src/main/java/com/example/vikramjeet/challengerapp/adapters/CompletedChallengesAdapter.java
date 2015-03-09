@@ -71,24 +71,27 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> {
         // Get challenge
         Challenge challenge = getItem(position);
 
-        if (isVideo(challenge.getCompletedMedia().getUrl())) {       // Media is Video
-            // View look up cache stored in tag
-            VideoViewHolder viewHolder = null;
-            if (convertView == null) {
-                // Inflate convertView
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_completed_challenge_video, parent, false);
-                // Create View cache
-                viewHolder = new VideoViewHolder(convertView);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (VideoViewHolder) convertView.getTag();
-            }
+        // Todo: Completed media is required. It should never be null. Tell Pritesh about it. Following condition should not even be there
+        if (challenge.getCompletedMedia() != null) {
+            if (Challenge.isVideo(challenge.getCompletedMedia().getUrl())) {       // Media is Video
+                // View look up cache stored in tag
+                VideoViewHolder viewHolder = null;
+                if (convertView == null) {
+                    // Inflate convertView
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_completed_challenge_video, parent, false);
+                    // Create View cache
+                    viewHolder = new VideoViewHolder(convertView);
+                    convertView.setTag(viewHolder);
+                } else {
+                    viewHolder = (VideoViewHolder) convertView.getTag();
+                }
 
 //        viewHolder.tvUserName = challenge.getUserPosted().getName();
-            // Todo: Show userphoto
-            viewHolder.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
-            viewHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-            viewHolder.tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
+                // Todo: Show userphoto
+                viewHolder.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
+                viewHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                viewHolder.tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
+            }
         } else {            // Media is Image
             // View look up cache stored in tag
             ImageViewHolder viewHolder = null;
@@ -108,35 +111,16 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> {
             viewHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
             viewHolder.tvViews.setText(String.valueOf(challenge.getNumberOfViews()) + " Views");
 
-            Picasso.with(getContext()).
-                    load(challenge.getCompletedMedia().getUrl()).
-                    placeholder(R.drawable.photo_placeholder).
-                    into(viewHolder.ivCompletedImage);
-
+            // Todo: Completed media is required. It should never be null. Tell Pritesh about it. Following condition should not even be there
+            if (challenge.getCompletedMedia() != null) {
+                Picasso.with(getContext()).
+                        load(challenge.getCompletedMedia().getUrl()).
+                        placeholder(R.drawable.photo_placeholder).
+                        into(viewHolder.ivCompletedImage);
+            }
         }
 
         return convertView;
 
-    }
-
-    private boolean isVideo(String mediaURL) {
-            String extension = "";
-
-            int index = mediaURL.lastIndexOf('.');
-            if (index >= 0) {
-                extension = mediaURL.substring(index + 1);
-            }
-
-            // Check if extension is an image extension
-            if (extension.equals("jpg")
-                    || extension.equals("jpeg")
-                    || extension.equals("png")
-                    || extension.equals("gif")
-                    || extension.equals("tiff")
-                    || extension.equals("tif")) {
-
-                return false;
-            }
-            return true;
     }
 }
