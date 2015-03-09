@@ -1,13 +1,18 @@
 package com.example.vikramjeet.challengerapp.models;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Vikramjeet on 3/7/15.
@@ -30,6 +35,10 @@ public class Challenge extends ParseObject {
     private static final String FIELD_IS_COMPLETED = "isCompleted";
     private static final String FIELD_POSTER = "poster";
     private static final String FIELD_BACKER = "backer";
+
+    // Other constants
+    private static final String CHALLENGE_ID = "challengeId";
+    private static final String BACK_CHALLENGE_URL = "backChallenge";
 
     public Challenge() {
         // A default constructor is required.
@@ -156,6 +165,30 @@ public class Challenge extends ParseObject {
 
     public User backer() {
         return (User) getParseUser(FIELD_BACKER);
+    }
+
+// Request:
+//    curl -X POST \
+//            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
+//            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \
+//            -H "X-Parse-Session-Token: 6gBQTkhmnmlZvbar6Wy0aNBwW" \
+//            -H "Content-Type: application/json" \
+//            -d '{"challengeId" : "7yyGTSK3FQ"}' \
+//    https://api.parse.com/1/functions/backChallenge
+// Response:
+//    {"result":true}
+    public void back(final GetCallback<Challenge> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(CHALLENGE_ID, getObjectId());
+        ParseCloud.callFunctionInBackground(BACK_CHALLENGE_URL, params, new FunctionCallback<Boolean>() {
+            @Override
+            public void done(Boolean success, ParseException e) {
+                if (success) {
+                    // Challenge should have a backer now!
+                    fetchInBackground(callback);
+                }
+            }
+        });
     }
 
 }
