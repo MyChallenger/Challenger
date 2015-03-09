@@ -3,16 +3,13 @@ package com.example.vinutha.challenger.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
+import com.example.vinutha.challenger.Fragment.CompletedChallengesFragment;
 import com.example.vinutha.challenger.Fragment.OpenChallengesFragment;
-import com.example.vinutha.challenger.Fragment.PlaceHolderFragment;
+import com.example.vinutha.challenger.R;
 
-/**
- * Created by devadutta on 3/7/2015.
- */
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "Challenges", "Videos" };
+    private String tabTitles[] = new String[] { "Open Challenges", "Completed Challenges" };
     public HomeFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -22,7 +19,7 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         if(position == 0)
          return  OpenChallengesFragment.newInstance(position);
         else
-            return PlaceHolderFragment.newInstance(position);
+            return  new CompletedChallengesFragment();
     }
 
     @Override
