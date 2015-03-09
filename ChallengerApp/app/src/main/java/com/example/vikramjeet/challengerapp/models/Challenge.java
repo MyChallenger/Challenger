@@ -142,7 +142,11 @@ public class Challenge extends ParseObject {
 
     public static void getOpenChallenges(FindCallback<Challenge> findCallback) {
         ParseQuery<Challenge> query = getChallengeParseQuery();
+        Date now = new Date();
+        query.whereGreaterThan(FIELD_EXPIRY_DATE, now);
         query.whereEqualTo(FIELD_IS_COMPLETED, false);
+        // Show the ones expiring soonest first
+        query.orderByAscending(FIELD_EXPIRY_DATE);
         query.findInBackground(findCallback);
     }
 
