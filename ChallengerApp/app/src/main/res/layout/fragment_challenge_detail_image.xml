@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/ivChallengeDetailUserPhoto"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/photo_placeholder" />
+
+    <TextView
+        android:id="@+id/tvChallengeDetailUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivChallengeDetailUserPhoto"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ivChallengeDetailUserPhoto"
+        android:gravity="center_vertical"
+        android:text="Username" />
+
+    <ImageView
+        android:id="@+id/ivChallengeDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="165dp"
+        android:layout_alignEnd="@+id/challengeDetailTabs"
+        android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"
+        android:layout_alignRight="@+id/challengeDetailTabs"
+        android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"
+        android:layout_below="@+id/tvChallengeDetailTitle"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/photo_placeholder" />
+
+    <TextView
+        android:id="@+id/tvChallengeDetailLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivChallengeDetail"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/like"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="1000"
+        android:textAlignment="gravity"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tvChallengeDetailViews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvChallengeDetailLike"
+        android:layout_alignTop="@+id/tvChallengeDetailLike"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:text="5000 Views"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvChallengeDetailViews"
+        android:layout_alignEnd="@+id/ivChallengeDetail"
+        android:layout_alignRight="@+id/ivChallengeDetail"
+        android:layout_alignTop="@+id/tvChallengeDetailViews"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:text="Medium"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/challengeDetailTabs"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvChallengeDetailLike"
+        android:layout_marginTop="10dp"
+        app:pstsShouldExpand="true"
+        app:pstsTextAllCaps="true"></com.astuetz.PagerSlidingTabStrip>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpChallengerDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/challengeDetailTabs"
+        android:background="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tvChallengeDetailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvChallengeDetailUserName"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@+id/tvChallengeDetailUserName"
+        android:layout_below="@+id/tvChallengeDetailUserName"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Title" />
+
+</RelativeLayout>

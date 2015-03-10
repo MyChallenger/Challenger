@@ -25,4 +25,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':ParseLoginUI')
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+    // Adding Picasso
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    // Adding AsyncHttp
+    compile 'com.loopj.android:android-async-http:1.4.6'
+    compile 'com.android.support:support-v4:21.0.3'
+    // View page SliderTabStrip
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

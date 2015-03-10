@@ -1,30 +1,40 @@
 package com.example.vikramjeet.challengerapp.activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.fragments.CompletedChallengesFragment;
 import com.parse.ParseUser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class ChallengeActivity extends ActionBarActivity {
 
-    @InjectView(R.id.tvUserName) TextView tvUserName;
+    @InjectView(R.id.viewpager) ViewPager vpPager;
+    @InjectView(R.id.tabs) PagerSlidingTabStrip tabStrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_challenge);
+        // Inject Butterknife
         ButterKnife.inject(this);
-    }
+        // Set view page adapter for the pager
+        vpPager.setAdapter(new ChallengePagerAdapter(getSupportFragmentManager()));
+        // Attach tabstrip to the viewpager
+        tabStrip.setViewPager(vpPager);
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,8 +76,35 @@ public class MainActivity extends ActionBarActivity {
 //            tvUserName.setText(user.getEmail());
             String fullName = user.getString("name");
             if (fullName != null) {
-                tvUserName.setText(fullName);
+//                tvUserName.setText(fullName);
             }
+        }
+    }
+
+    public class ChallengePagerAdapter extends FragmentPagerAdapter {
+
+        private String tabTitles[] = { getString(R.string.open_challenges), getString(R.string.completed_challenges) };
+
+        public ChallengePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+//                return new OpenChallengesFragment();
+            }
+            return new CompletedChallengesFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return tabTitles.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
         }
     }
 }

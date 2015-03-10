@@ -6,6 +6,6 @@ public class ChallengerDispatchActivity extends ParseLoginDispatchActivity {
 
     @Override
     protected Class<?> getTargetClass() {
-        return MainActivity.class;
+        return ChallengeActivity.class;
     }
 }
