@@ -20,4 +20,5 @@
     <string name="twitter_consumer_secret">bXiqrwAprJxVoUUPSNK98xrURZ0QKHoDLBjYkCi97L5fwcgc7E</string>
     <string name="title_activity_completed_challenge_detail">CompletedChallengeDetailActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_second">SecondActivity</string>
 </resources>
