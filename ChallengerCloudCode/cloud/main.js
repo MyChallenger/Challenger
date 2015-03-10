@@ -60,3 +60,136 @@ Parse.Cloud.define("backChallenge", function(request, response) {
     response.error(error);
   });
 });
+
+// Background jobs
+
+// Update leaderboard
+// curl -X POST \
+// -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
+// -H "X-Parse-Master-Key: f8SZh3nTWLdZRsKSE5oAByNygMhD73VdamA6BB7d" \
+// -H "Content-Type: application/json" \
+// -d '{}' \
+// https://api.parse.com/1/jobs/updateLeaderboard
+Parse.Cloud.job("updateLeaderboard", function(request, status) {
+
+  console.log("Updating leaderboard");
+
+  // Set up to modify user data
+  Parse.Cloud.useMasterKey();
+  var counter = 0;
+  // Query for all users
+  var query = new Parse.Query(Parse.User);
+  query.descending("pointsEarned");
+  var previousPointsEarned = -1;
+  query.find({
+    success: function(results) {
+      // Do something with the returned Parse.Object values
+      for (var i = 0; i < results.length; i++) {
+        var user = results[i];
+        var currentPointsEarned = user.get("pointsEarned");
+        console.log("User: " + user.get("name") + ", pointsEarned: " + currentPointsEarned);
+        if (previousPointsEarned == currentPointsEarned) {
+          console.log("Skipping pointsEarned " + currentPointsEarned);
+          return;
+        }
+        counter += 1;
+        var countQuery = new Parse.Query(Parse.User);
+        // var GameScore = Parse.Object.extend("_User");
+        // var countQuery = new Parse.Query(GameScore);
+        console.log("Counting users with pointsEarned: " + currentPointsEarned);
+        countQuery.equalTo("pointsEarned", currentPointsEarned);
+        countQuery.count({
+          success: function(count) {
+            console.log("User: " + user.get("name") + ", pointsEarned: " + currentPointsEarned + ", Count: " + count);
+            // Run the update query
+            var samePointsQuery = new Parse.Query(Parse.User);
+            samePointsQuery.equalTo("pointsEarned", currentPointsEarned);
+            samePointsQuery.find({
+              success: function(results) {
+                // Do something with the returned Parse.Object values
+                for (var i = 0; i < results.length; i++) {
+                  var userToUpdate = results[i];
+                  userToUpdate.set("leaderBoardRank", counter);
+                  console.log("Updating User: " + user.get("name") + ", pointsEarned: " + currentPointsEarned + ", Rank: " + counter);
+                  userToUpdate.save();
+                }
+              },
+              error: function(error) {
+                console.error("Could not update: " + error)
+              }
+            });
+            counter += (count - 1);
+          },
+          error: function(error) {
+            console.error("Could not count: " + error)
+          }
+        });
+        // Update to plan value passed in
+        // user.set("plan", request.params.plan);
+        // var updateEveryXUsers = 100;
+        var updateEveryXUsers = 1;
+        if (counter % updateEveryXUsers === 0) {
+          // Set the  job's progress status
+          status.message(counter + " users processed.");
+        }
+        return user.save();
+      }
+    },
+    error: function(error) {
+      // Set the job's error status
+      status.error("Uh oh, something went wrong: " + error);
+    }
+  }).then(function(results) {
+    // Set the job's success status
+    status.success("Leaderboard updated successfully.");
+  });
+  // query.each(function(user) {
+  //   var currentPointsEarned = user.get("pointsEarned");
+  //   if (previousPointsEarned == currentPointsEarned) {
+  //     console.log("Skipping pointsEarned " + currentPointsEarned);
+  //     return;
+  //   }
+  //   counter += 1;
+  //   var countQuery = new Parse.Query(Parse.User);
+  //   countQuery.equalTo("pointsEarned", currentPointsEarned);
+  //   countQuery.count({
+  //     success: function(count) {
+  //       // Run the update query
+  //       var samePointsQuery = new Parse.Query(Parse.User);
+  //       samePointsQuery.equalTo("pointsEarned", currentPointsEarned);
+  //       samePointsQuery.find({
+  //         success: function(results) {
+  //           // Do something with the returned Parse.Object values
+  //           for (var i = 0; i < results.length; i++) {
+  //             var userToUpdate = results[i];
+  //             userToUpdate.set("leaderBoardRank", counter);
+  //             userToUpdate.save();
+  //           }
+  //         },
+  //         error: function(error) {
+  //           console.error("Could not update: " + error)
+  //         }
+  //       });
+  //       counter += (count - 1);
+  //     },
+  //     error: function(error) {
+  //       console.error("Could not count: " + error)
+  //     }
+  //   });
+  //   // Update to plan value passed in
+  //   // user.set("plan", request.params.plan);
+  //   // var updateEveryXUsers = 100;
+  //   var updateEveryXUsers = 1;
+  //   if (counter % updateEveryXUsers === 0) {
+  //     // Set the  job's progress status
+  //     status.message(counter + " users processed.");
+  //   }
+  //   return user.save();
+  // }).then(function() {
+  //   // Set the job's success status
+  //   status.success("Leaderboard updated successfully.");
+  // }, function(error) {
+  //   // Set the job's error status
+  //   status.error("Uh oh, something went wrong: " + error);
+  // });
+});
