@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/ivCompletedUserPhoto"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/photo_placeholder" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:id="@+id/tvCompletedUserName"
+        android:layout_toRightOf="@+id/ivCompletedUserPhoto"
+        android:layout_alignTop="@+id/ivCompletedUserPhoto"
+        android:layout_alignBottom="@+id/ivCompletedUserPhoto"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical" />
+
+    <VideoView
+        android:layout_width="wrap_content"
+        android:layout_height="165dp"
+        android:id="@+id/vvCompletedChallenge"
+        android:layout_below="@+id/ivCompletedUserPhoto"
+        android:layout_alignLeft="@+id/ivCompletedUserPhoto"
+        android:layout_alignStart="@+id/ivCompletedUserPhoto"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="1000"
+        android:drawableLeft="@drawable/like"
+        android:id="@+id/tvlikeCount"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="gravity"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/vvCompletedChallenge" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="10000"
+        android:drawablePadding="5dp"
+        android:id="@+id/tvComment"
+        android:drawableLeft="@drawable/comments"
+        android:layout_alignTop="@+id/tvlikeCount"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="5000 Views"
+        android:id="@+id/tvViews"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignTop="@+id/tvComment"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:layout_alignBottom="@+id/tvComment" />
+
+</RelativeLayout>
