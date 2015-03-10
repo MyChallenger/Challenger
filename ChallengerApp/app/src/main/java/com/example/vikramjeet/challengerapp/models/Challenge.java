@@ -29,8 +29,6 @@ public class Challenge extends ParseObject {
     private static final String FIELD_PRIZE = "prize";
     private static final String FIELD_CATEGORY = "category";
     private static final String FIELD_IS_COMPLETED = "isCompleted";
-    private static final String FIELD_USER_POSTED = "posted_by";
-    private static final String FIELD_USER_ACCEPTED = "accepted_by";
 
     public Challenge() {
         // A default constructor is required.
@@ -130,23 +128,6 @@ public class Challenge extends ParseObject {
 
     public void setCompleted(Boolean isCompleted) {
         put(FIELD_IS_COMPLETED, isCompleted);
-    }
-
-    public void setUserAccepted(User user) {
-        put(FIELD_USER_ACCEPTED, user);
-    }
-
-    public User getUserAccepted() {
-        // Need to implement this
-        return (User) getParseUser(FIELD_USER_ACCEPTED);
-    }
-
-    public void setUserPosted(User user) {
-        put(FIELD_USER_POSTED, user);
-    }
-
-    public User getUserPosted() {
-        return (User) getParseUser(FIELD_USER_POSTED);
     }
 
     public static void getOpenChallenges(FindCallback<Challenge> findCallback) {
