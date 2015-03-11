@@ -40,6 +40,8 @@ public class Challenge extends ParseObject {
     // Other constants
     private static final String CHALLENGE_ID = "challengeId";
     private static final String BACK_CHALLENGE_URL = "backChallenge";
+    private static final String COMPLETE_CHALLENGE_URL = "completeChallenge";
+    private static final String VERIFY_CHALLENGE_URL = "verifyChallenge";
 
     public Challenge() {
         // A default constructor is required.
@@ -183,6 +185,54 @@ public class Challenge extends ParseObject {
         HashMap<String, String> params = new HashMap<>();
         params.put(CHALLENGE_ID, getObjectId());
         ParseCloud.callFunctionInBackground(BACK_CHALLENGE_URL, params, new FunctionCallback<Boolean>() {
+            @Override
+            public void done(Boolean success, ParseException e) {
+                if (success) {
+                    // Challenge should have a backer now!
+                    fetchInBackground(callback);
+                }
+            }
+        });
+    }
+
+// Request:
+//    curl -X POST \
+//            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
+//            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \
+//            -H "X-Parse-Session-Token: 6gBQTkhmnmlZvbar6Wy0aNBwW" \
+//            -H "Content-Type: application/json" \
+//            -d '{"challengeId" : "7yyGTSK3FQ"}' \
+//    https://api.parse.com/1/functions/completeChallenge
+// Response:
+//    {"result":true}
+    public void complete(final GetCallback<Challenge> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(CHALLENGE_ID, getObjectId());
+        ParseCloud.callFunctionInBackground(COMPLETE_CHALLENGE_URL, params, new FunctionCallback<Boolean>() {
+            @Override
+            public void done(Boolean success, ParseException e) {
+                if (success) {
+                    // Challenge should have a backer now!
+                    fetchInBackground(callback);
+                }
+            }
+        });
+    }
+
+// Request:
+//    curl -X POST \
+//            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
+//            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \
+//            -H "X-Parse-Session-Token: 6gBQTkhmnmlZvbar6Wy0aNBwW" \
+//            -H "Content-Type: application/json" \
+//            -d '{"challengeId" : "7yyGTSK3FQ"}' \
+//    https://api.parse.com/1/functions/verifyChallenge
+// Response:
+//    {"result":true}
+    public void verify(final GetCallback<Challenge> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(CHALLENGE_ID, getObjectId());
+        ParseCloud.callFunctionInBackground(VERIFY_CHALLENGE_URL, params, new FunctionCallback<Boolean>() {
             @Override
             public void done(Boolean success, ParseException e) {
                 if (success) {

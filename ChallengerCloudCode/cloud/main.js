@@ -48,12 +48,46 @@ Parse.Cloud.beforeSave("Challenge", function(request, response) {
 
 
 // This function updates the backer to the current user
+// AND
+// This function updates the status to BACKED
 Parse.Cloud.define("backChallenge", function(request, response) {
   var challenge = new Parse.Object("Challenge");
   challenge.id = request.params.challengeId;
   var user = Parse.User.current();
   challenge.set("status", "BACKED");
   challenge.set("backer", user);
+  challenge.save(null, { useMasterKey: true }).then(function() {
+    // If I choose to do something else here, it won't be using
+    // the master key and I'll be subject to ordinary security measures.
+    response.success(true);
+  }, function(error) {
+    response.error(error);
+  });
+});
+
+// This function updates the status to COMPLETED
+Parse.Cloud.define("completeChallenge", function(request, response) {
+  var challenge = new Parse.Object("Challenge");
+  challenge.id = request.params.challengeId;
+  // TODO: Add a check if the current user is the poster
+  var user = Parse.User.current();
+  challenge.set("status", "COMPLETED");
+  challenge.save(null, { useMasterKey: true }).then(function() {
+    // If I choose to do something else here, it won't be using
+    // the master key and I'll be subject to ordinary security measures.
+    response.success(true);
+  }, function(error) {
+    response.error(error);
+  });
+});
+
+// This function updates the status to VERIFIED
+Parse.Cloud.define("verifyChallenge", function(request, response) {
+  var challenge = new Parse.Object("Challenge");
+  challenge.id = request.params.challengeId;
+  // TODO: Add a check if the current user is the backer
+  var user = Parse.User.current();
+  challenge.set("status", "VERIFIED");
   challenge.save(null, { useMasterKey: true }).then(function() {
     // If I choose to do something else here, it won't be using
     // the master key and I'll be subject to ordinary security measures.
