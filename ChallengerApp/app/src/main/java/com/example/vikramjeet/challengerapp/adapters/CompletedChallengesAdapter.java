@@ -210,7 +210,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                         // Close the progress bar and play the video
                         public void onPrepared(MediaPlayer mp) {
 //                            mp.setLooping(true);
-//                            finalViewHolder.vvCompletedVideo.start();
+                            finalViewHolder.vvCompletedVideo.start();
 //                            progress.dismiss();
                         }
                     });
