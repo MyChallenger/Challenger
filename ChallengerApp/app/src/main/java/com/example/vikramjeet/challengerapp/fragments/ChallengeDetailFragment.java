@@ -1,10 +1,8 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -32,7 +30,6 @@ public class ChallengeDetailFragment extends Fragment {
     private Challenge challenge;
     private String challengeId;
     private int fragmentType;
-    private FragmentActivity myContext;
 
     private ViewPager vpPager;
     private PagerSlidingTabStrip tabStrip;
@@ -56,12 +53,6 @@ public class ChallengeDetailFragment extends Fragment {
         fragment.setArguments(args);
 
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        myContext=(FragmentActivity) activity;
-        super.onAttach(activity);
     }
 
     @Override
@@ -95,7 +86,7 @@ public class ChallengeDetailFragment extends Fragment {
         tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.challengeDetailTabs);
         populateViews();
         // Set view page adapter for the pager
-        vpPager.setAdapter(new ChallengeDetailPagerAdapter(myContext.getSupportFragmentManager()));
+        vpPager.setAdapter(new ChallengeDetailPagerAdapter(getChildFragmentManager()));
         // Attach tabstrip to the viewpager
         tabStrip.setViewPager(vpPager);
 
