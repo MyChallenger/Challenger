@@ -1,5 +1,6 @@
 package com.example.vikramjeet.challengerapp.models;
 
+import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.GetCallback;
@@ -10,10 +11,14 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Vikramjeet on 3/7/15.
@@ -36,6 +41,7 @@ public class Challenge extends ParseObject {
     private static final String FIELD_POSTER = "poster";
     private static final String FIELD_BACKER = "backer";
     private static final String FIELD_STATUS = "status";
+    private static final String FIELD_LIKES = "likes";
 
     // Other constants
     private static final String CHALLENGE_ID = "challengeId";
@@ -91,24 +97,12 @@ public class Challenge extends ParseObject {
         return getInt(FIELD_NUMBER_OF_LIKES);
     }
 
-    public void setNumberOfLikes(int numberOfLikes) {
-        put(FIELD_NUMBER_OF_LIKES, numberOfLikes);
-    }
-
     public int getNumberOfViews() {
         return getInt(FIELD_NUMBER_OF_VIEWS);
     }
 
-    public void setNumberOfViews(int numberOfViews) {
-        put(FIELD_NUMBER_OF_VIEWS, numberOfViews);
-    }
-
     public int getNumberOfComments() {
         return getInt(FIELD_NUMBER_OF_COMMENTS);
-    }
-
-    public void setNumberOfComments(int numberOfComments) {
-        put(FIELD_NUMBER_OF_COMMENTS, numberOfComments);
     }
 
     public ParseGeoPoint getLocation() {
@@ -272,4 +266,39 @@ public class Challenge extends ParseObject {
         return true;
     }
 
+    public void incrementViews(final SaveCallback callback) {
+        increment(FIELD_NUMBER_OF_VIEWS);
+        saveInBackground(callback);
+    }
+
+    // LIKES implementation adapted from
+    // https://www.parse.com/questions/what-is-the-best-pattern-to-implement-like-functionality
+    public void like(final SaveCallback callback) {
+        // create a like relation
+        ParseRelation<User> likes = getRelation(FIELD_LIKES);
+        likes.add((User) ParseUser.getCurrentUser());
+        increment(FIELD_NUMBER_OF_LIKES);
+        saveInBackground(callback);
+    }
+
+    public void unLike(final SaveCallback callback) {
+        // remove the like relation
+        ParseRelation<User> likes = getRelation(FIELD_LIKES);
+        likes.remove((User) ParseUser.getCurrentUser());
+        increment(FIELD_NUMBER_OF_LIKES, -1);
+        saveInBackground(callback);
+    }
+
+    public void isLiked(final LikeStatusCallback<Boolean> callback) {
+        // see if there are any objects for the like relation
+        ParseRelation<User> likes = getRelation(FIELD_LIKES);
+        ParseQuery<User> query = likes.getQuery();
+        query.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
+        query.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> users, ParseException e) {
+                callback.done(users.size() > 0, e);
+            }
+        });
+    }
 }

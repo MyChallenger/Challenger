@@ -6,7 +6,9 @@ import android.graphics.drawable.Drawable;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
+import com.example.vikramjeet.challengerapp.models.Comment;
 import com.example.vikramjeet.challengerapp.models.User;
+import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -44,9 +46,6 @@ public class ChallengeTest extends ChallengerTestCase {
 //            }
 //            challenge.setCompletedMedia(completedMedia);
 //
-            challenge.setNumberOfLikes(100);
-            challenge.setNumberOfViews(205678);
-            challenge.setNumberOfComments(15);
             // 1 Market Street, San Francisco CA
             challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
             challenge.setPrize("Asking for $10 for beer");
@@ -79,9 +78,6 @@ public class ChallengeTest extends ChallengerTestCase {
 //            }
 //            challenge.setCompletedMedia(completedMedia);
 //
-            challenge.setNumberOfLikes(100);
-            challenge.setNumberOfViews(205678);
-            challenge.setNumberOfComments(15);
             // 1 Market Street, San Francisco CA
             challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
             challenge.setPrize("Asking for $10 for beer");
@@ -106,9 +102,6 @@ public class ChallengeTest extends ChallengerTestCase {
         challenge.setTitle("Stand on top of a checkout counter in a public store");
         challenge.setDescription("Will record a video and post!");
         challenge.setExpiryDate(new Date());
-        challenge.setNumberOfLikes(100);
-        challenge.setNumberOfViews(205678);
-        challenge.setNumberOfComments(15);
         // 1 Market Street, San Francisco CA
         challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
         challenge.setPrize("Asking for $10 for beer");
@@ -145,9 +138,6 @@ public class ChallengeTest extends ChallengerTestCase {
         challenge.setTitle("Backed challenge");
         challenge.setDescription("Will record a video and post!");
         challenge.setExpiryDate(new Date());
-        challenge.setNumberOfLikes(100);
-        challenge.setNumberOfViews(205678);
-        challenge.setNumberOfComments(15);
         // 1 Market Street, San Francisco CA
         challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
         challenge.setPrize("Asking for $10 for beer");
@@ -177,9 +167,6 @@ public class ChallengeTest extends ChallengerTestCase {
         challenge.setTitle("Backed challenge");
         challenge.setDescription("Will record a video and post!");
         challenge.setExpiryDate(new Date());
-        challenge.setNumberOfLikes(100);
-        challenge.setNumberOfViews(205678);
-        challenge.setNumberOfComments(15);
         // 1 Market Street, San Francisco CA
         challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
         challenge.setPrize("Asking for $10 for beer");
@@ -219,9 +206,6 @@ public class ChallengeTest extends ChallengerTestCase {
         challenge.setTitle("Backed challenge");
         challenge.setDescription("Will record a video and post!");
         challenge.setExpiryDate(new Date());
-        challenge.setNumberOfLikes(100);
-        challenge.setNumberOfViews(205678);
-        challenge.setNumberOfComments(15);
         // 1 Market Street, San Francisco CA
         challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
         challenge.setPrize("Asking for $10 for beer");
@@ -278,10 +262,141 @@ public class ChallengeTest extends ChallengerTestCase {
                     // Challenges should always have a poster
                     assertNotNull(challenge.getPoster());
                     // Finished Challenges should always have a backer
+                    // Finished Challenges should always have a backer
                     assertNotNull(challenge.getBacker());
                     assertTrue(challenge.getStatus().equals(ChallengeStatus.VERIFIED));
                 }
                 countDown();
+            }
+        });
+        await();
+    }
+
+    public void testIncrementViews() {
+        // Let's create a challenge first
+        final Challenge challenge = new Challenge();
+        challenge.setTitle("Backed challenge");
+        challenge.setDescription("Will record a video and post!");
+        challenge.setExpiryDate(new Date());
+        // 1 Market Street, San Francisco CA
+        challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+        challenge.setPrize("Asking for $10 for beer");
+        challenge.setCategory("Dare");
+        challenge.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+                challenge.incrementViews(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        assertNull(e);
+                        challenge.fetchInBackground(new GetCallback<Challenge>() {
+                            @Override
+                            public void done(Challenge challengeWithOneMoreView, ParseException e) {
+                                assertEquals(1, challengeWithOneMoreView.getNumberOfViews());
+                                countDown();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        await();
+    }
+
+    public void testLike() {
+        // Let's create a challenge first
+        final Challenge challenge = new Challenge();
+        challenge.setTitle("Backed challenge");
+        challenge.setDescription("Will record a video and post!");
+        challenge.setExpiryDate(new Date());
+        // 1 Market Street, San Francisco CA
+        challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+        challenge.setPrize("Asking for $10 for beer");
+        challenge.setCategory("Dare");
+        challenge.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+                challenge.like(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        assertNull(e);
+                        challenge.fetchInBackground(new GetCallback<Challenge>() {
+                            @Override
+                            public void done(Challenge challengeWithOneMoreLike, ParseException e) {
+                                assertEquals(1, challengeWithOneMoreLike.getNumberOfLikes());
+                                countDown();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        await();
+    }
+
+    public void testUnLike() {
+        // Let's create a challenge first
+        final Challenge challenge = new Challenge();
+        // IMPORTANT:
+        challenge.put("numberOfLikes", 20);
+        challenge.setTitle("Backed challenge");
+        challenge.setDescription("Will record a video and post!");
+        challenge.setExpiryDate(new Date());
+        // 1 Market Street, San Francisco CA
+        challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+        challenge.setPrize("Asking for $10 for beer");
+        challenge.setCategory("Dare");
+        challenge.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+                challenge.unLike(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        assertNull(e);
+                        challenge.fetchInBackground(new GetCallback<Challenge>() {
+                            @Override
+                            public void done(Challenge challengeWithOneLessLike, ParseException e) {
+                                assertEquals(19, challengeWithOneLessLike.getNumberOfLikes());
+                                countDown();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        await();
+    }
+
+    public void testIsLiked() {
+        // Let's create a challenge first
+        final Challenge challenge = new Challenge();
+        challenge.setTitle("Backed challenge");
+        challenge.setDescription("Will record a video and post!");
+        challenge.setExpiryDate(new Date());
+        // 1 Market Street, San Francisco CA
+        challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+        challenge.setPrize("Asking for $10 for beer");
+        challenge.setCategory("Dare");
+        challenge.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+                challenge.like(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        challenge.isLiked(new LikeStatusCallback<Boolean>() {
+                            @Override
+                            public void done(Boolean isLiked, ParseException e) {
+                                assertTrue(isLiked);
+                                assertNull(e);
+                                countDown();
+                            }
+                        });
+                    }
+                });
             }
         });
         await();
