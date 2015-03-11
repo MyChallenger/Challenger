@@ -40,6 +40,7 @@ Parse.Cloud.beforeSave("Challenge", function(request, response) {
   var challenge = request.object;
   if (challenge.isNew()) {
     var user = Parse.User.current();
+    challenge.set("status", "OPEN");
     challenge.set("poster", user);
   }
   response.success();
@@ -51,6 +52,7 @@ Parse.Cloud.define("backChallenge", function(request, response) {
   var challenge = new Parse.Object("Challenge");
   challenge.id = request.params.challengeId;
   var user = Parse.User.current();
+  challenge.set("status", "BACKED");
   challenge.set("backer", user);
   challenge.save(null, { useMasterKey: true }).then(function() {
     // If I choose to do something else here, it won't be using
