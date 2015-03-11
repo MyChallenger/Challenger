@@ -32,4 +32,6 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     // View page SliderTabStrip
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    // Rounded image library
+    compile 'com.makeramen:roundedimageview:1.5.0'
 }

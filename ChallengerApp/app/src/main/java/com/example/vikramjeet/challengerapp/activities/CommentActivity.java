@@ -1,11 +1,13 @@
 package com.example.vikramjeet.challengerapp.activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.fragments.CommentListFragment;
 
 public class CommentActivity extends ActionBarActivity {
 
@@ -13,6 +15,11 @@ public class CommentActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+
+        // Get the fragment
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        CommentListFragment commentFragment = CommentListFragment.newInstance(ChallengeId);
+
     }
 
 

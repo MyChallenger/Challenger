@@ -33,6 +33,7 @@
         android:layout_alignStart="@+id/ivCompletedUserPhoto_2"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:src="@drawable/photo_placeholder"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
