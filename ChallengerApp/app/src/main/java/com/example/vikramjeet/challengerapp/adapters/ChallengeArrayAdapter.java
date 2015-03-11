@@ -1,6 +1,7 @@
 package com.example.vikramjeet.challengerapp.adapters;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,16 @@ import android.widget.TextView;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by devadutta on 3/7/2015.
+ * Created by vinutha on 3/7/2015.
  */
 public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
     @InjectView(R.id.tvTitle) TextView tvTitle;
@@ -41,7 +45,25 @@ public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
         tvTitle.setText(challenge.getTitle());
         tvGoal.setText("Goal:"+ " $" + challenge.getPrize());
         // FIXME: Format this date!
-        tvExpiry.setText(challenge.getExpiryDate().toString());
+        tvExpiry.setText("expires " +getRelativeTimeAgo(challenge.getExpiryDate().toString()));
         return convertView;
+    }
+
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    public String getRelativeTimeAgo(String rawJsonDate) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeDate = "";
+        try {
+            long dateMillis = sf.parse(rawJsonDate).getTime();
+            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
     }
 }
