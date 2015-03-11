@@ -212,7 +212,7 @@ public class Challenge extends ParseObject {
             @Override
             public void done(Boolean success, ParseException e) {
                 if (success) {
-                    // Challenge should have a backer now!
+                    // Challenge status should be COMPLETED now!
                     fetchInBackground(callback);
                 }
             }
@@ -236,7 +236,7 @@ public class Challenge extends ParseObject {
             @Override
             public void done(Boolean success, ParseException e) {
                 if (success) {
-                    // Challenge should have a backer now!
+                    // Challenge status should be VERIFIED now!
                     fetchInBackground(callback);
                 }
             }
