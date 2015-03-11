@@ -16,10 +16,14 @@ public class CommentActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
 
+        // Get challenge_id from Intent
+        final String challengeId = getIntent().getStringExtra("challenge_id");
+
         // Get the fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        CommentListFragment commentFragment = CommentListFragment.newInstance(ChallengeId);
-
+        CommentListFragment commentFragment = CommentListFragment.newInstance(challengeId);
+        ft.replace(R.id.my_placeholder, commentFragment);
+        ft.commit();
     }
 
 

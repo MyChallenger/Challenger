@@ -11,7 +11,10 @@ import android.widget.ListView;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.adapters.CommentListAdapter;
+import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.Comment;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 
@@ -67,8 +70,6 @@ public class CommentListFragment extends Fragment {
         // Fetch comments
         fetchComments();
 
-        // Get SwipeContainer
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -89,7 +90,25 @@ public class CommentListFragment extends Fragment {
     }
 
     private void fetchComments() {
-//        Challenge.getComments()
+        // Get challenge from challenge_id
+        Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
+            public void done(Challenge item, ParseException e) {
+                if (e == null) {
+                    // item was found
+                    Challenge challenge = item;
+                    // Clear previous entries from the adapter
+                    commentAdapter.clear();
+                    // Set comments in adapter
+                    ArrayList<Comment> commentList = challenge.getComments();
+                    if (commentList != null) {
+                        commentAdapter.addAll(challenge.getComments());
+                    }
+                    // Stop refreshing
+                    swipeContainer.setRefreshing(false);
+                }
+            }
+        });
+
     }
 
 }

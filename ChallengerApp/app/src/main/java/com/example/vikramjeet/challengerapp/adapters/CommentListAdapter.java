@@ -50,7 +50,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             // Inflate convertView
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_completed_challenge_video, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_comment, parent, false);
             // Create View cache
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);

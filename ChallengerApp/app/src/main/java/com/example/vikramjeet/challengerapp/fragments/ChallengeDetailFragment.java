@@ -127,7 +127,8 @@ public class ChallengeDetailFragment extends Fragment {
             if (position == 0) {
                 return new ChallengeDescriptionFragment();
             }
-            return new CommentListFragment();
+
+            return CommentListFragment.newInstance(challengeId);
         }
 
         @Override
