@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by devadutta on 3/7/2015.
+ * Created by vikramjeet on 3/7/2015.
  */
 public class CompletedChallengesFragment extends Fragment{
     @InjectView(R.id.lvCompletedChallenges)
