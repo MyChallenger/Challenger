@@ -2,11 +2,14 @@ package com.example.vikramjeet.challengerapp.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -24,7 +27,7 @@ import butterknife.InjectView;
 public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
 
     public enum ViewValues {
-        IMAGE, VIDEO
+        VIDEO, IMAGE
     }
 
     // View lookup cache
@@ -191,6 +194,25 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                 viewHolder1.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                 viewHolder1.tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
 
+                if (challenge.getCompletedMedia() != null) {
+                    if (viewHolder1.vvCompletedVideo.isPlaying()) {
+                        viewHolder1.vvCompletedVideo.stopPlayback();
+                    }
+                    viewHolder1.vvCompletedVideo.setVideoPath(challenge.getCompletedMedia().getUrl());
+                    MediaController mediaController = new MediaController(getContext());
+                    mediaController.setAnchorView(viewHolder1.vvCompletedVideo);
+                    viewHolder1.vvCompletedVideo.setMediaController(mediaController);
+                    viewHolder1.vvCompletedVideo.requestFocus();
+                    final VideoViewHolder finalViewHolder = viewHolder1;
+                    viewHolder1.vvCompletedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        // Close the progress bar and play the video
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.setLooping(true);
+                            finalViewHolder.vvCompletedVideo.start();
+                        }
+                    });
+                }
+
                 return convertView;
             case 1:
                 // View look up cache stored in tag
@@ -221,7 +243,6 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                 viewHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                 viewHolder2.tvViews.setText(String.valueOf(challenge.getNumberOfViews()) + " Views");
 
-                // Todo: Completed media is required. It should never be null. Tell Pritesh about it. Following condition should not even be there
                 if (challenge.getCompletedMedia() != null) {
                     Picasso.with(getContext()).
                             load(challenge.getCompletedMedia().getUrl()).
@@ -238,11 +259,16 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
     @Override
     public int getItemViewType(int position) {
         Challenge challenge = getItem(position);
+        if (challenge.getCompletedMedia() != null) {
+            boolean isVideo = Challenge.isVideo(challenge.getCompletedMedia().getUrl());
+            if (isVideo) {
+                return ViewValues.VIDEO.ordinal();
+            } else {
+                return ViewValues.IMAGE.ordinal();
+            }
+        }
 
-        if (position % 2 == 0)
-            return ViewValues.IMAGE.ordinal();
-        else
-            return ViewValues.VIDEO.ordinal();
+        return ViewValues.IMAGE.ordinal();
     }
 
     // Total number of types is the number of enum values
