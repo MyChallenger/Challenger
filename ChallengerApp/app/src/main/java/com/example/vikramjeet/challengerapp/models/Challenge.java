@@ -15,6 +15,7 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class Challenge extends ParseObject {
     private static final String FIELD_COMPLETED_MEDIA = "completedMedia";
     private static final String FIELD_NUMBER_OF_LIKES = "numberOfLikes";
     private static final String FIELD_NUMBER_OF_VIEWS = "numberOfViews";
-    private static final String FIELD_NUMBER_OF_COMMENTS = "numberOfComments";
+//    private static final String FIELD_NUMBER_OF_COMMENTS = "numberOfComments";
     private static final String FIELD_LOCATION = "location";
     private static final String FIELD_PRIZE = "prize";
     private static final String FIELD_CATEGORY = "category";
@@ -48,6 +49,7 @@ public class Challenge extends ParseObject {
     private static final String BACK_CHALLENGE_URL = "backChallenge";
     private static final String COMPLETE_CHALLENGE_URL = "completeChallenge";
     private static final String VERIFY_CHALLENGE_URL = "verifyChallenge";
+    private static final String FIELD_COMMENTS = "comments";
 
     public Challenge() {
         // A default constructor is required.
@@ -102,7 +104,10 @@ public class Challenge extends ParseObject {
     }
 
     public int getNumberOfComments() {
-        return getInt(FIELD_NUMBER_OF_COMMENTS);
+        if (getComments() != null) {
+            return getComments().size();
+        }
+        return 0;
     }
 
     public ParseGeoPoint getLocation() {
@@ -154,6 +159,7 @@ public class Challenge extends ParseObject {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.include(FIELD_POSTER);
         query.include(FIELD_BACKER);
+        query.include(FIELD_COMMENTS);
         return query;
     }
 
@@ -163,6 +169,10 @@ public class Challenge extends ParseObject {
 
     public User getBacker() {
         return (User) getParseUser(FIELD_BACKER);
+    }
+
+    public ArrayList<Comment> getComments() {
+        return (ArrayList<Comment>) get(FIELD_COMMENTS);
     }
 
 // Request:
@@ -300,5 +310,18 @@ public class Challenge extends ParseObject {
                 callback.done(users.size() > 0, e);
             }
         });
+    }
+
+    public void addComment(Comment comment, final SaveCallback callback) {
+        ArrayList<Comment> comments = null;
+        if (getComments() != null) {
+            getComments().add(comment);
+            comments = getComments();
+        } else {
+            comments = new ArrayList<>();
+            comments.add(comment);
+        }
+        put(FIELD_COMMENTS, comments);
+        saveInBackground(callback);
     }
 }

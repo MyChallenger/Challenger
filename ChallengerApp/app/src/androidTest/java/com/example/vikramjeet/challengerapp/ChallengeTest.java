@@ -401,5 +401,68 @@ public class ChallengeTest extends ChallengerTestCase {
         });
         await();
     }
+
+    public void testAddComment() {
+        // Let's create a challenge first
+        final Challenge challenge = new Challenge();
+        challenge.setTitle("Backed challenge");
+        challenge.setDescription("Will record a video and post!");
+        challenge.setExpiryDate(new Date());
+        // 1 Market Street, San Francisco CA
+        challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+        challenge.setPrize("Asking for $10 for beer");
+        challenge.setCategory("Dare");
+        challenge.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Comment comment = new Comment();
+                comment.setText("From ChallengeTest.java");
+                challenge.addComment(comment, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        assertNull(e);
+                        assertEquals(1, challenge.getComments().size());
+                        countDown();
+                    }
+                });
+
+            }
+        });
+        await();
+    }
+
+    public void testGetComments() {
+        // Let's create a challenge first
+        final Challenge challenge = new Challenge();
+        challenge.setTitle("Backed challenge");
+        challenge.setDescription("Will record a video and post!");
+        challenge.setExpiryDate(new Date());
+        // 1 Market Street, San Francisco CA
+        challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
+        challenge.setPrize("Asking for $10 for beer");
+        challenge.setCategory("Dare");
+        challenge.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Comment comment = new Comment();
+                comment.setText("From ChallengeTest.java");
+                challenge.addComment(comment, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        challenge.fetchInBackground(new GetCallback<Challenge>() {
+                            @Override
+                            public void done(Challenge challengeWithComments, ParseException e) {
+                                assertNull(e);
+                                assertEquals(1, challengeWithComments.getComments().size());
+                                countDown();
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+        await();
+    }
 }
 
