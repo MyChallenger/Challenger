@@ -3,7 +3,6 @@ package com.example.vikramjeet.challengerapp.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,9 @@ import android.widget.VideoView;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-import com.makeramen.RoundedTransformationBuilder;
 
 import java.util.List;
 
@@ -198,6 +197,9 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     if (viewHolder1.vvCompletedVideo.isPlaying()) {
                         viewHolder1.vvCompletedVideo.stopPlayback();
                     }
+
+//                    final ProgressDialog progress = ProgressDialog.show(getContext(), null, "Loading...", true);
+
                     viewHolder1.vvCompletedVideo.setVideoPath(challenge.getCompletedMedia().getUrl());
                     MediaController mediaController = new MediaController(getContext());
                     mediaController.setAnchorView(viewHolder1.vvCompletedVideo);
@@ -207,8 +209,9 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     viewHolder1.vvCompletedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         // Close the progress bar and play the video
                         public void onPrepared(MediaPlayer mp) {
-                            mp.setLooping(true);
-                            finalViewHolder.vvCompletedVideo.start();
+//                            mp.setLooping(true);
+//                            finalViewHolder.vvCompletedVideo.start();
+//                            progress.dismiss();
                         }
                     });
                 }
