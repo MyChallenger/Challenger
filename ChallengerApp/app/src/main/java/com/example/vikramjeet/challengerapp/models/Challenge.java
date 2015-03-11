@@ -163,11 +163,11 @@ public class Challenge extends ParseObject {
         return query;
     }
 
-    public User poster() {
+    public User getPoster() {
         return (User) getParseUser(FIELD_POSTER);
     }
 
-    public User backer() {
+    public User getBacker() {
         return (User) getParseUser(FIELD_BACKER);
     }
 

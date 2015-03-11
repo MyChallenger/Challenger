@@ -59,11 +59,11 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         }
 
         // Populate views
-        viewHolder.tvUserName.setText(comment.getUsername());
+        viewHolder.tvUserName.setText(comment.getAuthor().getUsername());
         viewHolder.tvCommentText.setText(comment.getText());
 
         Picasso.with(getContext()).
-                load(comment.getUserProfileImageUrl()).
+                load(comment.getAuthor().getPhotoURL()).
                 placeholder(R.drawable.photo_placeholder).
                 into(viewHolder.ivUserPhoto);
 

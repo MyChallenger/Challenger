@@ -156,12 +156,12 @@ public class ChallengeTest extends ChallengerTestCase {
             @Override
             public void done(ParseException e) {
                 // This challenge is not backed yet!
-                assertNull(challenge.backer());
+                assertNull(challenge.getBacker());
                 challenge.back(new GetCallback<Challenge>() {
                     @Override
                     public void done(Challenge backedChallenge, ParseException e) {
                         // This challenge should be backed!
-                        assertNotNull(backedChallenge.backer());
+                        assertNotNull(backedChallenge.getBacker());
                         assertEquals(backedChallenge.getStatus(), ChallengeStatus.BACKED);
                         countDown();
                     }
@@ -203,7 +203,7 @@ public class ChallengeTest extends ChallengerTestCase {
                     @Override
                     public void done(Challenge completedChallenge, ParseException e) {
                         // This challenge should be backed!
-                        assertNotNull(completedChallenge.backer());
+                        assertNotNull(completedChallenge.getBacker());
                         assertEquals(completedChallenge.getStatus(), ChallengeStatus.COMPLETED);
                         countDown();
                     }
@@ -245,7 +245,7 @@ public class ChallengeTest extends ChallengerTestCase {
                     @Override
                     public void done(Challenge verifiedChallenge, ParseException e) {
                         // This challenge should be backed!
-                        assertNotNull(verifiedChallenge.backer());
+                        assertNotNull(verifiedChallenge.getBacker());
                         assertEquals(verifiedChallenge.getStatus(), ChallengeStatus.VERIFIED);
                         countDown();
                     }
@@ -261,7 +261,7 @@ public class ChallengeTest extends ChallengerTestCase {
             public void done(List<Challenge> results, ParseException e) {
                 for (Challenge challenge : results) {
                     // Challenges should always have a poster
-                    assertNotNull(challenge.poster());
+                    assertNotNull(challenge.getPoster());
                     assertTrue(challenge.getStatus().equals(ChallengeStatus.OPEN) || challenge.getStatus().equals(ChallengeStatus.BACKED));
                 }
                 countDown();
@@ -276,9 +276,9 @@ public class ChallengeTest extends ChallengerTestCase {
             public void done(List<Challenge> results, ParseException e) {
                 for (Challenge challenge : results) {
                     // Challenges should always have a poster
-                    assertNotNull(challenge.poster());
+                    assertNotNull(challenge.getPoster());
                     // Finished Challenges should always have a backer
-                    assertNotNull(challenge.backer());
+                    assertNotNull(challenge.getBacker());
                     assertTrue(challenge.getStatus().equals(ChallengeStatus.VERIFIED));
                 }
                 countDown();

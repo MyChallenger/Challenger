@@ -46,6 +46,17 @@ Parse.Cloud.beforeSave("Challenge", function(request, response) {
   response.success();
 });
 
+// This function updates the author to the current user
+// when the comment is created
+Parse.Cloud.beforeSave("Comment", function(request, response) {
+  var comment = request.object;
+  if (comment.isNew()) {
+    var user = Parse.User.current();
+    comment.set("author", user);
+  }
+  response.success();
+});
+
 
 // This function updates the backer to the current user
 // AND
