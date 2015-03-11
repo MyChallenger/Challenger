@@ -108,7 +108,6 @@ public class CommentListFragment extends Fragment {
                 }
             }
         });
-
     }
 
 }
