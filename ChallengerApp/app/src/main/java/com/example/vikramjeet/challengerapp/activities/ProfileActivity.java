@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.example.vikramjeet.challengerapp.R;
 
 
-public class SecondActivity extends ActionBarActivity {
+public class ProfileActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
