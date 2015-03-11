@@ -260,7 +260,7 @@ public class ChallengeTest extends ChallengerTestCase {
             @Override
             public void done(List<Challenge> results, ParseException e) {
                 for (Challenge challenge : results) {
-                    // Challenges should always have a getPoster
+                    // Challenges should always have a poster
                     assertNotNull(challenge.getPoster());
                     assertTrue(challenge.getStatus().equals(ChallengeStatus.OPEN) || challenge.getStatus().equals(ChallengeStatus.BACKED));
                 }
@@ -275,7 +275,7 @@ public class ChallengeTest extends ChallengerTestCase {
             @Override
             public void done(List<Challenge> results, ParseException e) {
                 for (Challenge challenge : results) {
-                    // Challenges should always have a getPoster
+                    // Challenges should always have a poster
                     assertNotNull(challenge.getPoster());
                     // Finished Challenges should always have a backer
                     assertNotNull(challenge.getBacker());
