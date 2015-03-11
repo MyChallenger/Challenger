@@ -11,6 +11,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -32,13 +33,15 @@ public class Challenge extends ParseObject {
     private static final String FIELD_LOCATION = "location";
     private static final String FIELD_PRIZE = "prize";
     private static final String FIELD_CATEGORY = "category";
-    private static final String FIELD_IS_COMPLETED = "isCompleted";
     private static final String FIELD_POSTER = "poster";
     private static final String FIELD_BACKER = "backer";
+    private static final String FIELD_STATUS = "status";
 
     // Other constants
     private static final String CHALLENGE_ID = "challengeId";
     private static final String BACK_CHALLENGE_URL = "backChallenge";
+    private static final String COMPLETE_CHALLENGE_URL = "completeChallenge";
+    private static final String VERIFY_CHALLENGE_URL = "verifyChallenge";
 
     public Challenge() {
         // A default constructor is required.
@@ -132,27 +135,24 @@ public class Challenge extends ParseObject {
         put(FIELD_CATEGORY, category);
     }
 
-    public Boolean isCompleted() {
-        return getBoolean(FIELD_IS_COMPLETED);
-    }
-
-    public void setCompleted(Boolean isCompleted) {
-        put(FIELD_IS_COMPLETED, isCompleted);
+    public ChallengeStatus getStatus() {
+        return ChallengeStatus.valueOf(getString(FIELD_STATUS));
     }
 
     public static void getOpenChallenges(FindCallback<Challenge> findCallback) {
         ParseQuery<Challenge> query = getChallengeParseQuery();
         Date now = new Date();
         query.whereGreaterThan(FIELD_EXPIRY_DATE, now);
-        query.whereEqualTo(FIELD_IS_COMPLETED, false);
-        // Show the ones expiring soonest first
-        query.orderByAscending(FIELD_EXPIRY_DATE);
+        String[] statuses = {ChallengeStatus.OPEN.toString(), ChallengeStatus.BACKED.toString()};
+        query.whereContainedIn(FIELD_STATUS, Arrays.asList(statuses));
+                // Show the ones expiring soonest first
+                        query.orderByAscending(FIELD_EXPIRY_DATE);
         query.findInBackground(findCallback);
     }
 
     public static void getFinishedChallenges(FindCallback<Challenge> findCallback) {
         ParseQuery<Challenge> query = getChallengeParseQuery();
-        query.whereEqualTo(FIELD_IS_COMPLETED, true);
+        query.whereEqualTo(FIELD_STATUS, ChallengeStatus.VERIFIED.toString());
         query.findInBackground(findCallback);
     }
 
@@ -185,6 +185,54 @@ public class Challenge extends ParseObject {
         HashMap<String, String> params = new HashMap<>();
         params.put(CHALLENGE_ID, getObjectId());
         ParseCloud.callFunctionInBackground(BACK_CHALLENGE_URL, params, new FunctionCallback<Boolean>() {
+            @Override
+            public void done(Boolean success, ParseException e) {
+                if (success) {
+                    // Challenge should have a backer now!
+                    fetchInBackground(callback);
+                }
+            }
+        });
+    }
+
+// Request:
+//    curl -X POST \
+//            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
+//            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \
+//            -H "X-Parse-Session-Token: 6gBQTkhmnmlZvbar6Wy0aNBwW" \
+//            -H "Content-Type: application/json" \
+//            -d '{"challengeId" : "7yyGTSK3FQ"}' \
+//    https://api.parse.com/1/functions/completeChallenge
+// Response:
+//    {"result":true}
+    public void complete(final GetCallback<Challenge> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(CHALLENGE_ID, getObjectId());
+        ParseCloud.callFunctionInBackground(COMPLETE_CHALLENGE_URL, params, new FunctionCallback<Boolean>() {
+            @Override
+            public void done(Boolean success, ParseException e) {
+                if (success) {
+                    // Challenge should have a backer now!
+                    fetchInBackground(callback);
+                }
+            }
+        });
+    }
+
+// Request:
+//    curl -X POST \
+//            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
+//            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \
+//            -H "X-Parse-Session-Token: 6gBQTkhmnmlZvbar6Wy0aNBwW" \
+//            -H "Content-Type: application/json" \
+//            -d '{"challengeId" : "7yyGTSK3FQ"}' \
+//    https://api.parse.com/1/functions/verifyChallenge
+// Response:
+//    {"result":true}
+    public void verify(final GetCallback<Challenge> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(CHALLENGE_ID, getObjectId());
+        ParseCloud.callFunctionInBackground(VERIFY_CHALLENGE_URL, params, new FunctionCallback<Boolean>() {
             @Override
             public void done(Boolean success, ParseException e) {
                 if (success) {
