@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -48,7 +49,7 @@ public class ChallengeTest extends ChallengerTestCase {
             challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
             challenge.setPrize("Asking for $10 for beer");
             challenge.setCategory("Dare");
-            challenge.setCompleted(false);
+//            challenge.setCompleted(false);
             try {
                 challenge.save();
             } catch (ParseException e) {
@@ -84,7 +85,7 @@ public class ChallengeTest extends ChallengerTestCase {
             challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
             challenge.setPrize("Asking for $10 for beer");
             challenge.setCategory("Dare");
-            challenge.setCompleted(true);
+//            challenge.setCompleted(true);
             try {
                 challenge.save();
             } catch (ParseException e) {
@@ -105,7 +106,7 @@ public class ChallengeTest extends ChallengerTestCase {
         challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
         challenge.setPrize("Asking for $10 for beer");
         challenge.setCategory("Dare");
-        challenge.setCompleted(false);
+//        challenge.setCompleted(false);
         // We will save the createdMedia first and then save the challenge if the upload succeeds!
         Drawable backgroundImage = getContext().getResources().getDrawable(R.drawable.background);
         if (backgroundImage != null) {
@@ -145,7 +146,7 @@ public class ChallengeTest extends ChallengerTestCase {
         challenge.setLocation(new ParseGeoPoint(37.793992, -122.394896));
         challenge.setPrize("Asking for $10 for beer");
         challenge.setCategory("Dare");
-        challenge.setCompleted(false);
+//        challenge.setCompleted(false);
         challenge.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -171,7 +172,7 @@ public class ChallengeTest extends ChallengerTestCase {
                 for (Challenge challenge : results) {
                     // Challenges should always have a poster
                     assertNotNull(challenge.poster());
-                    assertFalse(challenge.isCompleted());
+                    assertTrue(challenge.getStatus().equals(ChallengeStatus.OPEN) || challenge.getStatus().equals(ChallengeStatus.BACKED));
                 }
                 countDown();
             }
@@ -188,7 +189,7 @@ public class ChallengeTest extends ChallengerTestCase {
                     assertNotNull(challenge.poster());
                     // Finished Challenges should always have a backer
                     assertNotNull(challenge.backer());
-                    assertTrue(challenge.isCompleted());
+                    assertTrue(challenge.getStatus().equals(ChallengeStatus.VERIFIED));
                 }
                 countDown();
             }

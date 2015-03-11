@@ -11,6 +11,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -32,9 +33,9 @@ public class Challenge extends ParseObject {
     private static final String FIELD_LOCATION = "location";
     private static final String FIELD_PRIZE = "prize";
     private static final String FIELD_CATEGORY = "category";
-    private static final String FIELD_IS_COMPLETED = "isCompleted";
     private static final String FIELD_POSTER = "poster";
     private static final String FIELD_BACKER = "backer";
+    private static final String FIELD_STATUS = "status";
 
     // Other constants
     private static final String CHALLENGE_ID = "challengeId";
@@ -132,27 +133,24 @@ public class Challenge extends ParseObject {
         put(FIELD_CATEGORY, category);
     }
 
-    public Boolean isCompleted() {
-        return getBoolean(FIELD_IS_COMPLETED);
-    }
-
-    public void setCompleted(Boolean isCompleted) {
-        put(FIELD_IS_COMPLETED, isCompleted);
+    public ChallengeStatus getStatus() {
+        return ChallengeStatus.valueOf(getString(FIELD_STATUS));
     }
 
     public static void getOpenChallenges(FindCallback<Challenge> findCallback) {
         ParseQuery<Challenge> query = getChallengeParseQuery();
         Date now = new Date();
         query.whereGreaterThan(FIELD_EXPIRY_DATE, now);
-        query.whereEqualTo(FIELD_IS_COMPLETED, false);
-        // Show the ones expiring soonest first
-        query.orderByAscending(FIELD_EXPIRY_DATE);
+        String[] statuses = {ChallengeStatus.OPEN.toString(), ChallengeStatus.BACKED.toString()};
+        query.whereContainedIn(FIELD_STATUS, Arrays.asList(statuses));
+                // Show the ones expiring soonest first
+                        query.orderByAscending(FIELD_EXPIRY_DATE);
         query.findInBackground(findCallback);
     }
 
     public static void getFinishedChallenges(FindCallback<Challenge> findCallback) {
         ParseQuery<Challenge> query = getChallengeParseQuery();
-        query.whereEqualTo(FIELD_IS_COMPLETED, true);
+        query.whereEqualTo(FIELD_STATUS, ChallengeStatus.VERIFIED.toString());
         query.findInBackground(findCallback);
     }
 
