@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -43,6 +44,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
         TextView tvComment;
         @InjectView(R.id.tvViews)
         TextView tvViews;
+        @InjectView(R.id.progress)
+        ProgressBar spinnerView;
 
         public VideoViewHolder(View view) {
             ButterKnife.inject(this, view);
@@ -71,83 +74,6 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
     public CompletedChallengesAdapter(Context context, List<Challenge> challenges) {
         super(context, android.R.layout.simple_list_item_1, challenges);
     }
-
-/*    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get challenge
-        Challenge challenge = getItem(position);
-
-        // Todo: Completed media is required. It should never be null. Tell Pritesh about it. Following condition should not even be there
-        if (challenge.getCompletedMedia() != null) {
-
-
-//        challenge.getCompletedMedia().getDataInBackground(new GetDataCallback() {
-//            @Override
-//            public void done(byte[] bytes, ParseException e) {
-
-                if (Challenge.isVideo(challenge.getCompletedMedia().getUrl())) {       // Media is Video
-                    // View look up cache stored in tag
-                    VideoViewHolder viewHolder = null;
-                    if (convertView == null) {
-                        // Inflate convertView
-                        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_completed_challenge_video, parent, false);
-                        // Create View cache
-                        viewHolder = new VideoViewHolder(convertView);
-                        convertView.setTag(viewHolder);
-                    } else {
-                        viewHolder = (VideoViewHolder) convertView.getTag();
-                    }
-
-//        viewHolder.tvUserName = challenge.getUserPosted().getName();
-                    // Todo: Show userphoto
-                    viewHolder.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
-                    viewHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-                    viewHolder.tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
-                } else {            // Media is Image
-                    // View look up cache stored in tag
-                    ImageViewHolder viewHolder = null;
-                    if (convertView == null) {
-                        // Inflate convertView
-                        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_completed_challenge_image, parent, false);
-                        // Create View cache
-                        viewHolder = new ImageViewHolder(convertView);
-                        convertView.setTag(viewHolder);
-                    } else {
-                        viewHolder = (ImageViewHolder) convertView.getTag();
-                    }
-
-//        viewHolder.tvUserName = challenge.getUserPosted().getName();
-                    // Todo: Show userphoto
-                    viewHolder.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
-                    viewHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-                    viewHolder.tvViews.setText(String.valueOf(challenge.getNumberOfViews()) + " Views");
-
-                    // Todo: Completed media is required. It should never be null. Tell Pritesh about it. Following condition should not even be there
-                    if (challenge.getCompletedMedia() != null) {
-                        Picasso.with(getContext()).
-                                load(challenge.getCompletedMedia().getUrl()).
-                                placeholder(R.drawable.photo_placeholder).
-                                into(viewHolder.ivCompletedImage);
-                    }
-                }
-
-
-//            }
-//        });
-
-
-
-        }
-    else {
-            return LayoutInflater.from(getContext()).inflate(R.layout.item_completed_challenge_image, parent, false);
-        }
-
-
-        return convertView;
-
-    }
-
-*/
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -211,7 +137,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                         public void onPrepared(MediaPlayer mp) {
 //                            mp.setLooping(true);
                             finalViewHolder.vvCompletedVideo.start();
-//                            progress.dismiss();
+                            // Dismiss spinner
+                            finalViewHolder.spinnerView.setVisibility(View.GONE);
                         }
                     });
                 }
