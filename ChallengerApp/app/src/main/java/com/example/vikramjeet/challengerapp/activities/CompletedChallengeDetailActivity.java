@@ -14,12 +14,14 @@ import com.parse.ParseException;
 
 public class CompletedChallengeDetailActivity extends ActionBarActivity {
 
+    public static final String EXTRA_CHALLENGE_ID = "challenge_id";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed_challenge_detail);
         // Get challege_id from Intent
-        final String challengeId = getIntent().getStringExtra("challenge_id");
+        final String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
 
         // Get challenge from challenge_id
         Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
