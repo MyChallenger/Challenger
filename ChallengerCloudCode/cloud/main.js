@@ -70,7 +70,40 @@ Parse.Cloud.define("backChallenge", function(request, response) {
   challenge.save(null, { useMasterKey: true }).then(function() {
     // If I choose to do something else here, it won't be using
     // the master key and I'll be subject to ordinary security measures.
-    response.success(true);
+    var query = new Parse.Query(Parse.Object.extend("Challenge"));
+    query.get(challenge.id, {
+      success: function(fetchedChallenge) {
+        // The object was retrieved successfully.
+        var query = new Parse.Query(Parse.Installation);
+        query.equalTo('user', fetchedChallenge.get("poster"));
+        Parse.Push.send({
+          where: query,
+          data: {
+            title: "Game on!",
+            alert: "The challenge '" + fetchedChallenge.get("title") + "' has been backed by " + user.get("name"),
+            customdata: {
+              status: "BACKED",
+              id: challenge.id
+            }
+          }
+        }, {
+          success: function() {
+            console.log("Back Challenge push was successful");
+            response.success(true);
+          },
+          error: function(error) {
+            console.error(error);
+            response.error(error);
+          }
+        });
+      },
+      error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and message.
+        console.error(error);
+        response.error(error);
+      }
+    });
   }, function(error) {
     response.error(error);
   });
@@ -86,7 +119,40 @@ Parse.Cloud.define("completeChallenge", function(request, response) {
   challenge.save(null, { useMasterKey: true }).then(function() {
     // If I choose to do something else here, it won't be using
     // the master key and I'll be subject to ordinary security measures.
-    response.success(true);
+    var query = new Parse.Query(Parse.Object.extend("Challenge"));
+    query.get(challenge.id, {
+      success: function(fetchedChallenge) {
+        // The object was retrieved successfully.
+        var query = new Parse.Query(Parse.Installation);
+        query.equalTo('user', fetchedChallenge.get("backer"));
+        Parse.Push.send({
+          where: query,
+          data: {
+            title: "Let's see what we got!",
+            alert: "The challenge '" + fetchedChallenge.get("title") + "' has been completed by " + user.get("name"),
+            customdata: {
+              status: "COMPLETED",
+              id: challenge.id
+            }
+          }
+        }, {
+          success: function() {
+            console.log("Complete Challenge push was successful");
+            response.success(true);
+          },
+          error: function(error) {
+            console.error(error);
+            response.error(error);
+          }
+        });
+      },
+      error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and message.
+        console.error(error);
+        response.error(error);
+      }
+    });
   }, function(error) {
     response.error(error);
   });
@@ -99,10 +165,48 @@ Parse.Cloud.define("verifyChallenge", function(request, response) {
   // TODO: Add a check if the current user is the backer
   var user = Parse.User.current();
   challenge.set("status", "VERIFIED");
-  challenge.save(null, { useMasterKey: true }).then(function() {
-    // If I choose to do something else here, it won't be using
-    // the master key and I'll be subject to ordinary security measures.
-    response.success(true);
+  user.increment("pointsEarned", 100);
+  user.save(null, { useMasterKey: true }).then(function() {
+    challenge.save(null, { useMasterKey: true }).then(function() {
+      // If I choose to do something else here, it won't be using
+      // the master key and I'll be subject to ordinary security measures.
+      var query = new Parse.Query(Parse.Object.extend("Challenge"));
+      query.get(challenge.id, {
+        success: function(fetchedChallenge) {
+          // The object was retrieved successfully.
+          var query = new Parse.Query(Parse.Installation);
+          query.equalTo('user', fetchedChallenge.get("backer"));
+          Parse.Push.send({
+            where: query,
+            data: {
+              title: "Congratulations!",
+              alert: "The challenge '" + fetchedChallenge.get("title") + "' has been verified by " + user.get("name") + ". You have earned 100 points.",
+              customdata: {
+                status: "VERIFIED",
+                id: challenge.id
+              }
+            }
+          }, {
+            success: function() {
+              console.log("Verify Challenge push was successful");
+              response.success(true);
+            },
+            error: function(error) {
+              console.error(error);
+              response.error(error);
+            }
+          });
+        },
+        error: function(object, error) {
+          // The object was not retrieved successfully.
+          // error is a Parse.Error with an error code and message.
+          console.error(error);
+          response.error(error);
+        }
+      });
+    }, function(error) {
+      response.error(error);
+    });
   }, function(error) {
     response.error(error);
   });

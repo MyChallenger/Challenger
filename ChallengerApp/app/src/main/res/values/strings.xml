@@ -21,4 +21,6 @@
     <string name="title_activity_completed_challenge_detail">CompletedChallengeDetailActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_second">SecondActivity</string>
+    <string name="title_activity_complete">CompleteActivity</string>
+    <string name="title_activity_leaderboard">LeaderboardActivity</string>
 </resources>

@@ -2,7 +2,6 @@ package com.example.vikramjeet.challengerapp;
 
 import android.app.Application;
 
-import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.Comment;
 import com.example.vikramjeet.challengerapp.models.User;
