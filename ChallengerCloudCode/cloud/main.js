@@ -67,6 +67,7 @@ Parse.Cloud.define("backChallenge", function(request, response) {
   var user = Parse.User.current();
   challenge.set("status", "BACKED");
   challenge.set("backer", user);
+  user.increment("challengesBacked");
   challenge.save(null, { useMasterKey: true }).then(function() {
     // If I choose to do something else here, it won't be using
     // the master key and I'll be subject to ordinary security measures.
@@ -128,7 +129,7 @@ Parse.Cloud.define("completeChallenge", function(request, response) {
         Parse.Push.send({
           where: query,
           data: {
-            title: "Let's see what we got!",
+            title: "Verify this challenge!",
             alert: "The challenge '" + fetchedChallenge.get("title") + "' has been completed by " + user.get("name"),
             customdata: {
               status: "COMPLETED",
@@ -165,17 +166,20 @@ Parse.Cloud.define("verifyChallenge", function(request, response) {
   // TODO: Add a check if the current user is the backer
   var user = Parse.User.current();
   challenge.set("status", "VERIFIED");
-  user.increment("pointsEarned", 100);
-  user.save(null, { useMasterKey: true }).then(function() {
-    challenge.save(null, { useMasterKey: true }).then(function() {
-      // If I choose to do something else here, it won't be using
-      // the master key and I'll be subject to ordinary security measures.
-      var query = new Parse.Query(Parse.Object.extend("Challenge"));
-      query.get(challenge.id, {
-        success: function(fetchedChallenge) {
-          // The object was retrieved successfully.
-          var query = new Parse.Query(Parse.Installation);
-          query.equalTo('user', fetchedChallenge.get("backer"));
+  challenge.save(null, { useMasterKey: true }).then(function() {
+    // If I choose to do something else here, it won't be using
+    // the master key and I'll be subject to ordinary security measures.
+    var query = new Parse.Query(Parse.Object.extend("Challenge"));
+    query.get(challenge.id, {
+      success: function(fetchedChallenge) {
+        // The object was retrieved successfully.
+        var query = new Parse.Query(Parse.Installation);
+        var poster = fetchedChallenge.get("poster");
+        query.equalTo('user', poster);
+        poster.increment("pointsEarned", 100);
+        poster.increment("challengesCompleted");
+        poster.save().then(function(obj) {
+          // the object was saved successfully.
           Parse.Push.send({
             where: query,
             data: {
@@ -196,16 +200,16 @@ Parse.Cloud.define("verifyChallenge", function(request, response) {
               response.error(error);
             }
           });
-        },
-        error: function(object, error) {
-          // The object was not retrieved successfully.
-          // error is a Parse.Error with an error code and message.
-          console.error(error);
-          response.error(error);
-        }
-      });
-    }, function(error) {
-      response.error(error);
+        }, function(error) {
+          // the save failed.
+        });
+      },
+      error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and message.
+        console.error(error);
+        response.error(error);
+      }
     });
   }, function(error) {
     response.error(error);
@@ -223,124 +227,58 @@ Parse.Cloud.define("verifyChallenge", function(request, response) {
 // https://api.parse.com/1/jobs/updateLeaderboard
 Parse.Cloud.job("updateLeaderboard", function(request, status) {
 
+  var _ = require('underscore.js')
   console.log("Updating leaderboard");
 
   // Set up to modify user data
   Parse.Cloud.useMasterKey();
   var counter = 0;
   // Query for all users
+
   var query = new Parse.Query(Parse.User);
   query.descending("pointsEarned");
-  var previousPointsEarned = -1;
-  query.find({
-    success: function(results) {
-      // Do something with the returned Parse.Object values
-      for (var i = 0; i < results.length; i++) {
-        var user = results[i];
-        var currentPointsEarned = user.get("pointsEarned");
-        console.log("User: " + user.get("name") + ", pointsEarned: " + currentPointsEarned);
-        if (previousPointsEarned == currentPointsEarned) {
-          console.log("Skipping pointsEarned " + currentPointsEarned);
-          return;
-        }
-        counter += 1;
-        var countQuery = new Parse.Query(Parse.User);
-        // var GameScore = Parse.Object.extend("_User");
-        // var countQuery = new Parse.Query(GameScore);
-        console.log("Counting users with pointsEarned: " + currentPointsEarned);
-        countQuery.equalTo("pointsEarned", currentPointsEarned);
-        countQuery.count({
-          success: function(count) {
-            console.log("User: " + user.get("name") + ", pointsEarned: " + currentPointsEarned + ", Count: " + count);
-            // Run the update query
-            var samePointsQuery = new Parse.Query(Parse.User);
-            samePointsQuery.equalTo("pointsEarned", currentPointsEarned);
-            samePointsQuery.find({
-              success: function(results) {
-                // Do something with the returned Parse.Object values
-                for (var i = 0; i < results.length; i++) {
-                  var userToUpdate = results[i];
-                  userToUpdate.set("leaderBoardRank", counter);
-                  console.log("Updating User: " + user.get("name") + ", pointsEarned: " + currentPointsEarned + ", Rank: " + counter);
-                  userToUpdate.save();
-                }
-              },
-              error: function(error) {
-                console.error("Could not update: " + error)
-              }
-            });
-            counter += (count - 1);
-          },
-          error: function(error) {
-            console.error("Could not count: " + error)
-          }
-        });
-        // Update to plan value passed in
-        // user.set("plan", request.params.plan);
-        // var updateEveryXUsers = 100;
-        var updateEveryXUsers = 1;
-        if (counter % updateEveryXUsers === 0) {
-          // Set the  job's progress status
-          status.message(counter + " users processed.");
-        }
-        return user.save();
+
+  query.find().then(function(results) {
+    // Create a trivial resolved promise as a base case.
+    var promise = Parse.Promise.as();
+    var counter = 1;
+    var previousPointsEarned = -1;
+    _.each(results, function(result) {
+      var user = result;
+      var currentPointsEarned = user.get("pointsEarned");
+      if (previousPointsEarned == currentPointsEarned) {
+        console.log("Skipping user " + user.get("name") + ", pointsEarned " + currentPointsEarned);
+        return;
       }
-    },
-    error: function(error) {
-      // Set the job's error status
-      status.error("Uh oh, something went wrong: " + error);
-    }
-  }).then(function(results) {
-    // Set the job's success status
-    status.success("Leaderboard updated successfully.");
+      previousPointsEarned = currentPointsEarned;
+      console.log("Processing user " + user.get("name") + ", pointsEarned " + currentPointsEarned);
+      // For each item, extend the promise with a function to delete it.
+      promise = promise.then(function() {
+        // Return a promise that will be resolved when the query is finished.
+        // console.log("user = " + JSON.stringify(user));
+        var samePointsQuery = new Parse.Query(Parse.User);
+        // console.log("currentPointsEarned = " + currentPointsEarned);
+        samePointsQuery.equalTo("pointsEarned", currentPointsEarned);
+        return samePointsQuery.find();
+      }).then(function(samePointsQueryResults) {
+        // Collect one promise for each delete into an array.
+        var promises = [];
+        _.each(samePointsQueryResults, function(samePointsQueryResult) {
+          var userWithSamePoints = samePointsQueryResult;
+          // console.log(JSON.stringify(userWithSamePoints));
+          userWithSamePoints.set("leaderBoardRank", counter);
+          promises.push(userWithSamePoints.save());
+        });
+        counter += samePointsQueryResults.length;
+        return Parse.Promise.when(promises);
+      });
+    });
+    return promise;
+
+  }).then(function() {
+    // Every user was updated.
+    var message = "Leaderboard updated successfully.";
+    console.log(message);
+    status.success(message);
   });
-  // query.each(function(user) {
-  //   var currentPointsEarned = user.get("pointsEarned");
-  //   if (previousPointsEarned == currentPointsEarned) {
-  //     console.log("Skipping pointsEarned " + currentPointsEarned);
-  //     return;
-  //   }
-  //   counter += 1;
-  //   var countQuery = new Parse.Query(Parse.User);
-  //   countQuery.equalTo("pointsEarned", currentPointsEarned);
-  //   countQuery.count({
-  //     success: function(count) {
-  //       // Run the update query
-  //       var samePointsQuery = new Parse.Query(Parse.User);
-  //       samePointsQuery.equalTo("pointsEarned", currentPointsEarned);
-  //       samePointsQuery.find({
-  //         success: function(results) {
-  //           // Do something with the returned Parse.Object values
-  //           for (var i = 0; i < results.length; i++) {
-  //             var userToUpdate = results[i];
-  //             userToUpdate.set("leaderBoardRank", counter);
-  //             userToUpdate.save();
-  //           }
-  //         },
-  //         error: function(error) {
-  //           console.error("Could not update: " + error)
-  //         }
-  //       });
-  //       counter += (count - 1);
-  //     },
-  //     error: function(error) {
-  //       console.error("Could not count: " + error)
-  //     }
-  //   });
-  //   // Update to plan value passed in
-  //   // user.set("plan", request.params.plan);
-  //   // var updateEveryXUsers = 100;
-  //   var updateEveryXUsers = 1;
-  //   if (counter % updateEveryXUsers === 0) {
-  //     // Set the  job's progress status
-  //     status.message(counter + " users processed.");
-  //   }
-  //   return user.save();
-  // }).then(function() {
-  //   // Set the job's success status
-  //   status.success("Leaderboard updated successfully.");
-  // }, function(error) {
-  //   // Set the job's error status
-  //   status.error("Uh oh, something went wrong: " + error);
-  // });
 });

@@ -1,7 +1,7 @@
 package com.example.vikramjeet.challengerapp.activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -10,7 +10,6 @@ import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.adapters.LeaderboardQueryAdapter;
 import com.example.vikramjeet.challengerapp.models.User;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,8 +28,8 @@ public class LeaderboardActivity extends ActionBarActivity {
         LeaderboardQueryAdapter<User> adapter =
                 new LeaderboardQueryAdapter<>(this, new LeaderboardQueryAdapter.QueryFactory<User>() {
                     public ParseQuery<User> create() {
-                        ParseQuery query = ParseUser.getQuery();
-                        query.orderByDescending("leaderBoardRank");
+                        ParseQuery query = User.getQuery();
+                        query.orderByAscending("leaderBoardRank");
                         return query;
                     }
                 });
