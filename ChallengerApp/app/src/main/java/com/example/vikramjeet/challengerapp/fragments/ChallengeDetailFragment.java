@@ -1,15 +1,18 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -18,6 +21,7 @@ import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Vikramjeet on 3/8/15.
@@ -40,6 +44,7 @@ public class ChallengeDetailFragment extends Fragment {
     private TextView tvLikes;
     private TextView tvViews;
     private TextView tvCategory;
+    private TextView tvTitle;
 
     public static ChallengeDetailFragment newInstance(String challengeID, boolean isVideoChallenge) {
         // Create fragment
@@ -61,7 +66,7 @@ public class ChallengeDetailFragment extends Fragment {
 
         // Get arguments and populate fragmentType
         challengeId = getArguments().getString("challenge_id");
-        fragmentType = getArguments().getInt("challenge_fragment_type");
+        fragmentType = getArguments().getBoolean("challenge_fragment_type") ? 1 : 0;
     }
 
     @Override
@@ -81,7 +86,8 @@ public class ChallengeDetailFragment extends Fragment {
         tvUsername = (TextView) view.findViewById(R.id.tvChallengeDetailUserName);
         tvLikes = (TextView) view.findViewById(R.id.tvChallengeDetailLike);
         tvViews = (TextView) view.findViewById(R.id.tvChallengeDetailViews);
-        tvCategory = (TextView) view.findViewById(R.id.tvChallengeCategory);
+        tvTitle = (TextView) view.findViewById(R.id.tvChallengeDetailTitle);
+        tvCategory = (TextView) view.findViewById(R.id.tvCategory);
         vpPager = (ViewPager) view.findViewById(R.id.vpChallengerDetail);
         tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.challengeDetailTabs);
         populateViews();
@@ -95,20 +101,66 @@ public class ChallengeDetailFragment extends Fragment {
 
     private void populateViews() {
 //        Get challenge from challenge_id
+        Log.d("ReceivedObjectID:", challengeId);
         Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
             public void done(Challenge item, ParseException e) {
                 if (e == null) {
                     // item was found
                     challenge = item;
                     // Populate views
-                    // tvUserName = challenge.getUserPosted().getName();
-                    // Todo: Show userphoto
-                    // Check completed video/imahe
 
+                    // Populate user info
+//                    tvUsername.setText(challenge.getPoster().getName());
+//
+///                    Transformation transformation = new RoundedTransformationBuilder()
+//                            .borderColor(Color.BLACK)
+//                            .cornerRadiusDp(25)
+//                            .oval(false)
+//                            .build();
 
-//                    tvCategory.setText(challenge.getCategory());
+//                    Picasso.with(getActivity()).
+//                            load(challenge.getPoster().getPhotoURL()).
+//                            fit().
+//                            transform(transformation).
+//                            placeholder(R.drawable.photo_placeholder).
+//                            into(ivUserPhoto);
+
+                    tvTitle.setText(challenge.getTitle());
+                    tvCategory.setText(challenge.getCategory());
                     tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                     tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
+
+                    if (challenge.getCompletedMedia() != null) {
+
+                        if (Challenge.isVideo(challenge.getCompletedMedia().getUrl())) {
+                            if (vvChallengeVideo.isPlaying()) {
+                                vvChallengeVideo.stopPlayback();
+                            }
+
+                            vvChallengeVideo.setVideoPath(challenge.getCompletedMedia().getUrl());
+                            MediaController mediaController = new MediaController(getActivity());
+                            mediaController.setAnchorView(vvChallengeVideo);
+                            vvChallengeVideo.setMediaController(mediaController);
+                            vvChallengeVideo.requestFocus();
+
+                            vvChallengeVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                // Close the progress bar and play the video
+                                public void onPrepared(MediaPlayer mp) {
+//                            mp.setLooping(true);
+                                    vvChallengeVideo.start();
+                                    // Dismiss spinner
+//                                    spinnerView.setVisibility(View.GONE);
+                                }
+                            });
+                        } else {
+                            Picasso.with(getActivity()).
+                                    load(challenge.getCompletedMedia().getUrl()).
+                                    placeholder(R.drawable.photo_placeholder).
+                                    into(ivChallengeImage);
+                        }
+
+
+                    }
                 }
             }
         });
@@ -128,7 +180,7 @@ public class ChallengeDetailFragment extends Fragment {
                 return new ChallengeDescriptionFragment();
             }
 
-            return CommentListFragment.newInstance(challengeId);
+            return CommentListFragment.newInstance(challengeId, true);
         }
 
         @Override

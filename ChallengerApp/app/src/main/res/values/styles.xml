@@ -38,5 +38,16 @@
 
     <!-- All customizations that are NOT specific to a particular API-level can go here. -->
 
+    <style name="PopupTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
 
 </resources>

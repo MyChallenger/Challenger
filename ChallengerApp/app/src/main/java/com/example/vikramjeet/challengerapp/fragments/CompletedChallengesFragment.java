@@ -64,6 +64,7 @@ public class CompletedChallengesFragment extends Fragment{
                 Challenge challenge = challenges.get(position);
                 // Pass challenge into the intent
                 challengeDetailIntent.putExtra("challenge_id", challenge.getObjectId());
+                Log.d("ObjectID:", challenge.getObjectId());
                 // Start activity
                 startActivity(challengeDetailIntent);
             }
