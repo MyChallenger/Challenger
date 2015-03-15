@@ -15,7 +15,10 @@ import android.widget.VideoView;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
 import com.makeramen.RoundedTransformationBuilder;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -63,8 +66,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
         TextView tvLikes;
         @InjectView(R.id.tvComment_2)
         TextView tvComment;
-        @InjectView(R.id.tvViews_2)
-        TextView tvViews;
+        @InjectView(R.id.tvCategory_2)
+        TextView tvCategory;
 
         public ImageViewHolder(View view) {
             ButterKnife.inject(this, view);
@@ -79,7 +82,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = this.getItemViewType(position);
         // Get challenge
-        Challenge challenge = getItem(position);
+        final Challenge challenge = getItem(position);
 
         // Rounded image transformation
         Transformation transformation = new RoundedTransformationBuilder()
@@ -119,6 +122,32 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                 viewHolder1.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                 viewHolder1.tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
 
+                // Get ViewHolder to call inside callback method
+                final VideoViewHolder tempHolder = viewHolder1;
+
+                // Add Click listener for Like button
+                viewHolder1.tvLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        challenge.like(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                // Increment Like Count so we don't have to call the server again
+                                int newLikeCount = challenge.getNumberOfLikes() + 1;
+                                tempHolder.tvLikes.setText(String.valueOf(newLikeCount));
+                            }
+                        });
+                    }
+                });
+
+                // Add Click listener for Comment Button
+                viewHolder1.tvComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Ask for comment screen here
+                    }
+                });
+
                 if (challenge.getCompletedMedia() != null) {
                     if (viewHolder1.vvCompletedVideo.isPlaying()) {
                         viewHolder1.vvCompletedVideo.stopPlayback();
@@ -131,6 +160,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     mediaController.setAnchorView(viewHolder1.vvCompletedVideo);
                     viewHolder1.vvCompletedVideo.setMediaController(mediaController);
                     viewHolder1.vvCompletedVideo.requestFocus();
+
                     final VideoViewHolder finalViewHolder = viewHolder1;
                     viewHolder1.vvCompletedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         // Close the progress bar and play the video
@@ -171,7 +201,45 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
 
                 viewHolder2.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
                 viewHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-                viewHolder2.tvViews.setText(String.valueOf(challenge.getNumberOfViews()) + " Views");
+                viewHolder2.tvCategory.setText(challenge.getCategory());
+
+                // Get ViewHolder to call inside callback method
+                final ImageViewHolder tempHolder2 = viewHolder2;
+
+                // Add Click listener for Like button
+                viewHolder2.tvLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        challenge.isLiked(new LikeStatusCallback<Boolean>() {
+                            @Override
+                            public void done(Boolean isLiked, ParseException e) {
+                                if (isLiked) {
+                                    challenge.unLike(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                        }
+                                    });
+                                } else {
+                                    challenge.like(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+
+                // Add Click listener for Comment Button
+                viewHolder2.tvComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Ask for comment screen here
+                    }
+                });
 
                 if (challenge.getCompletedMedia() != null) {
                     Picasso.with(getContext()).
