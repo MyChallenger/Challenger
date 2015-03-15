@@ -10,6 +10,23 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
+    <!-- Permission to vibrate - recommended, allows vibration feedback on scan -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Permission to use camera - required -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Camera features - recommended -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
     <permission
         android:name="com.example.vikramjeet.challengerapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -117,6 +134,16 @@
         <activity
             android:name=".activities.LeaderboardActivity"
             android:label="@string/title_activity_leaderboard" >
+        </activity>
+
+        <!-- Activities responsible for gathering payment info -->
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity android:name="io.card.payment.DataEntryActivity" />
+        <activity
+            android:name=".activities.PaymentActivity"
+            android:label="@string/title_activity_payment" >
         </activity>
     </application>
 
