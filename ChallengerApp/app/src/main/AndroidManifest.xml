@@ -69,7 +69,8 @@
         </activity>
         <activity
             android:name=".activities.CommentActivity"
-            android:label="@string/title_activity_comment" >
+            android:label="@string/title_activity_comment"
+            android:theme="@style/PopupTheme" >
         </activity>
         <activity
             android:name=".activities.MainActivity"

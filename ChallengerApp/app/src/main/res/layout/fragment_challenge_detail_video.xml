@@ -34,7 +34,9 @@
         android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"
         android:layout_below="@+id/tvChallengeDetailTitle"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/tvChallengeDetailLike"

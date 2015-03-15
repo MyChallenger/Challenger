@@ -3,10 +3,74 @@
     android:layout_height="match_parent"
     tools:context="com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity" >
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlComposeComment"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivUserPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/photo_placeholder" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ivUserPhoto"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/ivUserPhoto"
+            android:layout_toRightOf="@+id/ivUserPhoto"
+            android:gravity="center_vertical"
+            android:text="Username" />
+
+        <EditText
+            android:id="@+id/etComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tvName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/tvName"
+            android:layout_below="@+id/ivUserPhoto"
+            android:ems="10"
+            android:hint="@string/enter_comment"
+            android:inputType="textMultiLine"
+            android:maxLength="140" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etComment"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btnPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/etComment"
+            android:text="Post" />
+
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/my_placeholder"
         android:layout_height="match_parent"
-        android:layout_width="match_parent" >
+        android:layout_width="match_parent"
+        android:layout_below="@+id/rlComposeComment">
     </FrameLayout>
 
 </RelativeLayout>

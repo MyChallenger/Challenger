@@ -1,6 +1,7 @@
 package com.example.vikramjeet.challengerapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.activities.CommentActivity;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
 import com.makeramen.RoundedTransformationBuilder;
@@ -49,6 +51,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
         TextView tvViews;
         @InjectView(R.id.progress)
         ProgressBar spinnerView;
+        @InjectView(R.id.tvCompletedChallengeTitle)
+        TextView tvTitle;
 
         public VideoViewHolder(View view) {
             ButterKnife.inject(this, view);
@@ -68,6 +72,9 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
         TextView tvComment;
         @InjectView(R.id.tvCategory_2)
         TextView tvCategory;
+        @InjectView(R.id.tvCompletedChallengeTitle_2)
+        TextView tvTitle;
+
 
         public ImageViewHolder(View view) {
             ButterKnife.inject(this, view);
@@ -118,6 +125,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                         .transform(transformation)
                         .into(viewHolder1.ivUserPhoto);
 
+                viewHolder1.tvTitle.setText(challenge.getTitle());
                 viewHolder1.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
                 viewHolder1.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                 viewHolder1.tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
@@ -159,7 +167,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     MediaController mediaController = new MediaController(getContext());
                     mediaController.setAnchorView(viewHolder1.vvCompletedVideo);
                     viewHolder1.vvCompletedVideo.setMediaController(mediaController);
-                    viewHolder1.vvCompletedVideo.requestFocus();
+//                    viewHolder1.vvCompletedVideo.requestFocus();
 
                     final VideoViewHolder finalViewHolder = viewHolder1;
                     viewHolder1.vvCompletedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -199,6 +207,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                         .placeholder(R.drawable.photo_placeholder)
                         .into(viewHolder2.ivUserPhoto);
 
+                viewHolder2.tvTitle.setText(challenge.getTitle());
                 viewHolder2.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
                 viewHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                 viewHolder2.tvCategory.setText(challenge.getCategory());
@@ -238,14 +247,21 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     @Override
                     public void onClick(View v) {
                         // Ask for comment screen here
+                        Intent i = new Intent(getContext(), CommentActivity.class);
+                        getContext().startActivity(i);
                     }
                 });
+
+                // Clear previous data
+                viewHolder2.ivCompletedImage.setImageResource(0);
 
                 if (challenge.getCompletedMedia() != null) {
                     Picasso.with(getContext()).
                             load(challenge.getCompletedMedia().getUrl()).
                             placeholder(R.drawable.photo_placeholder).
                             into(viewHolder2.ivCompletedImage);
+                } else {
+                    viewHolder2.ivCompletedImage.setImageResource(R.drawable.photo_placeholder);
                 }
 
                 return convertView;

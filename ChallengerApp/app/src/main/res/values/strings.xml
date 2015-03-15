@@ -23,4 +23,7 @@
     <string name="title_activity_second">SecondActivity</string>
     <string name="title_activity_complete">CompleteActivity</string>
     <string name="title_activity_leaderboard">LeaderboardActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
