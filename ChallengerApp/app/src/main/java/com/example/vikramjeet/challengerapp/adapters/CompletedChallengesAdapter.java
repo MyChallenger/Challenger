@@ -153,6 +153,10 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     @Override
                     public void onClick(View v) {
                         // Ask for comment screen here
+                        // Ask for comment screen here
+                        Intent i = new Intent(getContext(), CommentActivity.class);
+                        i.putExtra("challenge_id", challenge.getObjectId());
+                        getContext().startActivity(i);
                     }
                 });
 
@@ -248,6 +252,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     public void onClick(View v) {
                         // Ask for comment screen here
                         Intent i = new Intent(getContext(), CommentActivity.class);
+                        i.putExtra("challenge_id", challenge.getObjectId());
                         getContext().startActivity(i);
                     }
                 });
