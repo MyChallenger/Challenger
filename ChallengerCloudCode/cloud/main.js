@@ -68,6 +68,8 @@ Parse.Cloud.define("backChallenge", function(request, response) {
   challenge.set("status", "BACKED");
   challenge.set("backer", user);
   user.increment("challengesBacked");
+  // TODO: How many points does the backer get?
+  user.increment("pointsEarned", 50);
   challenge.save(null, { useMasterKey: true }).then(function() {
     // If I choose to do something else here, it won't be using
     // the master key and I'll be subject to ordinary security measures.
