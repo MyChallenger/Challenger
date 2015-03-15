@@ -11,6 +11,7 @@
     <string name="challenge_completed_by">Completed By:</string>
     <string name="challenge_backed_by">Backed By:</string>
     <string name="challenge_category">Category</string>
+    <string name="points_label">points</string>
 
     <!-- Please put your application's app ID and keys here -->
     <string name="parse_app_id">gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1</string>
