@@ -15,6 +15,8 @@ import com.parse.ParseException;
 
 public class CompletedChallengeDetailActivity extends ActionBarActivity {
 
+    public static final String EXTRA_CHALLENGE_ID = "challenge_id";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,7 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         // Get challege_id from Intent
-        final String challengeId = getIntent().getStringExtra("challenge_id");
+        final String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
 
         // Get challenge from challenge_id
         Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
@@ -40,6 +42,7 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
                         // Get the fragment
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                         ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, Challenge.isVideo(challenge.getCompletedMedia().getUrl()));
+                        Boolean val = Challenge.isVideo(challenge.getCompletedMedia().getUrl());
                         ft.replace(R.id.my_placeholder, challengeDetailFragment);
                         ft.commit();
                     } else {

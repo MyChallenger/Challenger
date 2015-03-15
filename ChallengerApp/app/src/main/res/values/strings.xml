@@ -11,6 +11,7 @@
     <string name="challenge_completed_by">Completed By:</string>
     <string name="challenge_backed_by">Backed By:</string>
     <string name="challenge_category">Category</string>
+    <string name="points_label">points</string>
 
     <!-- Please put your application's app ID and keys here -->
     <string name="parse_app_id">gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1</string>
@@ -21,4 +22,11 @@
     <string name="title_activity_completed_challenge_detail">CompletedChallengeDetailActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_second">SecondActivity</string>
+    <string name="title_activity_complete">CompleteActivity</string>
+    <string name="title_activity_leaderboard">LeaderboardActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_payment">PaymentActivity</string>
+    <string name="scan_card_label">Scan Card</string>
 </resources>

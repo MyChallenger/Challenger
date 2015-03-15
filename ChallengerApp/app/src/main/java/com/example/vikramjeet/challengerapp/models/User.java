@@ -16,6 +16,7 @@ public class User extends ParseUser {
     private static final String FIELD_LOCATION = "location";
     private static final String FIELD_POINTS_EARNED = "pointsEarned"; // read-only
     private static final String FIELD_CHALLENGES_COMPLETED = "challengesCompleted"; // read-only
+    private static final String FIELD_CHALLENGES_BACKED = "challengesBacked"; // read-only
     private static final String FIELD_LEADERBOARD_RANK = "leaderBoardRank"; // read-only
 
     private static final String FACEBOOK_PROFILE_PICTURE = "https://graph.facebook.com/v2.2/%s/picture?type=large";
@@ -71,6 +72,10 @@ public class User extends ParseUser {
 
     public int getChallengesCompleted() {
         return getInt(FIELD_CHALLENGES_COMPLETED);
+    }
+
+    public int getChallengesBacked() {
+        return getInt(FIELD_CHALLENGES_BACKED);
     }
 
     public int getLeaderBoardRank() {

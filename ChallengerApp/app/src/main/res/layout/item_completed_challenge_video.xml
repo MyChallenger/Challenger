@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp" >
+    android:padding="10dp"
+    android:descendantFocusability="blocksDescendants" >
 
     <ImageView
         android:layout_width="50dp"
@@ -20,7 +21,6 @@
         android:id="@+id/tvCompletedUserName"
         android:layout_toRightOf="@+id/ivCompletedUserPhoto"
         android:layout_alignTop="@+id/ivCompletedUserPhoto"
-        android:layout_alignBottom="@+id/ivCompletedUserPhoto"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical" />
 
@@ -32,7 +32,16 @@
         android:layout_alignLeft="@+id/ivCompletedUserPhoto"
         android:layout_alignStart="@+id/ivCompletedUserPhoto"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:focusable="false"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -76,5 +85,18 @@
         android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
         android:layout_alignBottom="@+id/tvComment" />
+
+    <TextView
+        android:id="@+id/tvCompletedChallengeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvCompletedUserName"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@+id/tvCompletedUserName"
+        android:layout_below="@+id/tvCompletedUserName"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Title" />
 
 </RelativeLayout>

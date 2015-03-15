@@ -34,14 +34,16 @@ public class CommentListFragment extends Fragment {
     private String challengeId;
     private ArrayList<Comment> comments;
     private CommentListAdapter commentAdapter;
+    private Boolean isComposeView;
 
-    public static CommentListFragment newInstance(String challengeID) {
+    public static CommentListFragment newInstance(String challengeID, Boolean showComposeView) {
         // Create fragment
         CommentListFragment fragment = new CommentListFragment();
         // Create Bundle
         Bundle args = new Bundle();
         // Populate bundle
         args.putString("challenge_id", challengeID);
+        args.putBoolean("compose_view", showComposeView);
         // Set arguments to fragment
         fragment.setArguments(args);
 
@@ -53,6 +55,7 @@ public class CommentListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Get arguments and populate fragmentType
         challengeId = getArguments().getString("challenge_id");
+        isComposeView = getArguments().getBoolean("compose_view");
         // Get data source
         comments = new ArrayList<Comment>();
         // Create adapter

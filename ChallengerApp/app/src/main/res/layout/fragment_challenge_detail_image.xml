@@ -30,14 +30,14 @@
         android:id="@+id/ivChallengeDetail"
         android:layout_width="wrap_content"
         android:layout_height="165dp"
-        android:layout_alignEnd="@+id/challengeDetailTabs"
         android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"
-        android:layout_alignRight="@+id/challengeDetailTabs"
         android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"
         android:layout_below="@+id/tvChallengeDetailTitle"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:src="@drawable/photo_placeholder" />
+        android:src="@drawable/photo_placeholder"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/tvChallengeDetailLike"

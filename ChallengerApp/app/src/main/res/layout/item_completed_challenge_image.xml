@@ -20,13 +20,12 @@
         android:id="@+id/tvCompletedUserName_2"
         android:layout_toRightOf="@+id/ivCompletedUserPhoto_2"
         android:layout_alignTop="@+id/ivCompletedUserPhoto_2"
-        android:layout_alignBottom="@+id/ivCompletedUserPhoto_2"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical" />
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="225dp"
+        android:layout_height="200dp"
         android:id="@+id/ivCompletedChallenge"
         android:layout_below="@+id/ivCompletedUserPhoto_2"
         android:layout_alignLeft="@+id/ivCompletedUserPhoto_2"
@@ -70,8 +69,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="5000 Views"
-        android:id="@+id/tvViews_2"
+        android:text="Hard"
+        android:id="@+id/tvCategory_2"
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
         android:layout_alignTop="@+id/tvComment_2"
@@ -79,5 +78,18 @@
         android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
         android:layout_alignBottom="@+id/tvComment_2" />
+
+    <TextView
+        android:id="@+id/tvCompletedChallengeTitle_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvCompletedUserName_2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@+id/tvCompletedUserName_2"
+        android:layout_below="@+id/tvCompletedUserName_2"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Title" />
 
 </RelativeLayout>
