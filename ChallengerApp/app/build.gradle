@@ -34,4 +34,6 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     // Rounded image library
     compile 'com.makeramen:roundedimageview:1.5.0'
+    // Card.io credit card scanning library
+    compile 'io.card:android-sdk:5.0.0'
 }
