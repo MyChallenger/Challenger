@@ -29,7 +29,10 @@ public class LeaderboardActivity extends ActionBarActivity {
                 new LeaderboardQueryAdapter<>(this, new LeaderboardQueryAdapter.QueryFactory<User>() {
                     public ParseQuery<User> create() {
                         ParseQuery query = User.getQuery();
+                        // Order by leaderBoardRank
                         query.orderByAscending("leaderBoardRank");
+                        // Then by name
+                        query.addAscendingOrder("name");
                         return query;
                     }
                 });
