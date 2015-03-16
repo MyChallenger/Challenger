@@ -10,6 +10,8 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        // http://stackoverflow.com/questions/15209831/unable-to-execute-dex-method-id-not-in-0-0xffff-65536
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -36,4 +38,12 @@ dependencies {
     compile 'com.makeramen:roundedimageview:1.5.0'
     // Card.io credit card scanning library
     compile 'io.card:android-sdk:5.0.0'
+
+    //    compile 'com.google.android.gms:play-services:+'
+    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev120-1.19.0'
+    compile 'com.google.http-client:google-http-client-android:+'
+    compile 'com.google.api-client:google-api-client-android:+'
+    compile 'com.google.api-client:google-api-client-gson:+'
+    compile 'com.google.code.gson:gson:2.2.4'
 }
