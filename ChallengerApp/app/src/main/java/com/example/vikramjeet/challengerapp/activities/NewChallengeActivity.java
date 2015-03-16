@@ -24,6 +24,7 @@ import com.parse.SaveCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 import static junit.framework.Assert.assertNull;
 
@@ -139,7 +140,7 @@ public class NewChallengeActivity extends ActionBarActivity {
                 //await();
                 //newChallenge.setCreatedMedia(gallaryMedia);
             }
-            //newChallenge.setExpiryDate(spExpiry.getSelectedItem().toString());
+            newChallenge.setExpiryDate(calculateExpiryTime(spExpiry.getSelectedItemPosition()));
            // newChallenge.setLocation(etLocation.getText().toString()); // Convert to geo location
             try {
                 newChallenge.save();
@@ -155,6 +156,24 @@ public class NewChallengeActivity extends ActionBarActivity {
 
         return true;
     }
+
+    private Date calculateExpiryTime( int offset) {
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        Date today = null;
+        if( offset == 0) {
+            today  = new Date(System.currentTimeMillis()+  DAY_IN_MS);
+        }
+        else if(offset == 1)
+            today =new Date(System.currentTimeMillis() + 2 * DAY_IN_MS);
+        else if(offset == 2)
+            today =new Date(System.currentTimeMillis() + 3 * DAY_IN_MS);
+        else if(offset == 3)
+            today =new Date(System.currentTimeMillis() + 7 * DAY_IN_MS);
+        else if(offset == 4)
+            today =new Date(System.currentTimeMillis() + 14 * DAY_IN_MS);
+        return today;
+    }
+
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1047;
 
