@@ -139,7 +139,7 @@ public class PlayVideoActivity extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_play);
+        setContentView(R.layout.activity_play_video);
         intent = getIntent();
         Button submitButton = (Button) findViewById(R.id.submit_button);
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {

@@ -14,10 +14,13 @@
 
 package com.example.vikramjeet.challengerapp.services;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.ResultReceiver;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -98,6 +101,10 @@ public class UploadService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
+        // Extract the receiver passed into the service
+        ResultReceiver rec = intent.getParcelableExtra("receiver");
+
         Uri fileUri = intent.getData();
         String chosenAccountName = intent.getStringExtra(PickVideoActivity.ACCOUNT_KEY);
 
@@ -113,20 +120,25 @@ public class UploadService extends IntentService {
 
 
         try {
-            tryUploadAndShowSelectableNotification(fileUri, youtube);
+            String videoId = tryUploadAndShowSelectableNotification(fileUri, youtube);
+            // To send a message to the Activity, create a pass a Bundle
+            Bundle bundle = new Bundle();
+            bundle.putString("resultValue", videoId);
+            // Here we call send passing a resultCode and the bundle of extras
+            rec.send(Activity.RESULT_OK, bundle);
         } catch (InterruptedException e) {
             // ignore
         }
     }
 
-    private void tryUploadAndShowSelectableNotification(final Uri fileUri, final YouTube youtube) throws InterruptedException {
+    private String tryUploadAndShowSelectableNotification(final Uri fileUri, final YouTube youtube) throws InterruptedException {
         while (true) {
             Log.i(TAG, String.format("Uploading [%s] to YouTube", fileUri.toString()));
             String videoId = tryUpload(fileUri, youtube);
             if (videoId != null) {
                 Log.i(TAG, String.format("Uploaded video with ID: %s", videoId));
                 tryShowSelectableNotification(videoId, youtube);
-                return;
+                return videoId;
             } else {
                 Log.e(TAG, String.format("Failed to upload %s", fileUri.toString()));
                 if (mUploadAttemptCount++ < MAX_RETRY) {
@@ -136,7 +148,7 @@ public class UploadService extends IntentService {
                 } else {
                     Log.e(TAG, String.format("Giving up on trying to upload %s after %d attempts",
                             fileUri.toString(), mUploadAttemptCount));
-                    return;
+                    return null;
                 }
             }
         }

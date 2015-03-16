@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +21,8 @@ import com.example.vikramjeet.challengerapp.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
 import com.example.vikramjeet.challengerapp.services.UploadService;
 
 public class ReviewVideoActivity extends ActionBarActivity {
@@ -32,11 +35,13 @@ public class ReviewVideoActivity extends ActionBarActivity {
     private String mChosenAccountName;
     private Uri mFileUri;
 
+    private UploadResultReceiver mUploadResultReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_review);
+        setContentView(R.layout.activity_review_video);
         ButterKnife.inject(this);
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
@@ -47,6 +52,7 @@ public class ReviewVideoActivity extends ActionBarActivity {
         loadAccount();
 
         reviewVideo(mFileUri);
+        setupServiceReceiver();
     }
 
     private void reviewVideo(Uri mFileUri) {
@@ -85,12 +91,29 @@ public class ReviewVideoActivity extends ActionBarActivity {
             Intent uploadIntent = new Intent(this, UploadService.class);
             uploadIntent.setData(mFileUri);
             uploadIntent.putExtra(PickVideoActivity.ACCOUNT_KEY, mChosenAccountName);
+            uploadIntent.putExtra("receiver", mUploadResultReceiver);
+            uploadIntent.putExtra("receiver", mUploadResultReceiver);
             startService(uploadIntent);
             Toast.makeText(this, R.string.youtube_upload_started,
                     Toast.LENGTH_LONG).show();
             // Go back to PickVideoActivity after upload
             finish();
         }
+    }
+
+    // Setup the callback for when data is received from the service
+    public void setupServiceReceiver() {
+        mUploadResultReceiver = new UploadResultReceiver(new Handler());
+        // This is where we specify what happens when data is received from the service
+        mUploadResultReceiver.setReceiver(new UploadResultReceiver.Receiver() {
+            @Override
+            public void onReceiveResult(int resultCode, Bundle resultData) {
+                if (resultCode == RESULT_OK) {
+                    String videoId = resultData.getString("resultValue");
+                    Toast.makeText(ReviewVideoActivity.this, videoId, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
