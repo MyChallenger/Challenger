@@ -2,6 +2,7 @@ package com.example.vikramjeet.challengerapp.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class OpenChallengesFragment extends Fragment {
     private ListView lvOpenChallenges;
 
     private int mPage;
+    private SwipeRefreshLayout swipeContainer;
 
     public static OpenChallengesFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -64,7 +66,7 @@ public class OpenChallengesFragment extends Fragment {
                     // Add new data to tweetAdapter
                     aOpenChallenges.addAll(challenges);
                     // Now we call setRefreshing(false) to signal refresh has finished
-                    //  swipeContainer.setRefreshing(false);
+                    swipeContainer.setRefreshing(false);
                 } else {
                     Log.d("Completed Challenges", "Error: " + e.getMessage());
                 }
@@ -81,6 +83,24 @@ public class OpenChallengesFragment extends Fragment {
         View view = inflater.inflate(R.layout.open_challenges_fragment, container, false);
         lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
         lvOpenChallenges.setAdapter(aOpenChallenges);
+
+        // Get SwipeContainer
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerOpenChallenges);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                populateData();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         return view;
     }
 }
