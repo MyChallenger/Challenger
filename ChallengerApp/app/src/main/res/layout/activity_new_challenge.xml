@@ -54,11 +54,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
+        android:onClick="onPickPhoto"
+        android:scaleType="fitCenter"
         android:layout_alignBottom="@+id/etImageURL"
         android:layout_toRightOf="@+id/etImageURL"
         android:layout_toEndOf="@+id/etImageURL"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:minHeight="40dp"
+        android:minWidth="40dp"
+        android:maxHeight="40dp"
+        android:maxWidth="40dp" />
 
     <TextView
         android:layout_width="wrap_content"

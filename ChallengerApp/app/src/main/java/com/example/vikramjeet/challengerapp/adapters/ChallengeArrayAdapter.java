@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +29,7 @@ public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
     @InjectView(R.id.tvCategory) TextView tvCategory;
     @InjectView(R.id.tvGoal) TextView tvGoal;
     @InjectView(R.id.tvExpiry) TextView tvExpiry;
+    @InjectView(R.id.ivProfile) ImageView ivProfile;
     public ChallengeArrayAdapter(Context context, List<Challenge> challengeList) {
         super(context, android.R.layout.simple_list_item_1, challengeList);
     }
@@ -44,8 +47,11 @@ public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
         tvCategory.setText(challenge.getCategory());
         tvTitle.setText(challenge.getTitle());
         tvGoal.setText("Goal:"+ " $" + challenge.getPrize());
+        if(challenge.getCreatedMedia() != null)
+            Picasso.with(getContext()).load(challenge.getCreatedMedia().getUrl()).into(ivProfile);
         // FIXME: Format this date!
         tvExpiry.setText("expires " +getRelativeTimeAgo(challenge.getExpiryDate().toString()));
+        //tvExpiry.setText("2 days left");
         return convertView;
     }
 
