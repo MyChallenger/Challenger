@@ -1,4 +1,4 @@
-package ytdl;
+package com.example.vikramjeet.challengerapp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,8 +18,16 @@ import android.widget.VideoView;
 
 import com.example.vikramjeet.challengerapp.R;
 
-public class ReviewActivity extends ActionBarActivity {
-    VideoView mVideoView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.example.vikramjeet.challengerapp.services.UploadService;
+
+public class ReviewVideoActivity extends ActionBarActivity {
+    @InjectView(R.id.vv)
+    VideoView vv;
+    @InjectView(R.id.btnUpload)
+    Button btnUpload;
+
     MediaController mc;
     private String mChosenAccountName;
     private Uri mFileUri;
@@ -29,10 +37,10 @@ public class ReviewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_review);
-        Button uploadButton = (Button) findViewById(R.id.upload_button);
+        ButterKnife.inject(this);
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            uploadButton.setVisibility(View.GONE);
+            btnUpload.setVisibility(View.GONE);
             setTitle(R.string.playing_the_video_in_upload_progress);
         }
         mFileUri = intent.getData();
@@ -43,12 +51,12 @@ public class ReviewActivity extends ActionBarActivity {
 
     private void reviewVideo(Uri mFileUri) {
         try {
-            mVideoView = (VideoView) findViewById(R.id.videoView);
+            vv = (VideoView) findViewById(R.id.vv);
             mc = new MediaController(this);
-            mVideoView.setMediaController(mc);
-            mVideoView.setVideoURI(mFileUri);
+            vv.setMediaController(mc);
+            vv.setVideoURI(mFileUri);
             mc.show();
-            mVideoView.start();
+            vv.start();
         } catch (Exception e) {
             Log.e(this.getLocalClassName(), e.toString());
         }
@@ -57,8 +65,8 @@ public class ReviewActivity extends ActionBarActivity {
     private void loadAccount() {
         SharedPreferences sp = PreferenceManager
                 .getDefaultSharedPreferences(this);
-        mChosenAccountName = sp.getString(UploadVideoActivity.ACCOUNT_KEY, null);
-        invalidateOptionsMenu();
+        mChosenAccountName = sp.getString(PickVideoActivity.ACCOUNT_KEY, null);
+        supportInvalidateOptionsMenu();
     }
 
     @Override
@@ -76,11 +84,11 @@ public class ReviewActivity extends ActionBarActivity {
         if (mFileUri != null) {
             Intent uploadIntent = new Intent(this, UploadService.class);
             uploadIntent.setData(mFileUri);
-            uploadIntent.putExtra(UploadVideoActivity.ACCOUNT_KEY, mChosenAccountName);
+            uploadIntent.putExtra(PickVideoActivity.ACCOUNT_KEY, mChosenAccountName);
             startService(uploadIntent);
             Toast.makeText(this, R.string.youtube_upload_started,
                     Toast.LENGTH_LONG).show();
-            // Go back to MainActivity after upload
+            // Go back to PickVideoActivity after upload
             finish();
         }
     }

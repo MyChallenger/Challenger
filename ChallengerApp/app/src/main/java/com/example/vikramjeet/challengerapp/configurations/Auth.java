@@ -12,7 +12,7 @@
  * the License.
  */
 
-package ytdl;
+package com.example.vikramjeet.challengerapp.configurations;
 
 import com.google.android.gms.common.Scopes;
 import com.google.api.services.youtube.YouTubeScopes;

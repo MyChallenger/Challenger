@@ -12,9 +12,9 @@
  * the License.
  */
 
-package ytdl.util;
+package com.example.vikramjeet.challengerapp.services.utilities;
 
-import ytdl.Constants;
+import com.example.vikramjeet.challengerapp.configurations.Constants;
 
 public class Upload {
     public static String generateKeywordFromPlaylistId(String playlistId) {

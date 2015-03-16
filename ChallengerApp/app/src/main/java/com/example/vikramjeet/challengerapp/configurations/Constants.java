@@ -12,7 +12,7 @@
  * the License.
  */
 
-package ytdl;
+package com.example.vikramjeet.challengerapp.configurations;
 
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>

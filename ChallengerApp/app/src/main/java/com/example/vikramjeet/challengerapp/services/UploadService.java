@@ -12,7 +12,7 @@
  * the License.
  */
 
-package ytdl;
+package com.example.vikramjeet.challengerapp.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -22,6 +22,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.activities.PickVideoActivity;
+import com.example.vikramjeet.challengerapp.services.utilities.ResumableUpload;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
@@ -34,6 +36,8 @@ import com.google.common.collect.Lists;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.example.vikramjeet.challengerapp.configurations.Auth;
 
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>
@@ -50,7 +54,7 @@ public class UploadService extends IntentService {
     /**
      * controls how often to poll for video processing status
      */
-    private static final int PROCESSING_POLL_INTERVAL_SEC = 60;
+    private static final int PROCESSING_POLL_INTERVAL_SEC = 30;
     /**
      * how long to wait before re-trying the upload
      */
@@ -95,7 +99,7 @@ public class UploadService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Uri fileUri = intent.getData();
-        String chosenAccountName = intent.getStringExtra(UploadVideoActivity.ACCOUNT_KEY);
+        String chosenAccountName = intent.getStringExtra(PickVideoActivity.ACCOUNT_KEY);
 
         credential =
                 GoogleAccountCredential.usingOAuth2(getApplicationContext(), Lists.newArrayList(Auth.SCOPES));
@@ -181,7 +185,9 @@ public class UploadService extends IntentService {
             Log.e(getApplicationContext().toString(), e.getMessage());
         } finally {
             try {
-                fileInputStream.close();
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
             } catch (IOException e) {
                 // ignore
             }
