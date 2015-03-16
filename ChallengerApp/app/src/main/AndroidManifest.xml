@@ -12,6 +12,19 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- YouTube -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.NETWORK" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- /YouTube -->
+
     <!-- Permission to vibrate - recommended, allows vibration feedback on scan -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -41,6 +54,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity
             android:name=".activities.ChallengerDispatchActivity"
             android:label="@string/app_name"
@@ -154,6 +170,26 @@
             android:name=".activities.NewChallengeActivity"
             android:label="@string/title_activity_new_challenge" >
         </activity>
+
+        <service
+            android:name=".services.UploadService"
+            android:exported="true" />
+
+        <activity
+            android:name=".activities.PickVideoActivity"
+            android:label="@string/title_activity_payment" >
+        </activity>
+
+        <activity
+            android:name=".activities.ReviewVideoActivity"
+            android:label="@string/title_activity_review"
+            android:parentActivityName=".activities.PickVideoActivity"/>
+
+        <activity
+            android:name=".activities.PlayVideoActivity"
+            android:label="@string/title_activity_review"
+            android:parentActivityName=".activities.PickVideoActivity"/>
+
     </application>
 
 </manifest>
