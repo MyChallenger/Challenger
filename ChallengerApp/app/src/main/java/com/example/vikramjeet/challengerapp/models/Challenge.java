@@ -43,6 +43,11 @@ public class Challenge extends ParseObject {
     private static final String FIELD_BACKER = "backer";
     private static final String FIELD_STATUS = "status";
     private static final String FIELD_LIKES = "likes";
+    private static final String FIELD_CREATED_MEDIA_ID = "createdMediaId";
+    private static final String FIELD_CREATED_MEDIA_PROVIDER = "createdMediaProvider";
+    private static final String FIELD_COMPLETED_MEDIA_ID = "completedMediaId";
+    private static final String FIELD_COMPLETED_MEDIA_PROVIDER = "completedMediaProvider";
+
 
     // Other constants
     private static final String CHALLENGE_ID = "challengeId";
@@ -101,6 +106,38 @@ public class Challenge extends ParseObject {
 
     public int getNumberOfViews() {
         return getInt(FIELD_NUMBER_OF_VIEWS);
+    }
+
+    public String getCreatedMediaId() {
+        return getString(FIELD_CREATED_MEDIA_ID);
+    }
+
+    public void setCreatedMediaId(String createdMediaId) {
+        put(FIELD_CREATED_MEDIA_ID, createdMediaId);
+    }
+
+    public String getCompletedMediaId() {
+        return getString(FIELD_COMPLETED_MEDIA_ID);
+    }
+
+    public void setCompletedMediaId(String completedMediaId) {
+        put(FIELD_COMPLETED_MEDIA_ID, completedMediaId);
+    }
+
+    public MediaProvider getCreatedMediaProvider() {
+        return MediaProvider.valueOf(getString(FIELD_CREATED_MEDIA_PROVIDER));
+    }
+
+    public void setCreatedMediaProvider(MediaProvider createdMediaProvider) {
+        put(FIELD_CREATED_MEDIA_PROVIDER, createdMediaProvider.toString());
+    }
+
+    public MediaProvider getCompletedMediaProvider() {
+        return MediaProvider.valueOf(getString(FIELD_COMPLETED_MEDIA_PROVIDER));
+    }
+
+    public void setCompletedMediaProvider(MediaProvider completedMediaProvider) {
+        put(FIELD_COMPLETED_MEDIA_PROVIDER, completedMediaProvider.toString());
     }
 
     public int getNumberOfComments() {
