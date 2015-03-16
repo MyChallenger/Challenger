@@ -172,22 +172,23 @@
         </activity>
 
         <service
-            android:name="ytdl.UploadService"
+            android:name=".services.UploadService"
             android:exported="true" />
 
         <activity
-            android:name="ytdl.UploadVideoActivity"
+            android:name=".activities.PickVideoActivity"
             android:label="@string/title_activity_payment" >
         </activity>
 
         <activity
-            android:name="ytdl.PlayActivity"
-            android:label="@string/title_activity_play"
-            android:parentActivityName="ytdl.UploadVideoActivity"/>
-        <activity
-            android:name="ytdl.ReviewActivity"
+            android:name=".activities.ReviewVideoActivity"
             android:label="@string/title_activity_review"
-            android:parentActivityName="ytdl.UploadVideoActivity"/>
+            android:parentActivityName=".activities.PickVideoActivity"/>
+
+        <activity
+            android:name=".activities.PlayVideoActivity"
+            android:label="@string/title_activity_review"
+            android:parentActivityName=".activities.PickVideoActivity"/>
 
     </application>
 

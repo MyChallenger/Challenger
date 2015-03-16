@@ -1,4 +1,25 @@
-package ytdl;
+/*
+ * Copyright (c) 2013 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+/**
+ * @author Ibrahim Ulukaya <ulukaya@google.com>
+ *         <p/>
+ *         Main fragment showing YouTube Direct Lite upload options and having
+ *         YT Android Player.
+ */
+
+package com.example.vikramjeet.challengerapp.activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -12,64 +33,21 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.OnFullscreenListener;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
 
-import ytdl.util.ImageFetcher;
-import ytdl.util.VideoData;
 
-/*
- * Copyright (c) 2013 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
-/**
- * @author Ibrahim Ulukaya <ulukaya@google.com>
- *         <p/>
- *         Main fragment showing YouTube Direct Lite upload options and having
- *         YT Android Player.
- */
-public class PlayActivity extends ActionBarActivity implements
+public class PlayVideoActivity extends ActionBarActivity implements
         PlayerStateChangeListener, OnFullscreenListener {
 
     private static final String YOUTUBE_FRAGMENT_TAG = "youtube";
-    final HttpTransport transport = AndroidHttp.newCompatibleTransport();
-    final JsonFactory jsonFactory = new GsonFactory();
-    GoogleAccountCredential credential;
     private YouTubePlayer mYouTubePlayer;
     private boolean mIsFullScreen = false;
     private Intent intent;
-
-    public PlayActivity() {
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 
     public void directLite(View view) {
         this.setResult(RESULT_OK, intent);
@@ -95,9 +73,9 @@ public class PlayActivity extends ActionBarActivity implements
                         youTubePlayer.loadVideo(youtubeId);
                         mYouTubePlayer = youTubePlayer;
                         youTubePlayer
-                                .setPlayerStateChangeListener(PlayActivity.this);
+                                .setPlayerStateChangeListener(PlayVideoActivity.this);
                         youTubePlayer
-                                .setOnFullscreenListener(PlayActivity.this);
+                                .setOnFullscreenListener(PlayVideoActivity.this);
                     }
 
                     @Override
@@ -168,7 +146,7 @@ public class PlayActivity extends ActionBarActivity implements
             submitButton.setVisibility(View.GONE);
             setTitle(R.string.playing_uploaded_video);
         }
-        String youtubeId = intent.getStringExtra(UploadVideoActivity.YOUTUBE_ID);
+        String youtubeId = intent.getStringExtra(PickVideoActivity.YOUTUBE_ID);
         panToVideo(youtubeId);
     }
 
@@ -194,14 +172,5 @@ public class PlayActivity extends ActionBarActivity implements
     public void onBackPressed() {
         super.onBackPressed();
         NavUtils.navigateUpFromSameTask(this);
-    }
-
-    public interface Callbacks {
-        public ImageFetcher onGetImageFetcher();
-
-        public void onVideoSelected(VideoData video);
-
-        public void onResume();
-
     }
 }

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package ytdl.util;
+package com.example.vikramjeet.challengerapp.utilities;
 
 import android.app.Activity;
 import android.content.res.Resources;

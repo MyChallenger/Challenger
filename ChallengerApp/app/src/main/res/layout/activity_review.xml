@@ -16,7 +16,7 @@
         android:layout_weight="1">
 
         <VideoView
-            android:id="@+id/videoView"
+            android:id="@+id/vv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
@@ -28,7 +28,7 @@
         android:background="#eee">
 
         <Button
-            android:id="@+id/upload_button"
+            android:id="@+id/btnUpload"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

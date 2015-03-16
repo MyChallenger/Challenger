@@ -12,7 +12,7 @@
  * the License.
  */
 
-package ytdl;
+package com.example.vikramjeet.challengerapp.services.utilities;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -28,6 +28,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.activities.PickVideoActivity;
+import com.example.vikramjeet.challengerapp.activities.PlayVideoActivity;
+import com.example.vikramjeet.challengerapp.activities.ReviewVideoActivity;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.googleapis.media.MediaHttpUploader;
@@ -48,7 +51,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import ytdl.util.Upload;
+import com.example.vikramjeet.challengerapp.configurations.Constants;
 
 
 /**
@@ -84,7 +87,7 @@ public class ResumableUpload {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-        Intent notificationIntent = new Intent(context, ReviewActivity.class);
+        Intent notificationIntent = new Intent(context, ReviewVideoActivity.class);
         notificationIntent.setData(mFileUri);
         notificationIntent.setAction(Intent.ACTION_VIEW);
         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path, Thumbnails.MICRO_KIND);
@@ -208,10 +211,10 @@ public class ResumableUpload {
                                     UserRecoverableAuthIOException userRecoverableException) {
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
         Intent authIntent = userRecoverableException.getIntent();
-        Intent runReqAuthIntent = new Intent(UploadVideoActivity.REQUEST_AUTHORIZATION_INTENT);
-        runReqAuthIntent.putExtra(UploadVideoActivity.REQUEST_AUTHORIZATION_INTENT_PARAM, authIntent);
+        Intent runReqAuthIntent = new Intent(PickVideoActivity.REQUEST_AUTHORIZATION_INTENT);
+        runReqAuthIntent.putExtra(PickVideoActivity.REQUEST_AUTHORIZATION_INTENT_PARAM, authIntent);
         manager.sendBroadcast(runReqAuthIntent);
-        Log.d(TAG, String.format("Sent broadcast %s", UploadVideoActivity.REQUEST_AUTHORIZATION_INTENT));
+        Log.d(TAG, String.format("Sent broadcast %s", PickVideoActivity.REQUEST_AUTHORIZATION_INTENT));
     }
 
     private static void notifyFailedUpload(Context context, String message, NotificationManager notifyManager,
@@ -227,8 +230,8 @@ public class ResumableUpload {
         final NotificationManager notifyManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Intent notificationIntent = new Intent(context, PlayActivity.class);
-        notificationIntent.putExtra(UploadVideoActivity.YOUTUBE_ID, videoId);
+        Intent notificationIntent = new Intent(context, PlayVideoActivity.class);
+        notificationIntent.putExtra(PickVideoActivity.YOUTUBE_ID, videoId);
         notificationIntent.setAction(Intent.ACTION_VIEW);
 
         URL url;

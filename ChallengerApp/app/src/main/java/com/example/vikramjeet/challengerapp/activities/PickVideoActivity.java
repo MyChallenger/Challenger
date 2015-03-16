@@ -12,7 +12,7 @@
  * the License.
  */
 
-package ytdl;
+package com.example.vikramjeet.challengerapp.activities;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -31,19 +31,16 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.configurations.Auth;
+import com.example.vikramjeet.challengerapp.configurations.Constants;
+import com.example.vikramjeet.challengerapp.models.VideoData;
+import com.example.vikramjeet.challengerapp.utilities.Utils;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -59,7 +56,6 @@ import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoListResponse;
-import com.google.api.services.youtube.model.VideoSnippet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,24 +64,21 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import ytdl.util.ImageFetcher;
-import ytdl.util.Upload;
-import ytdl.util.Utils;
-import ytdl.util.VideoData;
+import butterknife.ButterKnife;
 
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>
  *         <p/>
  *         Main activity class which handles authorization and intents.
  */
-public class UploadVideoActivity extends ActionBarActivity {
+public class PickVideoActivity extends ActionBarActivity {
     // private static final int MEDIA_TYPE_VIDEO = 7;
     public static final String ACCOUNT_KEY = "accountName";
     public static final String MESSAGE_KEY = "message";
     public static final String YOUTUBE_ID = "youtubeId";
     public static final String YOUTUBE_WATCH_URL_PREFIX = "http://www.youtube.com/watch?v=";
-    static final String REQUEST_AUTHORIZATION_INTENT = "com.google.example.yt.RequestAuth";
-    static final String REQUEST_AUTHORIZATION_INTENT_PARAM = "com.google.example.yt.RequestAuth.param";
+    public static final String REQUEST_AUTHORIZATION_INTENT = "com.google.example.yt.RequestAuth";
+    public static final String REQUEST_AUTHORIZATION_INTENT_PARAM = "com.google.example.yt.RequestAuth.param";
     private static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
     private static final int REQUEST_GMS_ERROR_DIALOG = 1;
     private static final int REQUEST_ACCOUNT_PICKER = 2;
@@ -97,125 +90,34 @@ public class UploadVideoActivity extends ActionBarActivity {
     final HttpTransport transport = AndroidHttp.newCompatibleTransport();
     final JsonFactory jsonFactory = new GsonFactory();
     GoogleAccountCredential credential;
-    private ImageFetcher mImageFetcher;
     private String mChosenAccountName;
     private Uri mFileURI = null;
-    private VideoData mVideoData;
+//    private VideoData mVideoData;
     private UploadBroadcastReceiver broadcastReceiver;
-//    private UploadsListFragment mUploadsListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_upload_video);
+        // Inject Butterknife
+        ButterKnife.inject(this);
 
-        // Check to see if the proper keys and playlist IDs have been set up
-        if (!isCorrectlyConfigured()) {
-            setContentView(R.layout.developer_setup_required);
-            showMissingConfigurations();
+        credential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(Auth.SCOPES));
+        // set exponential backoff policy
+        credential.setBackOff(new ExponentialBackOff());
+
+        if (savedInstanceState != null) {
+            mChosenAccountName = savedInstanceState.getString(ACCOUNT_KEY);
         } else {
-            setContentView(R.layout.activity_upload_video);
-
-            ensureFetcher();
-
-            credential = GoogleAccountCredential.usingOAuth2(
-                    getApplicationContext(), Arrays.asList(Auth.SCOPES));
-            // set exponential backoff policy
-            credential.setBackOff(new ExponentialBackOff());
-
-            if (savedInstanceState != null) {
-                mChosenAccountName = savedInstanceState.getString(ACCOUNT_KEY);
-            } else {
-                loadAccount();
-            }
-
-            credential.setSelectedAccountName(mChosenAccountName);
-
-//            mUploadsListFragment = (UploadsListFragment) getSupportFragmentManager()
-//                    .findFragmentById(R.id.list_fragment);
-        }
-    }
-
-    /**
-     * This method checks various internal states to figure out at startup time
-     * whether certain elements have been configured correctly by the developer.
-     * Checks that:
-     * <ul>
-     * <li>the API key has been configured</li>
-     * <li>the playlist ID has been configured</li>
-     * </ul>
-     *
-     * @return true if the application is correctly configured for use, false if
-     * not
-     */
-    private boolean isCorrectlyConfigured() {
-        // This isn't going to internationalize well, but we only really need
-        // this for the sample app.
-        // Real applications will remove this section of code and ensure that
-        // all of these values are configured.
-        if (Auth.KEY.startsWith("Replace")) {
-            return false;
-        }
-        if (Constants.UPLOAD_PLAYLIST.startsWith("Replace")) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * This method renders the ListView explaining what the configurations the
-     * developer of this application has to complete. Typically, these are
-     * static variables defined in {@link Auth} and {@link Constants}.
-     */
-    private void showMissingConfigurations() {
-        List<MissingConfig> missingConfigs = new ArrayList<MissingConfig>();
-
-        // Make sure an API key is registered
-        if (Auth.KEY.startsWith("Replace")) {
-            missingConfigs
-                    .add(new MissingConfig(
-                            "API key not configured",
-                            "KEY constant in Auth.java must be configured with your Simple API key from the Google API Console"));
+            loadAccount();
         }
 
-        // Make sure a playlist ID is registered
-        if (Constants.UPLOAD_PLAYLIST.startsWith("Replace")) {
-            missingConfigs
-                    .add(new MissingConfig(
-                            "Playlist ID not configured",
-                            "UPLOAD_PLAYLIST constant in Constants.java must be configured with a Playlist ID to submit to. (The playlist ID typically has a prexix of PL)"));
-        }
+        // If we dont have an account name, this should trigger a popup
+        haveGooglePlayServices();
 
-        // Renders a simple_list_item_2, which consists of a title and a body
-        // element
-        ListAdapter adapter = new ArrayAdapter<MissingConfig>(this,
-                android.R.layout.simple_list_item_2, missingConfigs) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View row;
-                if (convertView == null) {
-                    LayoutInflater inflater = (LayoutInflater) getApplicationContext()
-                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    row = inflater.inflate(android.R.layout.simple_list_item_2,
-                            null);
-                } else {
-                    row = convertView;
-                }
-
-                TextView titleView = (TextView) row
-                        .findViewById(android.R.id.text1);
-                TextView bodyView = (TextView) row
-                        .findViewById(android.R.id.text2);
-                MissingConfig config = getItem(position);
-                titleView.setText(config.title);
-                bodyView.setText(config.body);
-                return row;
-            }
-        };
-
-        // Wire the data adapter up to the view
-        ListView missingConfigList = (ListView) findViewById(R.id.missing_config_list);
-        missingConfigList.setAdapter(adapter);
+        credential.setSelectedAccountName(mChosenAccountName);
     }
 
     @Override
@@ -229,26 +131,17 @@ public class UploadVideoActivity extends ActionBarActivity {
                 broadcastReceiver, intentFilter);
     }
 
-    private void ensureFetcher() {
-        if (mImageFetcher == null) {
-            mImageFetcher = new ImageFetcher(this, 512, 512);
-            mImageFetcher.addImageCache(getSupportFragmentManager(),
-                    new ytdl.util.ImageCache.ImageCacheParams(this,
-                            "cache"));
-        }
-    }
-
     private void loadAccount() {
         SharedPreferences sp = PreferenceManager
                 .getDefaultSharedPreferences(this);
         mChosenAccountName = sp.getString(ACCOUNT_KEY, null);
-        invalidateOptionsMenu();
+        supportInvalidateOptionsMenu();
     }
 
     private void saveAccount() {
         SharedPreferences sp = PreferenceManager
                 .getDefaultSharedPreferences(this);
-        sp.edit().putString(ACCOUNT_KEY, mChosenAccountName).commit();
+        sp.edit().putString(ACCOUNT_KEY, mChosenAccountName).apply();
     }
 
     private void loadData() {
@@ -298,21 +191,11 @@ public class UploadVideoActivity extends ActionBarActivity {
             case REQUEST_GMS_ERROR_DIALOG:
                 break;
             case RESULT_PICK_IMAGE_CROP:
-                if (resultCode == RESULT_OK) {
-                    mFileURI = data.getData();
-                    if (mFileURI != null) {
-                        Intent intent = new Intent(this, ReviewActivity.class);
-                        intent.setData(mFileURI);
-                        startActivity(intent);
-                    }
-                }
-                break;
-
             case RESULT_VIDEO_CAP:
                 if (resultCode == RESULT_OK) {
                     mFileURI = data.getData();
                     if (mFileURI != null) {
-                        Intent intent = new Intent(this, ReviewActivity.class);
+                        Intent intent = new Intent(this, ReviewVideoActivity.class);
                         intent.setData(mFileURI);
                         startActivity(intent);
                     }
@@ -346,44 +229,12 @@ public class UploadVideoActivity extends ActionBarActivity {
                 if (resultCode == Activity.RESULT_OK && data != null
                         && data.getExtras() != null) {
                     String youtubeId = data.getStringExtra(YOUTUBE_ID);
-                    if (youtubeId.equals(mVideoData.getYouTubeId())) {
-                        directTag(mVideoData);
-                    }
+//                    if (youtubeId.equals(mVideoData.getYouTubeId())) {
+//                        directTag(mVideoData);
+//                    }
                 }
                 break;
         }
-    }
-
-    private void directTag(final VideoData video) {
-        final Video updateVideo = new Video();
-        VideoSnippet snippet = video
-                .addTags(Arrays.asList(
-                        Constants.DEFAULT_KEYWORD,
-                        Upload.generateKeywordFromPlaylistId(Constants.UPLOAD_PLAYLIST)));
-        updateVideo.setSnippet(snippet);
-        updateVideo.setId(video.getYouTubeId());
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                YouTube youtube = new YouTube.Builder(transport, jsonFactory,
-                        credential).setApplicationName(Constants.APP_NAME)
-                        .build();
-                try {
-                    youtube.videos().update("snippet", updateVideo).execute();
-                } catch (UserRecoverableAuthIOException e) {
-                    startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
-                }
-                return null;
-            }
-
-        }.execute((Void) null);
-        Toast.makeText(this,
-                R.string.video_submitted_to_ytdl, Toast.LENGTH_LONG)
-                .show();
     }
 
     @Override
@@ -397,7 +248,7 @@ public class UploadVideoActivity extends ActionBarActivity {
             return;
         }
 
-        setProgressBarIndeterminateVisibility(true);
+        setSupportProgressBarIndeterminateVisibility(true);
         new AsyncTask<Void, Void, List<VideoData>>() {
             @Override
             protected List<VideoData> doInBackground(Void... voids) {
@@ -476,14 +327,14 @@ public class UploadVideoActivity extends ActionBarActivity {
                             userRecoverableException.getIntent(),
                             REQUEST_AUTHORIZATION);
                 } catch (IOException e) {
-                    Utils.logAndShow(UploadVideoActivity.this, Constants.APP_NAME, e);
+                    Utils.logAndShow(PickVideoActivity.this, Constants.APP_NAME, e);
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(List<VideoData> videos) {
-                setProgressBarIndeterminateVisibility(false);
+                setSupportProgressBarIndeterminateVisibility(false);
 
                 if (videos == null) {
                     return;
@@ -494,33 +345,6 @@ public class UploadVideoActivity extends ActionBarActivity {
 
         }.execute((Void) null);
     }
-
-    @Override
-    public void onBackPressed() {
-        // if (mDirectFragment.popPlayerFromBackStack()) {
-        // super.onBackPressed();
-        // }
-    }
-
-//    @Override
-//    public ImageFetcher onGetImageFetcher() {
-//        ensureFetcher();
-//        return mImageFetcher;
-//    }
-//
-//    @Override
-//    public void onVideoSelected(VideoData video) {
-//        mVideoData = video;
-//        Intent intent = new Intent(this, PlayActivity.class);
-//        intent.putExtra(YOUTUBE_ID, video.getYouTubeId());
-//        startActivityForResult(intent, REQUEST_DIRECT_TAG);
-//    }
-//
-//    @Override
-//    public void onConnected(String connectedAccountName) {
-//        // Make API requests only when the user has successfully signed in.
-//        loadData();
-//    }
 
     public void pickFile(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -552,7 +376,7 @@ public class UploadVideoActivity extends ActionBarActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 Dialog dialog = GooglePlayServicesUtil.getErrorDialog(
-                        connectionStatusCode, UploadVideoActivity.this,
+                        connectionStatusCode, PickVideoActivity.this,
                         REQUEST_GOOGLE_PLAY_SERVICES);
                 dialog.show();
             }
@@ -584,58 +408,6 @@ public class UploadVideoActivity extends ActionBarActivity {
         startActivityForResult(credential.newChooseAccountIntent(),
                 REQUEST_ACCOUNT_PICKER);
     }
-
-    /**
-     * Private class representing a missing configuration and what the developer
-     * can do to fix the issue.
-     */
-    private class MissingConfig {
-
-        public final String title;
-        public final String body;
-
-        public MissingConfig(String title, String body) {
-            this.title = title;
-            this.body = body;
-        }
-    }
-
-    // public Uri getOutputMediaFile(int type)
-    // {
-    // // To be safe, you should check that the SDCard is mounted
-    // if(Environment.getExternalStorageState() != null) {
-    // // this works for Android 2.2 and above
-    // File mediaStorageDir = new
-    // File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
-    // "SMW_VIDEO");
-    //
-    // // This location works best if you want the created images to be shared
-    // // between applications and persist after your app has been uninstalled.
-    //
-    // // Create the storage directory if it does not exist
-    // if (! mediaStorageDir.exists()) {
-    // if (! mediaStorageDir.mkdirs()) {
-    // Log.d(TAG, "failed to create directory");
-    // return null;
-    // }
-    // }
-    //
-    // // Create a media file name
-    // String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-    // Locale.getDefault()).format(new Date());
-    // File mediaFile;
-    // if(type == MEDIA_TYPE_VIDEO) {
-    // mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-    // "VID_"+ timeStamp + ".mp4");
-    // } else {
-    // return null;
-    // }
-    //
-    // return Uri.fromFile(mediaFile);
-    // }
-    //
-    // return null;
-    // }
 
     private class UploadBroadcastReceiver extends BroadcastReceiver {
         @Override
