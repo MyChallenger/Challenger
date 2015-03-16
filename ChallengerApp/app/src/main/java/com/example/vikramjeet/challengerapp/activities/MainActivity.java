@@ -72,8 +72,12 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         else if(id == R.id.muProfile) {
-            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, SecondActivity.class);
+            Intent i = new Intent(this, ProfileActivity.class);
+            startActivity(i);
+            return true;
+        }
+        else if(id == R.id.muAddChallenge) {
+            Intent i = new Intent(this, NewChallengeActivity.class);
             startActivity(i);
             return true;
         }

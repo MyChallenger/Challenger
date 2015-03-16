@@ -1,0 +1,205 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.vikramjeet.challengerapp.activities.NewChallengeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:id="@+id/tvTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textSize="15dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etTitle"
+        android:hint="Enter a bike race"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="@dimen/left_margin_new_challenge"
+        android:layout_alignBottom="@+id/tvTitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image"
+        android:id="@+id/tvImage"
+        android:layout_below="@+id/tvTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="15dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:onClick="onPickPhoto"
+        android:scaleType="fitCenter"
+        android:minHeight="40dp"
+        android:minWidth="40dp"
+        android:maxHeight="40dp"
+        android:maxWidth="40dp"
+        android:layout_below="@+id/etTitle"
+        android:layout_alignLeft="@+id/etTitle"
+        android:layout_alignStart="@+id/etTitle"
+        android:src="@mipmap/ic_launcher"
+        android:layout_above="@+id/etShortBurb"
+        android:layout_alignRight="@+id/etLocation"
+        android:layout_alignEnd="@+id/etLocation" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Burb"
+        android:id="@+id/tvShortBurb"
+        android:layout_below="@+id/tvImage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etShortBurb"
+        android:hint="Short description of the task"
+        android:maxLines="3"
+        android:minLines="3"
+        android:gravity="left|top"
+        android:outlineProvider="bounds"
+        android:layout_alignTop="@+id/tvShortBurb"
+        android:layout_alignLeft="@+id/imageButton"
+        android:layout_alignStart="@+id/imageButton"
+        android:paddingBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:id="@+id/tvCategory"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/etShortBurb"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="22dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerCategory"
+        android:spinnerMode="dropdown"
+        android:entries="@array/category_array"
+        android:prompt="@string/category_prompt"
+        android:paddingBottom="20dp"
+        android:layout_alignTop="@+id/tvCategory"
+        android:layout_alignLeft="@+id/etShortBurb"
+        android:layout_alignStart="@+id/etShortBurb" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:id="@+id/tvLocation"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/spinnerCategory"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etLocation"
+        android:hint="Zip code"
+        android:layout_alignBottom="@+id/tvLocation"
+        android:layout_alignLeft="@+id/etTitle"
+        android:layout_alignStart="@+id/etTitle"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Date"
+        android:id="@+id/tvEndDate"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="15dp"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/tvLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerEndDate"
+        android:spinnerMode="dropdown"
+        android:entries="@array/endDateTemplate_array"
+        android:prompt="@string/endDateTemplate_prompt"
+        android:layout_alignTop="@+id/tvEndDate"
+        android:layout_marginLeft="@dimen/left_margin_new_challenge"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal"
+        android:id="@+id/tvGoal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="44dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/tvEndDate" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$"
+        android:id="@+id/tvDollar"
+        android:layout_alignBaseline="@+id/etGoal"
+        android:layout_alignTop="@+id/etGoal"
+        android:layout_marginLeft="@dimen/left_margin_new_challenge"
+        android:textSize="15dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etGoal"
+        android:hint="100"
+        android:inputType="number|numberDecimal"
+        android:layout_alignTop="@+id/tvGoal"
+        android:layout_toRightOf="@+id/tvDollar"
+        android:layout_centerHorizontal="true" />
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/btnAdd"
+        android:onClick="onAddChallenge"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/spinnerEndDate"
+        android:layout_alignEnd="@+id/spinnerEndDate" />
+
+
+
+
+</RelativeLayout>

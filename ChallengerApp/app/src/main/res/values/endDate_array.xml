@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="endDateTemplate_array">
+        <item>1 Day</item>
+        <item>2 Days</item>
+        <item>3 Days</item>
+        <item>1 Week</item>
+        <item>2 Weeks</item>
+    </string-array>
+</resources>
