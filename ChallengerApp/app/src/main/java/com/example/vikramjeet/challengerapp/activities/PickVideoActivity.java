@@ -99,7 +99,7 @@ public class PickVideoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_video);
+        setContentView(R.layout.activity_pick_video);
         // Inject Butterknife
         ButterKnife.inject(this);
 
