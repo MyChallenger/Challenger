@@ -1,10 +1,12 @@
 package com.example.vikramjeet.challengerapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 
@@ -53,4 +55,10 @@ public class CompleteChallengeActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 200) {
+            Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

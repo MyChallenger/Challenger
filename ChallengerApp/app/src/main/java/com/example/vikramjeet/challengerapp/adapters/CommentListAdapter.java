@@ -1,6 +1,7 @@
 package com.example.vikramjeet.challengerapp.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import android.widget.TextView;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Comment;
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -62,8 +65,17 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         viewHolder.tvUserName.setText(comment.getAuthor().getUsername());
         viewHolder.tvCommentText.setText(comment.getText());
 
+        // Transformation for rounded views
+        Transformation transformation = new RoundedTransformationBuilder()
+                .borderColor(Color.BLACK)
+                .cornerRadiusDp(25)
+                .oval(false)
+                .build();
+
         Picasso.with(getContext()).
                 load(comment.getAuthor().getPhotoURL()).
+                fit().
+                transform(transformation).
                 placeholder(R.drawable.photo_placeholder).
                 into(viewHolder.ivUserPhoto);
 

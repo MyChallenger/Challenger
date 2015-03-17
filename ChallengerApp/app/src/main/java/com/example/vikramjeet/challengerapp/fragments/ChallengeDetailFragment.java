@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,9 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Vikramjeet on 3/8/15.
@@ -53,8 +57,11 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
     private FrameLayout flChallengeDetail;
     private TextView tvLikes;
     private TextView tvViews;
-    private TextView tvCategory;
+    private TextView btnStatus;
     private TextView tvTitle;
+
+    private ChallengeDescriptionFragment descriptionFragment;
+    private CommentListFragment commentFragment;
 
     public static ChallengeDetailFragment newInstance(String challengeID, boolean isVideoChallenge) {
         // Create fragment
@@ -97,7 +104,7 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
         tvLikes = (TextView) view.findViewById(R.id.tvChallengeDetailLike);
         tvViews = (TextView) view.findViewById(R.id.tvChallengeDetailViews);
         tvTitle = (TextView) view.findViewById(R.id.tvChallengeDetailTitle);
-        tvCategory = (TextView) view.findViewById(R.id.tvCategory);
+        btnStatus = (Button) view.findViewById(R.id.btnStatus);
         vpPager = (ViewPager) view.findViewById(R.id.vpChallengerDetail);
         tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.challengeDetailTabs);
         populateViews();
@@ -136,7 +143,7 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
                             into(ivUserPhoto);
 
                     tvTitle.setText(challenge.getTitle());
-                    tvCategory.setText(challenge.getCategory());
+//                    tvCategory.setText(challenge.getCategory());
                     tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                     tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
 
@@ -151,6 +158,17 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
                         }
                     }
                 }
+
+                // Popultae dictionary with challenge detail
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("description", challenge.getDescription());
+                map.put("challenger_name", challenge.getPoster().getName());
+                map.put("backer_name", challenge.getBacker().getName());
+//                map.put("location", challenge.getLocation().toString());
+                map.put("category", challenge.getCategory());
+
+                // Populate description view fragment
+                descriptionFragment.populateViewsFromDict(map);
             }
         });
     }
@@ -247,10 +265,13 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new ChallengeDescriptionFragment();
+                descriptionFragment = new ChallengeDescriptionFragment();
+                return descriptionFragment;
             }
 
-            return CommentListFragment.newInstance(challengeId, true);
+            commentFragment = CommentListFragment.newInstance(challengeId, true);
+
+            return commentFragment;
         }
 
         @Override

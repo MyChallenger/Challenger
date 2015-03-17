@@ -261,7 +261,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                         // Ask for comment screen here
                         Intent i = new Intent(getContext(), CommentActivity.class);
                         i.putExtra("challenge_id", challenge.getObjectId());
-                        getContext().startActivity(i);
+                        ((Activity) getContext()).startActivityForResult(i, 200);
                     }
                 });
 
