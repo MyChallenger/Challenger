@@ -22,10 +22,18 @@ import com.example.vikramjeet.challengerapp.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.example.vikramjeet.challengerapp.models.MediaType;
 import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
 import com.example.vikramjeet.challengerapp.services.UploadService;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 
 public class ReviewVideoActivity extends ActionBarActivity {
+
+    public static String EXTRA_CHALLENGE_ID = "com.example.vikramjeet.challengerapp.challenge_id";
+    public static String EXTRA_MEDIA_TYPE = "com.example.vikramjeet.challengerapp.media_type";
+
     @InjectView(R.id.vv)
     VideoView vv;
     @InjectView(R.id.btnUpload)
@@ -36,6 +44,9 @@ public class ReviewVideoActivity extends ActionBarActivity {
     private Uri mFileUri;
 
     private UploadResultReceiver mUploadResultReceiver;
+
+    private Challenge mChallenge;
+    private MediaType mMediaType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +64,17 @@ public class ReviewVideoActivity extends ActionBarActivity {
 
         reviewVideo(mFileUri);
         setupServiceReceiver();
+
+        String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
+        Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
+            @Override
+            public void done(Challenge challenge, ParseException e) {
+                if (e == null) {
+                    mChallenge = challenge;
+                }
+            }
+        });
+        mMediaType = MediaType.values()[getIntent().getIntExtra(EXTRA_MEDIA_TYPE, 0)];
     }
 
     private void reviewVideo(Uri mFileUri) {
@@ -91,7 +113,6 @@ public class ReviewVideoActivity extends ActionBarActivity {
             Intent uploadIntent = new Intent(this, UploadService.class);
             uploadIntent.setData(mFileUri);
             uploadIntent.putExtra(PickVideoActivity.ACCOUNT_KEY, mChosenAccountName);
-            uploadIntent.putExtra("receiver", mUploadResultReceiver);
             uploadIntent.putExtra("receiver", mUploadResultReceiver);
             startService(uploadIntent);
             Toast.makeText(this, R.string.youtube_upload_started,

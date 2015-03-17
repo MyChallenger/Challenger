@@ -72,6 +72,10 @@ import butterknife.ButterKnife;
  *         Main activity class which handles authorization and intents.
  */
 public class PickVideoActivity extends ActionBarActivity {
+
+    public static String EXTRA_CHALLENGE_ID = "com.example.vikramjeet.challengerapp.challenge_id";
+    public static String EXTRA_MEDIA_TYPE = "com.example.vikramjeet.challengerapp.media_type";
+
     // private static final int MEDIA_TYPE_VIDEO = 7;
     public static final String ACCOUNT_KEY = "accountName";
     public static final String MESSAGE_KEY = "message";
@@ -196,6 +200,8 @@ public class PickVideoActivity extends ActionBarActivity {
                     mFileURI = data.getData();
                     if (mFileURI != null) {
                         Intent intent = new Intent(this, ReviewVideoActivity.class);
+                        intent.putExtra(ReviewVideoActivity.EXTRA_CHALLENGE_ID, getIntent().getStringExtra(EXTRA_CHALLENGE_ID));
+                        intent.putExtra(ReviewVideoActivity.EXTRA_MEDIA_TYPE, getIntent().getIntExtra(EXTRA_MEDIA_TYPE, 0));
                         intent.setData(mFileURI);
                         startActivity(intent);
                     }
