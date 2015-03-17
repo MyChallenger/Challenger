@@ -1,7 +1,7 @@
 package com.example.vikramjeet.challengerapp.activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -52,4 +52,5 @@ public class CompleteChallengeActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

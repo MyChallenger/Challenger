@@ -1,9 +1,11 @@
 package com.example.vikramjeet.challengerapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,12 +139,24 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                 viewHolder1.tvLikes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        challenge.like(new SaveCallback() {
+                        challenge.isLiked(new LikeStatusCallback<Boolean>() {
                             @Override
-                            public void done(ParseException e) {
-                                // Increment Like Count so we don't have to call the server again
-                                int newLikeCount = challenge.getNumberOfLikes() + 1;
-                                tempHolder.tvLikes.setText(String.valueOf(newLikeCount));
+                            public void done(Boolean isLiked, ParseException e) {
+                                if (isLiked) {
+                                    challenge.unLike(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                        }
+                                    });
+                                } else {
+                                    challenge.like(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
@@ -253,7 +267,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                         // Ask for comment screen here
                         Intent i = new Intent(getContext(), CommentActivity.class);
                         i.putExtra("challenge_id", challenge.getObjectId());
-                        getContext().startActivity(i);
+                        ((Activity) getContext()).startActivityForResult(i, 200);
                     }
                 });
 
@@ -296,4 +310,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
         return ViewValues.values().length;
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("HERE:", "I am here");
+    }
 }

@@ -248,9 +248,9 @@ public class Challenge extends ParseObject {
     }
 
     public static void getChallengeByID(String challengeID, GetCallback<Challenge> getCallback) {
-        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+        ParseQuery<Challenge> query = getChallengeParseQuery();
         // First try to find from the cache and only then go to network
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
+//        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
         // Execute the query to find the object with ID
         query.getInBackground(challengeID, getCallback);
     }

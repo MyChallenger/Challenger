@@ -1,6 +1,7 @@
 package com.example.vikramjeet.challengerapp.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -135,7 +136,9 @@ public class CommentActivity extends ActionBarActivity {
     }
 
     public void onCancel(View v) {
+
         this.finish();
+
     }
 
     public void onPost(View v) {
@@ -150,6 +153,17 @@ public class CommentActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Posted comment: " + etComment.getText().toString(), Toast.LENGTH_SHORT).show();
                 etComment.setText("");
                 // Refresh comment list here
+                int commentCount = challenge.getComments().size();
+
+
+                // Prepare data intent
+                Intent data = new Intent();
+                // Pass relevant data back as a result
+                data.putExtra("number", commentCount);
+                data.putExtra("code", 200); // ints work too
+                // Activity finished ok, return the data
+                setResult(RESULT_OK, data); // set result code and bundle data for response
+                finish(); // closes the activity, pass data to parent
             }
         });
 

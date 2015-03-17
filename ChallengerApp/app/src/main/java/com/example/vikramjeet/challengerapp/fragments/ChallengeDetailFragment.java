@@ -1,5 +1,6 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,9 +20,11 @@ import android.widget.VideoView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.makeramen.RoundedTransformationBuilder;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 /**
  * Created by Vikramjeet on 3/8/15.
@@ -110,20 +113,20 @@ public class ChallengeDetailFragment extends Fragment {
                     // Populate views
 
                     // Populate user info
-//                    tvUsername.setText(challenge.getPoster().getName());
-//
-///                    Transformation transformation = new RoundedTransformationBuilder()
-//                            .borderColor(Color.BLACK)
-//                            .cornerRadiusDp(25)
-//                            .oval(false)
-//                            .build();
+                    tvUsername.setText(challenge.getPoster().getName());
 
-//                    Picasso.with(getActivity()).
-//                            load(challenge.getPoster().getPhotoURL()).
-//                            fit().
-//                            transform(transformation).
-//                            placeholder(R.drawable.photo_placeholder).
-//                            into(ivUserPhoto);
+                    Transformation transformation = new RoundedTransformationBuilder()
+                            .borderColor(Color.BLACK)
+                            .cornerRadiusDp(25)
+                            .oval(false)
+                            .build();
+
+                    Picasso.with(getActivity()).
+                            load(challenge.getPoster().getPhotoURL()).
+                            fit().
+                            transform(transformation).
+                            placeholder(R.drawable.photo_placeholder).
+                            into(ivUserPhoto);
 
                     tvTitle.setText(challenge.getTitle());
                     tvCategory.setText(challenge.getCategory());
