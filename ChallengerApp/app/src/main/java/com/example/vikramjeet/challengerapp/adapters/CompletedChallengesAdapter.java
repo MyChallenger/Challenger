@@ -364,12 +364,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
     public int getItemViewType(int position) {
         Challenge challenge = getItem(position);
         int viewType = ViewValues.IMAGE.ordinal();
-        if (challenge.getCompletedMediaProvider() != null) {
-            switch (challenge.getCompletedMediaProvider()) {
-                case YOUTUBE:
-                    viewType = ViewValues.VIDEO.ordinal();
-                    break;
-            }
+        if (challenge.isVideo()) {
+            viewType = ViewValues.VIDEO.ordinal();
         }
         return viewType;
     }

@@ -32,25 +32,15 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
 
         // Get challenge from challenge_id
         Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
-            public void done(Challenge item, ParseException e) {
+            public void done(Challenge challenge, ParseException e) {
                 if (e == null) {
                     // item was found
-                    Challenge challenge = item;
 
-                    // Todo: Completed media is required. It should never be null. Tell Pritesh about it. Following condition should not even be there
-                    if (challenge.getCompletedMedia() != null) {
-                        // Get the fragment
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, Challenge.isVideo(challenge.getCompletedMedia().getUrl()));
-                        Boolean val = Challenge.isVideo(challenge.getCompletedMedia().getUrl());
-                        ft.replace(R.id.my_placeholder, challengeDetailFragment);
-                        ft.commit();
-                    } else {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, false);
-                        ft.replace(R.id.my_placeholder, challengeDetailFragment);
-                        ft.commit();
-                    }
+                    // Get the fragment
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, challenge.isVideo());
+                    ft.replace(R.id.my_placeholder, challengeDetailFragment);
+                    ft.commit();
                 }
             }
         });

@@ -55,6 +55,7 @@ public class Challenge extends ParseObject {
     private static final String COMPLETE_CHALLENGE_URL = "completeChallenge";
     private static final String VERIFY_CHALLENGE_URL = "verifyChallenge";
     private static final String FIELD_COMMENTS = "comments";
+    private static final String FIELD_AUTHOR = "author";
 
     public Challenge() {
         // A default constructor is required.
@@ -205,6 +206,7 @@ public class Challenge extends ParseObject {
         query.include(FIELD_POSTER);
         query.include(FIELD_BACKER);
         query.include(FIELD_COMMENTS);
+        query.include(FIELD_COMMENTS + "." + FIELD_AUTHOR);
         return query;
     }
 
@@ -300,25 +302,16 @@ public class Challenge extends ParseObject {
         query.getInBackground(challengeID, getCallback);
     }
 
-    public static boolean isVideo(String mediaURL) {
-        String extension = "";
-
-        int index = mediaURL.lastIndexOf('.');
-        if (index >= 0) {
-            extension = mediaURL.substring(index + 1);
+    public boolean isVideo() {
+        boolean isVideo = false;
+        if (getCompletedMediaProvider() != null) {
+            switch (getCompletedMediaProvider()) {
+                case YOUTUBE:
+                    isVideo = true;
+                    break;
+            }
         }
-
-        // Check if extension is an image extension
-        if (extension.equals("jpg")
-                || extension.equals("jpeg")
-                || extension.equals("png")
-                || extension.equals("gif")
-                || extension.equals("tiff")
-                || extension.equals("tif")) {
-
-            return false;
-        }
-        return true;
+        return isVideo;
     }
 
     public void incrementViews(final SaveCallback callback) {

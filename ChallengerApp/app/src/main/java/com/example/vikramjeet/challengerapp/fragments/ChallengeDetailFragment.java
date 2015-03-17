@@ -1,7 +1,6 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,14 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.makeramen.RoundedTransformationBuilder;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -29,7 +32,7 @@ import com.squareup.picasso.Transformation;
 /**
  * Created by Vikramjeet on 3/8/15.
  */
-public class ChallengeDetailFragment extends Fragment {
+public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.PlayerStateChangeListener, YouTubePlayer.OnFullscreenListener {
 
     private final int CHALLENGE_TYPE_IMAGE = 0;
     private final int CHALLENGE_TYPE_VIDEO = 1;
@@ -38,12 +41,16 @@ public class ChallengeDetailFragment extends Fragment {
     private String challengeId;
     private int fragmentType;
 
+    private static final String YOUTUBE_FRAGMENT_TAG = "youtube";
+    private YouTubePlayer mYouTubePlayer;
+    private boolean mIsFullScreen = false;
+
     private ViewPager vpPager;
     private PagerSlidingTabStrip tabStrip;
     private ImageView ivUserPhoto;
     private TextView tvUsername;
     private ImageView ivChallengeImage;
-    private VideoView vvChallengeVideo;
+    private FrameLayout flChallengeDetail;
     private TextView tvLikes;
     private TextView tvViews;
     private TextView tvCategory;
@@ -82,7 +89,7 @@ public class ChallengeDetailFragment extends Fragment {
             ivChallengeImage = (ImageView) view.findViewById(R.id.ivChallengeDetail);
         } else {
             view = inflater.inflate(R.layout.fragment_challenge_detail_video, parent, false);
-            vvChallengeVideo = (VideoView) view.findViewById(R.id.vvChallengeDetail);
+            flChallengeDetail = (FrameLayout) view.findViewById(R.id.flChallengeDetail);
         }
 
         ivUserPhoto = (ImageView) view.findViewById(R.id.ivChallengeDetailUserPhoto);
@@ -133,40 +140,100 @@ public class ChallengeDetailFragment extends Fragment {
                     tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                     tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
 
-                    if (challenge.getCompletedMedia() != null) {
-
-                        if (Challenge.isVideo(challenge.getCompletedMedia().getUrl())) {
-                            if (vvChallengeVideo.isPlaying()) {
-                                vvChallengeVideo.stopPlayback();
-                            }
-
-                            vvChallengeVideo.setVideoPath(challenge.getCompletedMedia().getUrl());
-                            MediaController mediaController = new MediaController(getActivity());
-                            mediaController.setAnchorView(vvChallengeVideo);
-                            vvChallengeVideo.setMediaController(mediaController);
-                            vvChallengeVideo.requestFocus();
-
-                            vvChallengeVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                // Close the progress bar and play the video
-                                public void onPrepared(MediaPlayer mp) {
-//                            mp.setLooping(true);
-                                    vvChallengeVideo.start();
-                                    // Dismiss spinner
-//                                    spinnerView.setVisibility(View.GONE);
-                                }
-                            });
-                        } else {
+                    if (challenge.isVideo()) {
+                        panToVideo(challenge.getCompletedMediaId());
+                    } else {
+                        if (challenge.getCompletedMedia() != null) {
                             Picasso.with(getActivity()).
                                     load(challenge.getCompletedMedia().getUrl()).
                                     placeholder(R.drawable.photo_placeholder).
                                     into(ivChallengeImage);
                         }
-
-
                     }
                 }
             }
         });
+    }
+
+    public void panToVideo(final String youtubeId) {
+        popPlayerFromBackStack();
+        YouTubePlayerSupportFragment playerFragment = YouTubePlayerSupportFragment
+                .newInstance();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.flChallengeDetail, playerFragment,
+                        YOUTUBE_FRAGMENT_TAG)
+                .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(null).commit();
+        playerFragment.initialize(Auth.KEY,
+                new YouTubePlayer.OnInitializedListener() {
+                    @Override
+                    public void onInitializationSuccess(
+                            YouTubePlayer.Provider provider,
+                            YouTubePlayer youTubePlayer, boolean b) {
+                        youTubePlayer.cueVideo(youtubeId);
+                        mYouTubePlayer = youTubePlayer;
+                        youTubePlayer
+                                .setPlayerStateChangeListener(ChallengeDetailFragment.this);
+                        youTubePlayer
+                                .setOnFullscreenListener(ChallengeDetailFragment.this);
+                    }
+
+                    @Override
+                    public void onInitializationFailure(
+                            YouTubePlayer.Provider provider,
+                            YouTubeInitializationResult result) {
+                        showErrorToast(result.toString());
+                    }
+                });
+    }
+
+    public boolean popPlayerFromBackStack() {
+        if (mIsFullScreen) {
+            mYouTubePlayer.setFullscreen(false);
+            return false;
+        }
+        if (getActivity().getSupportFragmentManager().findFragmentByTag(YOUTUBE_FRAGMENT_TAG) != null) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onAdStarted() {
+    }
+
+    @Override
+    public void onError(YouTubePlayer.ErrorReason errorReason) {
+        showErrorToast(errorReason.toString());
+    }
+
+    private void showErrorToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
+                .show();
+    }
+
+    @Override
+    public void onLoaded(String arg0) {
+    }
+
+    @Override
+    public void onLoading() {
+    }
+
+    @Override
+    public void onVideoEnded() {
+        // popPlayerFromBackStack();
+    }
+
+    @Override
+    public void onVideoStarted() {
+    }
+
+    @Override
+    public void onFullscreen(boolean fullScreen) {
+        mIsFullScreen = fullScreen;
     }
 
     public class ChallengeDetailPagerAdapter extends FragmentPagerAdapter {

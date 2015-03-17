@@ -26,8 +26,20 @@
         android:gravity="center_vertical"
         android:text="Username" />
 
-    <VideoView
-        android:id="@+id/vvChallengeDetail"
+    <!--<VideoView-->
+        <!--android:id="@+id/vvChallengeDetail"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="165dp"-->
+        <!--android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"-->
+        <!--android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"-->
+        <!--android:layout_below="@+id/tvChallengeDetailTitle"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
+
+    <FrameLayout
+        android:id="@+id/flChallengeDetail"
         android:layout_width="wrap_content"
         android:layout_height="165dp"
         android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"
@@ -44,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/vvChallengeDetail"
+        android:layout_below="@+id/flChallengeDetail"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
@@ -71,8 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvChallengeDetailViews"
-        android:layout_alignEnd="@+id/vvChallengeDetail"
-        android:layout_alignRight="@+id/vvChallengeDetail"
+        android:layout_alignEnd="@+id/flChallengeDetail"
+        android:layout_alignRight="@+id/flChallengeDetail"
         android:layout_alignTop="@+id/tvChallengeDetailViews"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
@@ -103,9 +115,9 @@
         android:id="@+id/tvChallengeDetailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/vvChallengeDetail"
+        android:layout_alignEnd="@+id/flChallengeDetail"
         android:layout_alignLeft="@+id/tvChallengeDetailUserName"
-        android:layout_alignRight="@+id/vvChallengeDetail"
+        android:layout_alignRight="@+id/flChallengeDetail"
         android:layout_alignStart="@+id/tvChallengeDetailUserName"
         android:layout_below="@+id/tvChallengeDetailUserName"
         android:layout_marginBottom="5dp"
