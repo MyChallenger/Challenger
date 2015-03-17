@@ -4,22 +4,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.VideoView;
+import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.CommentActivity;
+import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.makeramen.RoundedTransformationBuilder;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -31,7 +35,93 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
+public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implements YouTubePlayer.PlayerStateChangeListener, YouTubePlayer.OnFullscreenListener {
+
+    private FragmentManager supportFragmentManager;
+    private static final String YOUTUBE_FRAGMENT_TAG = "youtube";
+    private YouTubePlayer mYouTubePlayer;
+    private boolean mIsFullScreen = false;
+
+    public void panToVideo(final String youtubeId) {
+        popPlayerFromBackStack();
+        YouTubePlayerSupportFragment playerFragment = YouTubePlayerSupportFragment
+                .newInstance();
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.flCompletedChallenge, playerFragment,
+                        YOUTUBE_FRAGMENT_TAG)
+                .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(null).commit();
+        playerFragment.initialize(Auth.KEY,
+                new YouTubePlayer.OnInitializedListener() {
+                    @Override
+                    public void onInitializationSuccess(
+                            YouTubePlayer.Provider provider,
+                            YouTubePlayer youTubePlayer, boolean b) {
+                        youTubePlayer.cueVideo(youtubeId);
+                        mYouTubePlayer = youTubePlayer;
+                        youTubePlayer
+                                .setPlayerStateChangeListener(CompletedChallengesAdapter.this);
+                        youTubePlayer
+                                .setOnFullscreenListener(CompletedChallengesAdapter.this);
+                    }
+
+                    @Override
+                    public void onInitializationFailure(
+                            YouTubePlayer.Provider provider,
+                            YouTubeInitializationResult result) {
+                        showErrorToast(result.toString());
+                    }
+                });
+    }
+
+    public boolean popPlayerFromBackStack() {
+        if (mIsFullScreen) {
+            mYouTubePlayer.setFullscreen(false);
+            return false;
+        }
+        if (supportFragmentManager.findFragmentByTag(YOUTUBE_FRAGMENT_TAG) != null) {
+            supportFragmentManager.popBackStack();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onAdStarted() {
+    }
+
+    @Override
+    public void onError(YouTubePlayer.ErrorReason errorReason) {
+        showErrorToast(errorReason.toString());
+    }
+
+    private void showErrorToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT)
+                .show();
+    }
+
+    @Override
+    public void onLoaded(String arg0) {
+    }
+
+    @Override
+    public void onLoading() {
+    }
+
+    @Override
+    public void onVideoEnded() {
+        // popPlayerFromBackStack();
+    }
+
+    @Override
+    public void onVideoStarted() {
+    }
+
+    @Override
+    public void onFullscreen(boolean fullScreen) {
+        mIsFullScreen = fullScreen;
+    }
 
     public enum ViewValues {
         VIDEO, IMAGE
@@ -43,8 +133,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
         ImageView ivUserPhoto;
         @InjectView(R.id.tvCompletedUserName)
         TextView tvUserName;
-        @InjectView(R.id.vvCompletedChallenge)
-        VideoView vvCompletedVideo;
+        @InjectView(R.id.flCompletedChallenge)
+        FrameLayout flCompletedChallenge;
         @InjectView(R.id.tvlikeCount)
         TextView tvLikes;
         @InjectView(R.id.tvComment)
@@ -83,8 +173,9 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
         }
     }
 
-    public CompletedChallengesAdapter(Context context, List<Challenge> challenges) {
+    public CompletedChallengesAdapter(Context context, List<Challenge> challenges, FragmentManager supportFragmentManager) {
         super(context, android.R.layout.simple_list_item_1, challenges);
+        this.supportFragmentManager = supportFragmentManager;
     }
 
     @Override
@@ -174,29 +265,9 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
                     }
                 });
 
-                if (challenge.getCompletedMedia() != null) {
-                    if (viewHolder1.vvCompletedVideo.isPlaying()) {
-                        viewHolder1.vvCompletedVideo.stopPlayback();
-                    }
-
-//                    final ProgressDialog progress = ProgressDialog.show(getContext(), null, "Loading...", true);
-
-                    viewHolder1.vvCompletedVideo.setVideoPath(challenge.getCompletedMedia().getUrl());
-                    MediaController mediaController = new MediaController(getContext());
-                    mediaController.setAnchorView(viewHolder1.vvCompletedVideo);
-                    viewHolder1.vvCompletedVideo.setMediaController(mediaController);
-//                    viewHolder1.vvCompletedVideo.requestFocus();
-
-                    final VideoViewHolder finalViewHolder = viewHolder1;
-                    viewHolder1.vvCompletedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        // Close the progress bar and play the video
-                        public void onPrepared(MediaPlayer mp) {
-//                            mp.setLooping(true);
-                            finalViewHolder.vvCompletedVideo.start();
-                            // Dismiss spinner
-                            finalViewHolder.spinnerView.setVisibility(View.GONE);
-                        }
-                    });
+//                viewHolder1.flCompletedChallenge.removeAllViews();
+                if (challenge.getCompletedMediaId() != null) {
+                    panToVideo(challenge.getCompletedMediaId());
                 }
 
                 return convertView;
@@ -292,16 +363,15 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge>{
     @Override
     public int getItemViewType(int position) {
         Challenge challenge = getItem(position);
-        if (challenge.getCompletedMedia() != null) {
-            boolean isVideo = Challenge.isVideo(challenge.getCompletedMedia().getUrl());
-            if (isVideo) {
-                return ViewValues.VIDEO.ordinal();
-            } else {
-                return ViewValues.IMAGE.ordinal();
+        int viewType = ViewValues.IMAGE.ordinal();
+        if (challenge.getCompletedMediaProvider() != null) {
+            switch (challenge.getCompletedMediaProvider()) {
+                case YOUTUBE:
+                    viewType = ViewValues.VIDEO.ordinal();
+                    break;
             }
         }
-
-        return ViewValues.IMAGE.ordinal();
+        return viewType;
     }
 
     // Total number of types is the number of enum values

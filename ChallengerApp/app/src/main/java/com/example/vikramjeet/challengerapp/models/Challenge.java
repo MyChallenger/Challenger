@@ -125,7 +125,11 @@ public class Challenge extends ParseObject {
     }
 
     public MediaProvider getCreatedMediaProvider() {
-        return MediaProvider.valueOf(getString(FIELD_CREATED_MEDIA_PROVIDER));
+        try {
+            return MediaProvider.valueOf(getString(FIELD_CREATED_MEDIA_PROVIDER));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void setCreatedMediaProvider(MediaProvider createdMediaProvider) {
@@ -133,7 +137,11 @@ public class Challenge extends ParseObject {
     }
 
     public MediaProvider getCompletedMediaProvider() {
-        return MediaProvider.valueOf(getString(FIELD_COMPLETED_MEDIA_PROVIDER));
+        try {
+            return MediaProvider.valueOf(getString(FIELD_COMPLETED_MEDIA_PROVIDER));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void setCompletedMediaProvider(MediaProvider completedMediaProvider) {
