@@ -50,8 +50,8 @@ public class User extends ParseUser {
         return photoURL;
     }
 
-    public Provider getProvider() {
-        return Provider.valueOf(getString(FIELD_PROVIDER));
+    public AuthProvider getProvider() {
+        return AuthProvider.valueOf(getString(FIELD_PROVIDER));
     }
 
     public String getProviderId() {

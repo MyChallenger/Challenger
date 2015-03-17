@@ -43,7 +43,7 @@ public class CompletedChallengesFragment extends Fragment{
         // Create DataSource
         challenges = new ArrayList<Challenge>();
         // Create Adapter
-        completedAdapter = new CompletedChallengesAdapter(getActivity(), challenges);
+        completedAdapter = new CompletedChallengesAdapter(getActivity(), challenges, getActivity().getSupportFragmentManager());
     }
 
     @Override

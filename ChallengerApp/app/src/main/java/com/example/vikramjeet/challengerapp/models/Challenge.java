@@ -43,6 +43,11 @@ public class Challenge extends ParseObject {
     private static final String FIELD_BACKER = "backer";
     private static final String FIELD_STATUS = "status";
     private static final String FIELD_LIKES = "likes";
+    private static final String FIELD_CREATED_MEDIA_ID = "createdMediaId";
+    private static final String FIELD_CREATED_MEDIA_PROVIDER = "createdMediaProvider";
+    private static final String FIELD_COMPLETED_MEDIA_ID = "completedMediaId";
+    private static final String FIELD_COMPLETED_MEDIA_PROVIDER = "completedMediaProvider";
+
 
     // Other constants
     private static final String CHALLENGE_ID = "challengeId";
@@ -50,6 +55,7 @@ public class Challenge extends ParseObject {
     private static final String COMPLETE_CHALLENGE_URL = "completeChallenge";
     private static final String VERIFY_CHALLENGE_URL = "verifyChallenge";
     private static final String FIELD_COMMENTS = "comments";
+    private static final String FIELD_AUTHOR = "author";
 
     public Challenge() {
         // A default constructor is required.
@@ -101,6 +107,46 @@ public class Challenge extends ParseObject {
 
     public int getNumberOfViews() {
         return getInt(FIELD_NUMBER_OF_VIEWS);
+    }
+
+    public String getCreatedMediaId() {
+        return getString(FIELD_CREATED_MEDIA_ID);
+    }
+
+    public void setCreatedMediaId(String createdMediaId) {
+        put(FIELD_CREATED_MEDIA_ID, createdMediaId);
+    }
+
+    public String getCompletedMediaId() {
+        return getString(FIELD_COMPLETED_MEDIA_ID);
+    }
+
+    public void setCompletedMediaId(String completedMediaId) {
+        put(FIELD_COMPLETED_MEDIA_ID, completedMediaId);
+    }
+
+    public MediaProvider getCreatedMediaProvider() {
+        try {
+            return MediaProvider.valueOf(getString(FIELD_CREATED_MEDIA_PROVIDER));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setCreatedMediaProvider(MediaProvider createdMediaProvider) {
+        put(FIELD_CREATED_MEDIA_PROVIDER, createdMediaProvider.toString());
+    }
+
+    public MediaProvider getCompletedMediaProvider() {
+        try {
+            return MediaProvider.valueOf(getString(FIELD_COMPLETED_MEDIA_PROVIDER));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setCompletedMediaProvider(MediaProvider completedMediaProvider) {
+        put(FIELD_COMPLETED_MEDIA_PROVIDER, completedMediaProvider.toString());
     }
 
     public int getNumberOfComments() {
@@ -160,6 +206,7 @@ public class Challenge extends ParseObject {
         query.include(FIELD_POSTER);
         query.include(FIELD_BACKER);
         query.include(FIELD_COMMENTS);
+        query.include(FIELD_COMMENTS + "." + FIELD_AUTHOR);
         return query;
     }
 
@@ -255,25 +302,16 @@ public class Challenge extends ParseObject {
         query.getInBackground(challengeID, getCallback);
     }
 
-    public static boolean isVideo(String mediaURL) {
-        String extension = "";
-
-        int index = mediaURL.lastIndexOf('.');
-        if (index >= 0) {
-            extension = mediaURL.substring(index + 1);
+    public boolean isVideo() {
+        boolean isVideo = false;
+        if (getCompletedMediaProvider() != null) {
+            switch (getCompletedMediaProvider()) {
+                case YOUTUBE:
+                    isVideo = true;
+                    break;
+            }
         }
-
-        // Check if extension is an image extension
-        if (extension.equals("jpg")
-                || extension.equals("jpeg")
-                || extension.equals("png")
-                || extension.equals("gif")
-                || extension.equals("tiff")
-                || extension.equals("tif")) {
-
-            return false;
-        }
-        return true;
+        return isVideo;
     }
 
     public void incrementViews(final SaveCallback callback) {
