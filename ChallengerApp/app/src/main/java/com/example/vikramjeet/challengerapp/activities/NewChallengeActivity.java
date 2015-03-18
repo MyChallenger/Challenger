@@ -123,6 +123,7 @@ public class NewChallengeActivity extends ActionBarActivity {
         final Challenge newChallenge;
         if(etTitle.getText() != null && etBurb.getText() != null) {
             newChallenge = new Challenge();
+            //newChallenge.setStatus();
             newChallenge.setTitle(etTitle.getText().toString());
             newChallenge.setDescription(etBurb.getText().toString());
             newChallenge.setCategory(spCategory.getSelectedItem().toString());
@@ -154,9 +155,8 @@ public class NewChallengeActivity extends ActionBarActivity {
            // newChallenge.setLocation(etLocation.getText().toString()); // Convert to geo location
             try {
                 newChallenge.save();
-
                 mChallengeId = newChallenge.getObjectId();
-                Toast.makeText(this, "Created New Challenge"+mChallengeId, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Created New Challenge", Toast.LENGTH_SHORT).show();
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

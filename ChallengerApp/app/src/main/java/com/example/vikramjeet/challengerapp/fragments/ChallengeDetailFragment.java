@@ -174,7 +174,10 @@ public class ChallengeDetailFragment extends Fragment {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("description", challenge.getDescription());
                 map.put("challenger_name", challenge.getPoster().getName());
-                map.put("backer_name", challenge.getBacker().getName());
+                if(challenge.getBacker() != null)
+                    map.put("backer_name", challenge.getBacker().getName());
+                else
+                    map.put("backer_name", "none");
 //                map.put("location", challenge.getLocation().toString());
                 map.put("category", challenge.getCategory());
 
@@ -184,49 +187,58 @@ public class ChallengeDetailFragment extends Fragment {
         });
     }
 
-    private void configureButton() {
-        User currentUser = (User) ParseUser.getCurrentUser();
 
-        // Set proper button text
-        ChallengeStatus status = challenge.getStatus();
+        private void configureButton() {
+            User currentUser = (User) ParseUser.getCurrentUser();
+            User poster = challenge.getPoster();
+            User backer = challenge.getBacker();
 
-        switch(status) {
-            case OPEN: {
-                if (currentUser != challenge.getPoster()) {
-                    btnStatus.setText("SPONSOR");
+            // Set proper button text
+            ChallengeStatus status = challenge.getStatus();
+            Toast.makeText(getActivity(),"status"+status,Toast.LENGTH_SHORT).show();
+
+            switch(status) {
+                case OPEN: {
+                    if (currentUser.getName() != poster.getName()) {
+                        btnStatus.setText("SPONSOR");
+                    } else {
+                        btnStatus.setText("OPEN");
+                        btnStatus.setEnabled(false);
+                    }
+                    break;
                 }
-                btnStatus.setText("OPEN");
-                btnStatus.setEnabled(false);
-                break;
-            }
-            case BACKED: {
-                if (currentUser == challenge.getPoster()) {
-                    btnStatus.setText("COMPLETE");
+                case BACKED: {
+                    if (currentUser.getName() == poster.getName()) {
+                        btnStatus.setText("COMPLETE");
+
+                    } else {
+                        btnStatus.setText("BACKED");
+                        btnStatus.setEnabled(false);
+                    }
+                    break;
                 }
-                btnStatus.setText("BACKED");
-                btnStatus.setEnabled(false);
-                break;
-            }
-            case COMPLETED: {
-                if (currentUser == challenge.getBacker()) {
-                    btnStatus.setText("VERIFY");
+                case COMPLETED: {
+                    if (currentUser.getName() == backer.getName()) {
+                        btnStatus.setText("VERIFY");
+                    } else {
+                        btnStatus.setText("COMPLETED");
+                        btnStatus.setEnabled(false);
+                    }
+                    break;
                 }
-                btnStatus.setText("COMPLETED");
-                btnStatus.setEnabled(false);
-                break;
+                case VERIFIED: {
+                    btnStatus.setText("VERIFIED");
+                    btnStatus.setEnabled(false);
+                    break;
+                }
+                default:
+                    break;
             }
-            case VERIFIED: {
-                btnStatus.setText("VERIFIED");
-                btnStatus.setEnabled(false);
-                break;
-            }
-            default:
-                break;
+
+            // Add click listeners
+            addClickListenerToStatusButton();
         }
 
-        // Add click listeners
-        addClickListenerToStatusButton();
-    }
 
     private void addClickListenerToStatusButton() {
         btnStatus.setOnClickListener(new View.OnClickListener() {
