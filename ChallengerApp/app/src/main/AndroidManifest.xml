@@ -148,10 +148,6 @@
         </receiver>
 
         <activity
-            android:name=".activities.CompleteChallengeActivity"
-            android:label="@string/title_activity_complete" >
-        </activity>
-        <activity
             android:name=".activities.LeaderboardActivity"
             android:label="@string/title_activity_leaderboard" >
         </activity>
@@ -164,7 +160,6 @@
         <activity
             android:name=".activities.PaymentActivity"
             android:label="@string/title_activity_payment" >
->>>>>>> d111e2996cf97965476ae43084ee40858b94ab3c
         </activity>
         <activity
             android:name=".activities.NewChallengeActivity"
