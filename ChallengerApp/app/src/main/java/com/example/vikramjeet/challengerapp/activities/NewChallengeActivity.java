@@ -39,6 +39,7 @@ public class NewChallengeActivity extends ActionBarActivity {
     private EditText etImageUrl;
     private Spinner spExpiry;
     private Spinner spCategory;
+    private String mChallengeId;
 
     Uri photoUri;
 
@@ -96,7 +97,7 @@ public class NewChallengeActivity extends ActionBarActivity {
 
     private void uploadVideo() {
         Intent i = new Intent(this, PickVideoActivity.class);
-        i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, "dTAyxFogOz");
+        i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, mChallengeId);
         i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
         startActivity(i);
     }
@@ -153,7 +154,9 @@ public class NewChallengeActivity extends ActionBarActivity {
            // newChallenge.setLocation(etLocation.getText().toString()); // Convert to geo location
             try {
                 newChallenge.save();
-                Toast.makeText(this, "Created New Challenge", Toast.LENGTH_SHORT).show();
+
+                mChallengeId = newChallenge.getObjectId();
+                Toast.makeText(this, "Created New Challenge"+mChallengeId, Toast.LENGTH_SHORT).show();
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
