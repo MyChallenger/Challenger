@@ -38,7 +38,7 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
 
                     // Get the fragment
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, challenge.isVideo());
+                    ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, challenge.isCompletedMediaVideo());
                     ft.replace(R.id.my_placeholder, challengeDetailFragment);
                     ft.commit();
                 }

@@ -13,58 +13,49 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.PickVideoActivity;
-import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
 import com.example.vikramjeet.challengerapp.models.MediaType;
 import com.example.vikramjeet.challengerapp.models.User;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.makeramen.RoundedTransformationBuilder;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * Created by Vikramjeet on 3/8/15.
  */
-public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.PlayerStateChangeListener, YouTubePlayer.OnFullscreenListener {
-
-    private final int CHALLENGE_TYPE_IMAGE = 0;
-    private final int CHALLENGE_TYPE_VIDEO = 1;
+public class ChallengeDetailFragment extends Fragment {
 
     private Challenge challenge;
     private String challengeId;
-    private int fragmentType;
-
-    private static final String YOUTUBE_FRAGMENT_TAG = "youtube";
-    private YouTubePlayer mYouTubePlayer;
-    private boolean mIsFullScreen = false;
 
     private ViewPager vpPager;
     private PagerSlidingTabStrip tabStrip;
     private ImageView ivUserPhoto;
     private TextView tvUsername;
-    private ImageView ivChallengeImage;
-    private FrameLayout flChallengeDetail;
     private TextView tvLikes;
     private TextView tvViews;
     private TextView btnStatus;
     private TextView tvTitle;
+
+    @InjectView(R.id.viewpager)
+    ViewPager viewPager;
 
     private ChallengeDescriptionFragment descriptionFragment;
     private CommentListFragment commentFragment;
@@ -89,21 +80,17 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
 
         // Get arguments and populate fragmentType
         challengeId = getArguments().getString("challenge_id");
-        fragmentType = getArguments().getBoolean("challenge_fragment_type") ? 1 : 0;
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View view = null;
 
-        // Inflate the fragment view
-        if (fragmentType == CHALLENGE_TYPE_IMAGE) {
-            view = inflater.inflate(R.layout.fragment_challenge_detail_image, parent, false);
-            ivChallengeImage = (ImageView) view.findViewById(R.id.ivChallengeDetail);
-        } else {
-            view = inflater.inflate(R.layout.fragment_challenge_detail_video, parent, false);
-            flChallengeDetail = (FrameLayout) view.findViewById(R.id.flChallengeDetail);
-        }
+        view = inflater.inflate(R.layout.fragment_challenge_detail_video, parent, false);
+        CirclePageIndicator indicator = (CirclePageIndicator)view.findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
+
+        ButterKnife.inject(this, view);
 
         ivUserPhoto = (ImageView) view.findViewById(R.id.ivChallengeDetailUserPhoto);
         tvUsername = (TextView) view.findViewById(R.id.tvChallengeDetailUserName);
@@ -155,16 +142,7 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
 
                     configureButton();
 
-                    if (challenge.isVideo()) {
-                        panToVideo(challenge.getCompletedMediaId());
-                    } else {
-                        if (challenge.getCompletedMedia() != null) {
-                            Picasso.with(getActivity()).
-                                    load(challenge.getCompletedMedia().getUrl()).
-                                    placeholder(R.drawable.photo_placeholder).
-                                    into(ivChallengeImage);
-                        }
-                    }
+                    viewPager.setAdapter(new MediaPagerAdapter(getActivity().getSupportFragmentManager(), challenge));
                 }
 
                 // Populate dictionary with challenge detail
@@ -294,87 +272,6 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
                 btnStatus.setEnabled(false);
             }
         });
-    }
-
-    public void panToVideo(final String youtubeId) {
-        popPlayerFromBackStack();
-        YouTubePlayerSupportFragment playerFragment = YouTubePlayerSupportFragment
-                .newInstance();
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.flChallengeDetail, playerFragment,
-                        YOUTUBE_FRAGMENT_TAG)
-                .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .addToBackStack(null).commit();
-        playerFragment.initialize(Auth.KEY,
-                new YouTubePlayer.OnInitializedListener() {
-                    @Override
-                    public void onInitializationSuccess(
-                            YouTubePlayer.Provider provider,
-                            YouTubePlayer youTubePlayer, boolean b) {
-                        youTubePlayer.cueVideo(youtubeId);
-                        mYouTubePlayer = youTubePlayer;
-                        youTubePlayer
-                                .setPlayerStateChangeListener(ChallengeDetailFragment.this);
-                        youTubePlayer
-                                .setOnFullscreenListener(ChallengeDetailFragment.this);
-                    }
-
-                    @Override
-                    public void onInitializationFailure(
-                            YouTubePlayer.Provider provider,
-                            YouTubeInitializationResult result) {
-                        showErrorToast(result.toString());
-                    }
-                });
-    }
-
-    public boolean popPlayerFromBackStack() {
-        if (mIsFullScreen) {
-            mYouTubePlayer.setFullscreen(false);
-            return false;
-        }
-        if (getActivity().getSupportFragmentManager().findFragmentByTag(YOUTUBE_FRAGMENT_TAG) != null) {
-            getActivity().getSupportFragmentManager().popBackStack();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void onAdStarted() {
-    }
-
-    @Override
-    public void onError(YouTubePlayer.ErrorReason errorReason) {
-        showErrorToast(errorReason.toString());
-    }
-
-    private void showErrorToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
-                .show();
-    }
-
-    @Override
-    public void onLoaded(String arg0) {
-    }
-
-    @Override
-    public void onLoading() {
-    }
-
-    @Override
-    public void onVideoEnded() {
-        // popPlayerFromBackStack();
-    }
-
-    @Override
-    public void onVideoStarted() {
-    }
-
-    @Override
-    public void onFullscreen(boolean fullScreen) {
-        mIsFullScreen = fullScreen;
     }
 
     public class ChallengeDetailPagerAdapter extends FragmentPagerAdapter {
