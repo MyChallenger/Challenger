@@ -1,6 +1,7 @@
 package com.example.vikramjeet.challengerapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,19 +23,28 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.card.payment.CardIOActivity;
 
 /**
  * Created by vinutha on 3/7/2015.
  */
 public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
+
+    private final ChallengeArrayAdapterListener listener;
+
+    public interface ChallengeArrayAdapterListener {
+        void onChallengeSponsor(Challenge challenge);
+    }
+
     @InjectView(R.id.tvTitle) TextView tvTitle;
     @InjectView(R.id.tvCategory) TextView tvCategory;
     @InjectView(R.id.tvGoal) TextView tvGoal;
     @InjectView(R.id.tvExpiry) TextView tvExpiry;
     @InjectView(R.id.ivProfile) ImageView ivProfile;
     @InjectView(R.id.btnAdd) Button btnSponsor;
-    public ChallengeArrayAdapter(Context context, List<Challenge> challengeList) {
+    public ChallengeArrayAdapter(Context context, List<Challenge> challengeList, ChallengeArrayAdapterListener listener) {
         super(context, android.R.layout.simple_list_item_1, challengeList);
+        this.listener = listener;
     }
 
     @Override
@@ -55,19 +65,7 @@ public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
         btnSponsor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnSponsor.setText("SPONSORED");
-                btnSponsor.setEnabled(false);
-
-                challenge.back(new GetCallback<Challenge>() {
-                    @Override
-                    public void done(Challenge challenge, com.parse.ParseException e) {
-                        btnSponsor.setText("SPONSORED");
-                        btnSponsor.setEnabled(false);
-
-                    }
-
-                });
-
+                listener.onChallengeSponsor(challenge);
             }
         });
 

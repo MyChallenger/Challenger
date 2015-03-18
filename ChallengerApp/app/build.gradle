@@ -52,4 +52,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     // For swiping between created/completed media on the challenge details screen
     compile 'com.viewpagerindicator:library:2.4.1@aar'
+
+    compile 'com.android.support:multidex:1.0.0'
 }

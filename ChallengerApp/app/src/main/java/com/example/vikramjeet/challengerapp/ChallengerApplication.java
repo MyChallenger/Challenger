@@ -1,6 +1,6 @@
 package com.example.vikramjeet.challengerapp;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.Comment;
@@ -10,7 +10,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseTwitterUtils;
 
-public class ChallengerApplication extends Application {
+public class ChallengerApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();

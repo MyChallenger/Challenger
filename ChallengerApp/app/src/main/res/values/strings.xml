@@ -25,6 +25,7 @@
     <string name="title_activity_second">SecondActivity</string>
     <string name="title_activity_complete">CompleteActivity</string>
     <string name="title_activity_leaderboard">LeaderboardActivity</string>
+    <string name="back_confirmation">Do you want to continue?</string>
 
 
 <!-- TODO: Remove or change this placeholder text -->

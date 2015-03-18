@@ -1,5 +1,7 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,29 +12,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.adapters.ChallengeArrayAdapter;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.card.payment.CardIOActivity;
+import io.card.payment.CreditCard;
+
 /**
  * Created by vinutha on 3/7/2015.
  */
-public class OpenChallengesFragment extends Fragment {
+public class OpenChallengesFragment extends Fragment implements ChallengeArrayAdapter.ChallengeArrayAdapterListener {
     public static final String ARG_PAGE = "ARG_PAGE";
     private ArrayList<Challenge> challenges;
     private ChallengeArrayAdapter aOpenChallenges;
     private ListView lvOpenChallenges;
     public static final String EXTRA_OPEN_CHALLENGE_ID = "challenge_open_id";
 
+    private static final int SCAN_REQUEST_CODE = 100;
+
     private int mPage;
     private SwipeRefreshLayout swipeContainer;
+    private Challenge currentlySponsoredChallenge;
 
     public static OpenChallengesFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -47,7 +57,7 @@ public class OpenChallengesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mPage = getArguments().getInt(ARG_PAGE);
         challenges = new ArrayList<>();
-        aOpenChallenges = new ChallengeArrayAdapter(getActivity(), challenges);
+        aOpenChallenges = new ChallengeArrayAdapter(getActivity(), challenges, this);
         //Connect to the client
         //Generate the timeLine
         populateData();
@@ -123,5 +133,76 @@ public class OpenChallengesFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         return view;
+    }
+
+    @Override
+    public void onChallengeSponsor(Challenge challenge) {
+        currentlySponsoredChallenge = challenge;
+        Intent scanIntent = new Intent(getActivity(), CardIOActivity.class);
+
+        // customize these values to suit your needs.
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true); // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false); // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false); // default: false
+
+        // SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
+        startActivityForResult(scanIntent, SCAN_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SCAN_REQUEST_CODE) {
+
+            String redactedNumber;
+            String expiryMonth;
+            String expiryYear;
+            String cvv;
+            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+                redactedNumber = scanResult.getRedactedCardNumber();
+                expiryMonth = String.valueOf(scanResult.expiryMonth);
+                expiryYear = String.valueOf(scanResult.expiryYear);
+                cvv = scanResult.cvv;
+            }
+            else {
+                redactedNumber = "XXXX-XXXX-XXXX-3258";
+                expiryMonth = "5";
+                expiryYear = "15";
+                cvv = "123";
+            }
+            String confirmation = "You will be charged: " + currentlySponsoredChallenge.getPrize();
+            confirmation += "\nCredit Card Number: " + redactedNumber;
+            confirmation += "\nExpiration: " + expiryMonth + "/" + expiryYear;
+            confirmation += "\nCVV: " + cvv;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setMessage(confirmation)
+                    .setTitle(R.string.back_confirmation);
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    currentlySponsoredChallenge.back(new GetCallback<Challenge>() {
+                        @Override
+                        public void done(Challenge challenge, com.parse.ParseException e) {
+                            Toast.makeText(getActivity(), "Challenge backed successfully!", Toast.LENGTH_SHORT).show();
+                            populateData();
+                        }
+
+                    });
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Toast.makeText(getActivity(), "Did not back challenge! :(", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+        }
     }
 }
