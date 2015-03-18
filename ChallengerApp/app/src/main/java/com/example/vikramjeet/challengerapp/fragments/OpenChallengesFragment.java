@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by devadutta on 3/7/2015.
+ * Created by vinutha on 3/7/2015.
  */
 public class OpenChallengesFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
