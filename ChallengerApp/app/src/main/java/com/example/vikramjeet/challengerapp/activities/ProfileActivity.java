@@ -56,7 +56,7 @@ public class ProfileActivity extends ActionBarActivity {
         }
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle("Welcome"+ user.getName());
+        actionBar.setTitle("Welcome "+ user.getName());
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         ivProfile.setEnabled(false);

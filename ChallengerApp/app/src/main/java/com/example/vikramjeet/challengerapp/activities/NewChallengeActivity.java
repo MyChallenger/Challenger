@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.example.vikramjeet.challengerapp.models.MediaType;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.SaveCallback;
@@ -81,6 +82,7 @@ public class NewChallengeActivity extends ActionBarActivity {
         try {
         if(validateInput()) {
             finish();
+            uploadVideo();
         }
         else {
             //Display Error message
@@ -90,6 +92,13 @@ public class NewChallengeActivity extends ActionBarActivity {
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private void uploadVideo() {
+        Intent i = new Intent(this, PickVideoActivity.class);
+        i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, "dTAyxFogOz");
+        i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
+        startActivity(i);
     }
 
     private boolean validateInput() throws IOException {
