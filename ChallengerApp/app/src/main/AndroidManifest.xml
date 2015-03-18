@@ -148,10 +148,6 @@
         </receiver>
 
         <activity
-            android:name=".activities.CompleteChallengeActivity"
-            android:label="@string/title_activity_complete" >
-        </activity>
-        <activity
             android:name=".activities.LeaderboardActivity"
             android:label="@string/title_activity_leaderboard" >
         </activity>
