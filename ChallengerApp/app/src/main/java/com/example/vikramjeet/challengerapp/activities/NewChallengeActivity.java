@@ -98,7 +98,7 @@ public class NewChallengeActivity extends ActionBarActivity {
     private void uploadVideo() {
         Intent i = new Intent(this, PickVideoActivity.class);
         i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, mChallengeId);
-        i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
+        i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.CREATED.ordinal());
         startActivity(i);
     }
 
