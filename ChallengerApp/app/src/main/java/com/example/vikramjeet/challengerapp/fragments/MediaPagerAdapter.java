@@ -98,10 +98,12 @@ public class MediaPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void onPageSelected(int position) {
-        if (position == 0) {
-            mYouTubePlayer.cueVideo(mChallenge.getCreatedMediaId());
-        } else if (position == 1) {
-            mYouTubePlayer.cueVideo(mChallenge.getCompletedMediaId());
+        if (mYouTubePlayer != null) {
+            if (position == 0) {
+                mYouTubePlayer.cueVideo(mChallenge.getCreatedMediaId());
+            } else if (position == 1) {
+                mYouTubePlayer.cueVideo(mChallenge.getCompletedMediaId());
+            }
         }
     }
 }
