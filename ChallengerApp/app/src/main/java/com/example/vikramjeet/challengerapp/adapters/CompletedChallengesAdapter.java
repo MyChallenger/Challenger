@@ -42,6 +42,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
     private YouTubePlayer mYouTubePlayer;
     private boolean mIsFullScreen = false;
 
+    private static final String YOUTUBE_VIDEO_THUMBNAIL = "http://img.youtube.com/vi/%s/hqdefault.jpg";
+
     public void panToVideo(final String youtubeId) {
         popPlayerFromBackStack();
         YouTubePlayerSupportFragment playerFragment = YouTubePlayerSupportFragment
@@ -349,6 +351,11 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                             load(challenge.getCompletedMedia().getUrl()).
                             placeholder(R.drawable.photo_placeholder).
                             into(viewHolder2.ivCompletedImage);
+                } else if (challenge.getCompletedMediaId() != null) {
+                    Picasso.with(getContext()).
+                            load(String.format(YOUTUBE_VIDEO_THUMBNAIL, challenge.getCompletedMediaId())).
+                            placeholder(R.drawable.photo_placeholder).
+                            into(viewHolder2.ivCompletedImage);
                 } else {
                     viewHolder2.ivCompletedImage.setImageResource(R.drawable.photo_placeholder);
                 }
@@ -366,7 +373,10 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
         if (challenge.isCompletedMediaVideo()) {
             viewType = ViewValues.VIDEO.ordinal();
         }
-        return viewType;
+//        return viewType;
+        //  Taking out videos from the completed list, and instead replacing them with thumbnails of videos
+        // The videos are taking up too much memory and taking too long to load, so the app is very sluggish
+        return ViewValues.IMAGE.ordinal();
     }
 
     // Total number of types is the number of enum values
