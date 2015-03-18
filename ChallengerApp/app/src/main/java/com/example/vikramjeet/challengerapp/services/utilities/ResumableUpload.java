@@ -31,6 +31,8 @@ import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.PickVideoActivity;
 import com.example.vikramjeet.challengerapp.activities.PlayVideoActivity;
 import com.example.vikramjeet.challengerapp.activities.ReviewVideoActivity;
+import com.example.vikramjeet.challengerapp.configurations.Constants;
+import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.googleapis.media.MediaHttpUploader;
@@ -50,8 +52,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
-import com.example.vikramjeet.challengerapp.configurations.Constants;
 
 
 /**
@@ -81,7 +81,7 @@ public class ResumableUpload {
      * for authentication.
      */
 
-    public static String upload(YouTube youtube, final InputStream fileInputStream,
+    public static String upload(final Challenge challenge, YouTube youtube, final InputStream fileInputStream,
                                 final long fileSize, final Uri mFileUri, final String path, final Context context) {
         final NotificationManager notifyManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -121,9 +121,8 @@ public class ResumableUpload {
        * and use your own standard names.
        */
             Calendar cal = Calendar.getInstance();
-            snippet.setTitle("Test Upload via Java on " + cal.getTime());
-            snippet.setDescription("Video uploaded via YouTube Data API V3 using the Java library "
-                    + "on " + cal.getTime());
+            snippet.setTitle(challenge.getTitle());
+            snippet.setDescription(challenge.getDescription());
 
             // Set your keywords.
             snippet.setTags(Arrays.asList(Constants.DEFAULT_KEYWORD, Upload.generateKeywordFromPlaylistId(Constants.UPLOAD_PLAYLIST)));
