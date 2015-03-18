@@ -61,7 +61,7 @@ public class CommentActivity extends ActionBarActivity {
         User user = (User) ParseUser.getCurrentUser();
 
         // Populate views here
-        tvUsername.setText(user.getUsername());
+        tvUsername.setText(user.getName());
         // Rounded image transformation
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
@@ -154,7 +154,6 @@ public class CommentActivity extends ActionBarActivity {
                 etComment.setText("");
                 // Refresh comment list here
                 int commentCount = challenge.getComments().size();
-
 
                 // Prepare data intent
                 Intent data = new Intent();

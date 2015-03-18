@@ -41,6 +41,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
     }
 
     public CommentListAdapter(Context context, ArrayList<Comment> comments) {
+
         super(context, android.R.layout.simple_list_item_1, comments);
     }
 
@@ -62,13 +63,13 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         }
 
         // Populate views
-        viewHolder.tvUserName.setText(comment.getAuthor().getUsername());
+        viewHolder.tvUserName.setText(comment.getAuthor().getName());
         viewHolder.tvCommentText.setText(comment.getText());
 
         // Transformation for rounded views
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
-                .cornerRadiusDp(25)
+                .cornerRadiusDp(30)
                 .oval(false)
                 .build();
 

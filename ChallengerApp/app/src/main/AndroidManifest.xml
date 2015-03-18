@@ -101,12 +101,12 @@
         <activity
             android:name=".activities.CompletedChallengeDetailActivity"
             android:label="@string/title_activity_completed_challenge_detail"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.CompleteChallengeActivity" >
         </activity>
         <activity
             android:name=".activities.CommentActivity"
             android:label="@string/title_activity_comment"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activities.CompleteChallengeActivity"
             android:theme="@style/PopupTheme" >
         </activity>
         <activity

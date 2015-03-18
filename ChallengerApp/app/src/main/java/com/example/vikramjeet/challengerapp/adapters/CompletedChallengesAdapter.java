@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.CommentActivity;
+import com.example.vikramjeet.challengerapp.activities.CompleteChallengeActivity;
 import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
@@ -127,6 +128,8 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
         VIDEO, IMAGE
     }
 
+    private CompleteChallengeActivity myContext;
+
     // View lookup cache
     public static class VideoViewHolder {
         @InjectView(R.id.ivCompletedUserPhoto)
@@ -166,7 +169,6 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
         TextView tvCategory;
         @InjectView(R.id.tvCompletedChallengeTitle_2)
         TextView tvTitle;
-
 
         public ImageViewHolder(View view) {
             ButterKnife.inject(this, view);
@@ -336,9 +338,16 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                     @Override
                     public void onClick(View v) {
                         // Ask for comment screen here
+//                        if (myContext instanceof  CompleteChallengeActivity) {
+//                            CompleteChallengeActivity act = (CompleteChallengeActivity) getContext();
+//                            act.showCommentActivity(challenge.getObjectId());
+//
+//                        }
+
                         Intent i = new Intent(getContext(), CommentActivity.class);
                         i.putExtra("challenge_id", challenge.getObjectId());
                         ((Activity) getContext()).startActivityForResult(i, 200);
+
                     }
                 });
 

@@ -112,16 +112,4 @@ public class CompletedChallengesFragment extends Fragment{
 
     }
 
-
-//    protectedvoid onActivityResult(int requestCode, int resultCode, Intent data) {
-//        cha.onActivityResult(requestCode, resultCode, data);
-//    }
-
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        completedAdapter.onActivityResult(requestCode, resultCode, data);
-//
-//    }
 }
