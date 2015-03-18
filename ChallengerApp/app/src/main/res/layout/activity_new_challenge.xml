@@ -196,8 +196,7 @@
         android:id="@+id/btnAdd"
         android:onClick="onAddChallenge"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/spinnerEndDate"
-        android:layout_alignEnd="@+id/spinnerEndDate" />
+        android:layout_alignParentRight="true"/>
 
 
 
