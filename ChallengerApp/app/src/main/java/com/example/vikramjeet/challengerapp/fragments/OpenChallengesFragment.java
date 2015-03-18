@@ -75,6 +75,12 @@ public class OpenChallengesFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateData();
+    }
+
     // Inflate the fragment layout we defined above for this fragment
     // Set the associated text for the title
     @Override

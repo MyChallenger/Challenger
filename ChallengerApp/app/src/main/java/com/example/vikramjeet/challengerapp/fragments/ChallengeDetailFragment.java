@@ -195,11 +195,9 @@ public class ChallengeDetailFragment extends Fragment {
 
             // Set proper button text
             ChallengeStatus status = challenge.getStatus();
-            Toast.makeText(getActivity(),"status"+status,Toast.LENGTH_SHORT).show();
-
             switch(status) {
                 case OPEN: {
-                    if (currentUser.getName() != poster.getName()) {
+                    if (currentUser.getObjectId() != poster.getObjectId()) {
                         btnStatus.setText("SPONSOR");
                     } else {
                         btnStatus.setText("OPEN");
@@ -208,7 +206,7 @@ public class ChallengeDetailFragment extends Fragment {
                     break;
                 }
                 case BACKED: {
-                    if (currentUser.getName() == poster.getName()) {
+                    if (currentUser.getObjectId() == poster.getObjectId()) {
                         btnStatus.setText("COMPLETE");
 
                     } else {
@@ -218,7 +216,7 @@ public class ChallengeDetailFragment extends Fragment {
                     break;
                 }
                 case COMPLETED: {
-                    if (currentUser.getName() == backer.getName()) {
+                    if (currentUser.getObjectId() == backer.getObjectId()) {
                         btnStatus.setText("VERIFY");
                     } else {
                         btnStatus.setText("COMPLETED");

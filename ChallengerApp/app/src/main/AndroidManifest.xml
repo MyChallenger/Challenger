@@ -101,7 +101,7 @@
         <activity
             android:name=".activities.CompletedChallengeDetailActivity"
             android:label="@string/title_activity_completed_challenge_detail"
-            android:parentActivityName=".activities.CompleteChallengeActivity" >
+            android:parentActivityName=".activities.MainActivity" >
         </activity>
         <activity
             android:name=".activities.CommentActivity"
@@ -149,7 +149,8 @@
 
         <activity
             android:name=".activities.LeaderboardActivity"
-            android:label="@string/title_activity_leaderboard" >
+            android:label="@string/title_activity_leaderboard"
+            android:parentActivityName=".activities.ProfileActivity" >
         </activity>
 
         <!-- Activities responsible for gathering payment info -->
