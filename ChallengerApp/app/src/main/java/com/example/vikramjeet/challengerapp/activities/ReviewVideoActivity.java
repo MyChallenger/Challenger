@@ -18,16 +18,11 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
+import com.example.vikramjeet.challengerapp.services.UploadService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import com.example.vikramjeet.challengerapp.models.Challenge;
-import com.example.vikramjeet.challengerapp.models.MediaType;
-import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
-import com.example.vikramjeet.challengerapp.services.UploadService;
-import com.parse.GetCallback;
-import com.parse.ParseException;
 
 public class ReviewVideoActivity extends ActionBarActivity {
 
@@ -45,9 +40,6 @@ public class ReviewVideoActivity extends ActionBarActivity {
 
     private UploadResultReceiver mUploadResultReceiver;
 
-    private Challenge mChallenge;
-    private MediaType mMediaType;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,17 +56,6 @@ public class ReviewVideoActivity extends ActionBarActivity {
 
         reviewVideo(mFileUri);
         setupServiceReceiver();
-
-        String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
-        Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
-            @Override
-            public void done(Challenge challenge, ParseException e) {
-                if (e == null) {
-                    mChallenge = challenge;
-                }
-            }
-        });
-        mMediaType = MediaType.values()[getIntent().getIntExtra(EXTRA_MEDIA_TYPE, 0)];
     }
 
     private void reviewVideo(Uri mFileUri) {
@@ -114,11 +95,15 @@ public class ReviewVideoActivity extends ActionBarActivity {
             uploadIntent.setData(mFileUri);
             uploadIntent.putExtra(PickVideoActivity.ACCOUNT_KEY, mChosenAccountName);
             uploadIntent.putExtra("receiver", mUploadResultReceiver);
+            uploadIntent.putExtra(UploadService.EXTRA_CHALLENGE_ID, getIntent().getStringExtra(EXTRA_CHALLENGE_ID));
+            uploadIntent.putExtra(UploadService.EXTRA_MEDIA_TYPE, getIntent().getIntExtra(EXTRA_MEDIA_TYPE, 0));
             startService(uploadIntent);
             Toast.makeText(this, R.string.youtube_upload_started,
                     Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
             // Go back to PickVideoActivity after upload
-            finish();
+//            finish();
         }
     }
 
@@ -131,7 +116,7 @@ public class ReviewVideoActivity extends ActionBarActivity {
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == RESULT_OK) {
                     String videoId = resultData.getString("resultValue");
-                    Toast.makeText(ReviewVideoActivity.this, videoId, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReviewVideoActivity.this, getResources().getString(R.string.upload_completed), Toast.LENGTH_SHORT).show();
                 }
             }
         });
