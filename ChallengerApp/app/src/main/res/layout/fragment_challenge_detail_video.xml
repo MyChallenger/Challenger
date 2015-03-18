@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_alignTop="@id/viewpager"
-        app:pageColor="@color/purple"/>
+        android:layout_below="@+id/tvChallengeDetailTitle"
+        app:pageColor="@color/primary_blue"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
@@ -53,7 +53,7 @@
         android:layout_height="165dp"
         android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"
         android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"
-        android:layout_below="@+id/tvChallengeDetailTitle"
+        android:layout_below="@+id/indicator"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"

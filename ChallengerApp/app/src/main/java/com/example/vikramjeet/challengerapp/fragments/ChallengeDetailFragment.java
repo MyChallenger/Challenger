@@ -57,6 +57,9 @@ public class ChallengeDetailFragment extends Fragment {
     @InjectView(R.id.viewpager)
     ViewPager viewPager;
 
+    @InjectView(R.id.indicator)
+    CirclePageIndicator indicator;
+
     private ChallengeDescriptionFragment descriptionFragment;
     private CommentListFragment commentFragment;
 
@@ -87,9 +90,6 @@ public class ChallengeDetailFragment extends Fragment {
         View view = null;
 
         view = inflater.inflate(R.layout.fragment_challenge_detail_video, parent, false);
-        CirclePageIndicator indicator = (CirclePageIndicator)view.findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
-
         ButterKnife.inject(this, view);
 
         ivUserPhoto = (ImageView) view.findViewById(R.id.ivChallengeDetailUserPhoto);
@@ -143,6 +143,7 @@ public class ChallengeDetailFragment extends Fragment {
                     configureButton();
 
                     viewPager.setAdapter(new MediaPagerAdapter(getActivity().getSupportFragmentManager(), challenge));
+                    indicator.setViewPager(viewPager);
                 }
 
                 // Populate dictionary with challenge detail
