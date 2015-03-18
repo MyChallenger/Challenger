@@ -37,7 +37,6 @@
             android:fontFamily="sans-serif-condensed"
             android:hint="@string/button_upload"
             android:maxLines="2"
-
             android:onClick="uploadVideo"
             android:padding="8dp"
             android:textAppearance="?android:textAppearanceLarge"
