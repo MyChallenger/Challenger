@@ -1,7 +1,6 @@
 package com.example.vikramjeet.challengerapp.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.fragments.CommentListFragment;
@@ -62,11 +60,7 @@ public class CommentActivity extends ActionBarActivity {
         User user = (User) ParseUser.getCurrentUser();
 
         // Populate views here
-<<<<<<< .merge_file_lZCfIx
         tvUsername.setText(user.getName());
-=======
-        tvUsername.setText(user.getUsername());
->>>>>>> .merge_file_d0Wnhe
         // Rounded image transformation
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
@@ -89,11 +83,7 @@ public class CommentActivity extends ActionBarActivity {
 
         // Get the fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-<<<<<<< .merge_file_lZCfIx
         commentFragment = CommentListFragment.newInstance(challengeId, false);
-=======
-        CommentListFragment commentFragment = CommentListFragment.newInstance(challengeId, false);
->>>>>>> .merge_file_d0Wnhe
         ft.replace(R.id.my_placeholder, commentFragment);
         ft.commit();
 
@@ -170,24 +160,9 @@ public class CommentActivity extends ActionBarActivity {
         challenge.addComment(comment, new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Toast.makeText(getApplicationContext(), "Posted comment: " + etComment.getText().toString(), Toast.LENGTH_SHORT).show();
                 etComment.setText("");
                 // Refresh comment list here
-<<<<<<< .merge_file_lZCfIx
                 commentFragment.refreshComments();
-=======
-                int commentCount = challenge.getComments().size();
->>>>>>> .merge_file_d0Wnhe
-
-
-                // Prepare data intent
-                Intent data = new Intent();
-                // Pass relevant data back as a result
-                data.putExtra("number", commentCount);
-                data.putExtra("code", 200); // ints work too
-                // Activity finished ok, return the data
-                setResult(RESULT_OK, data); // set result code and bundle data for response
-                finish(); // closes the activity, pass data to parent
             }
         });
 

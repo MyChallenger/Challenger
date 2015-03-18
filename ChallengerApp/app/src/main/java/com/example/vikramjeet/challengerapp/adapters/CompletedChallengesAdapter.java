@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.CommentActivity;
-import com.example.vikramjeet.challengerapp.activities.CompleteChallengeActivity;
 import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
@@ -127,8 +126,6 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
     public enum ViewValues {
         VIDEO, IMAGE
     }
-
-    private CompleteChallengeActivity myContext;
 
     // View lookup cache
     public static class VideoViewHolder {
