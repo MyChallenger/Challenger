@@ -85,12 +85,5 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void onProfileView() {
-        Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
 
-
-    }
-    public void onCreateChallenge(){
-        Toast.makeText(this, "On Create challenge", Toast.LENGTH_SHORT).show();
-    }
 }
