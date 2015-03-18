@@ -1,5 +1,6 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,9 +20,11 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.activities.PickVideoActivity;
 import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
+import com.example.vikramjeet.challengerapp.models.MediaType;
 import com.example.vikramjeet.challengerapp.models.User;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -272,6 +275,12 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
                 //Update button
                 btnStatus.setText("COMPLETED");
                 btnStatus.setEnabled(false);
+
+                // Start activity to upload the video
+                Intent i = new Intent(getActivity(), PickVideoActivity.class);
+                i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, "dTAyxFogOz");
+                i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
+                startActivity(i);
             }
         });
     }
