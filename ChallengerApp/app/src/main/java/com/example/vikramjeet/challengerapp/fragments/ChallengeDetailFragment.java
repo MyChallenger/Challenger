@@ -21,12 +21,15 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
+import com.example.vikramjeet.challengerapp.models.User;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.makeramen.RoundedTransformationBuilder;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -147,6 +150,8 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
                     tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
                     tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
 
+                    configureButton();
+
                     if (challenge.isVideo()) {
                         panToVideo(challenge.getCompletedMediaId());
                     } else {
@@ -159,7 +164,7 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
                     }
                 }
 
-                // Popultae dictionary with challenge detail
+                // Populate dictionary with challenge detail
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("description", challenge.getDescription());
                 map.put("challenger_name", challenge.getPoster().getName());
@@ -169,6 +174,115 @@ public class ChallengeDetailFragment extends Fragment implements YouTubePlayer.P
 
                 // Populate description view fragment
                 descriptionFragment.populateViewsFromDict(map);
+            }
+        });
+    }
+
+    private void configureButton() {
+        User currentUser = (User) ParseUser.getCurrentUser();
+
+        // Set proper button text
+        ChallengeStatus status = challenge.getStatus();
+
+        switch(status) {
+            case OPEN: {
+                if (currentUser != challenge.getPoster()) {
+                    btnStatus.setText("SPONSOR");
+                }
+                btnStatus.setText("OPEN");
+                btnStatus.setEnabled(false);
+                break;
+            }
+            case BACKED: {
+                if (currentUser == challenge.getPoster()) {
+                    btnStatus.setText("COMPLETE");
+                }
+                btnStatus.setText("BACKED");
+                btnStatus.setEnabled(false);
+                break;
+            }
+            case COMPLETED: {
+                if (currentUser == challenge.getBacker()) {
+                    btnStatus.setText("VERIFY");
+                }
+                btnStatus.setText("COMPLETED");
+                btnStatus.setEnabled(false);
+                break;
+            }
+            case VERIFIED: {
+                btnStatus.setText("VERIFIED");
+                btnStatus.setEnabled(false);
+                break;
+            }
+            default:
+                break;
+        }
+
+        // Add click listeners
+        addClickListenerToStatusButton();
+    }
+
+    private void addClickListenerToStatusButton() {
+        btnStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get challenge status
+                ChallengeStatus status = challenge.getStatus();
+
+                switch (status) {
+                    case OPEN: {
+                        sponsorChallenge();
+                        break;
+                    }
+                    case BACKED: {
+                        completeChallenge();
+                        break;
+                    }
+                    case COMPLETED: {
+                        verifyChallenge();
+                        break;
+                    }
+                    case VERIFIED: {
+                        btnStatus.setText("VERIFIED");
+                        btnStatus.setEnabled(false);
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    private void sponsorChallenge() {
+        challenge.back(new GetCallback<Challenge>() {
+            @Override
+            public void done(Challenge challenge, ParseException e) {
+                //Update button
+                btnStatus.setText("SPONSORED");
+                btnStatus.setEnabled(false);
+            }
+        });
+    }
+
+    private void completeChallenge() {
+        challenge.complete(new GetCallback<Challenge>() {
+            @Override
+            public void done(Challenge challenge, ParseException e) {
+                //Update button
+                btnStatus.setText("COMPLETED");
+                btnStatus.setEnabled(false);
+            }
+        });
+    }
+
+    private void verifyChallenge() {
+        challenge.verify(new GetCallback<Challenge>() {
+            @Override
+            public void done(Challenge challenge, ParseException e) {
+                //Update button
+                btnStatus.setText("VERIFIED");
+                btnStatus.setEnabled(false);
             }
         });
     }
