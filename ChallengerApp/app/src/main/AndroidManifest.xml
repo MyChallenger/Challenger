@@ -106,7 +106,7 @@
         <activity
             android:name=".activities.CommentActivity"
             android:label="@string/title_activity_comment"
-            android:parentActivityName=".activities.CompleteChallengeActivity"
+            android:parentActivityName=".activities.CompletedChallengeDetailActivity"
             android:theme="@style/PopupTheme" >
         </activity>
         <activity
