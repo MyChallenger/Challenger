@@ -50,4 +50,6 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:+'
     compile 'com.google.api-client:google-api-client-gson:+'
     compile 'com.google.code.gson:gson:2.2.4'
+    // For swiping between created/completed media on the challenge details screen
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
 }

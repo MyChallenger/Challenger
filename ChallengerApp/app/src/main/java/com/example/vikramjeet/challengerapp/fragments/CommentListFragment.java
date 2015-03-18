@@ -113,4 +113,8 @@ public class CommentListFragment extends Fragment {
         });
     }
 
+    public void refreshComments() {
+        fetchComments();
+    }
+
 }

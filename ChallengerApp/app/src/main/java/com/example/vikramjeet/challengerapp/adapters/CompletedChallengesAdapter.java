@@ -167,7 +167,6 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
         @InjectView(R.id.tvCompletedChallengeTitle_2)
         TextView tvTitle;
 
-
         public ImageViewHolder(View view) {
             ButterKnife.inject(this, view);
         }
@@ -364,7 +363,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
     public int getItemViewType(int position) {
         Challenge challenge = getItem(position);
         int viewType = ViewValues.IMAGE.ordinal();
-        if (challenge.isVideo()) {
+        if (challenge.isCompletedMediaVideo()) {
             viewType = ViewValues.VIDEO.ordinal();
         }
         return viewType;

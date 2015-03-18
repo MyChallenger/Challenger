@@ -2,6 +2,7 @@ package com.example.vikramjeet.challengerapp.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
     }
 
     public CommentListAdapter(Context context, ArrayList<Comment> comments) {
+
         super(context, android.R.layout.simple_list_item_1, comments);
     }
 
@@ -62,13 +64,17 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         }
 
         // Populate views
-        viewHolder.tvUserName.setText(comment.getAuthor().getUsername());
+        viewHolder.tvUserName.setText(comment.getAuthor().getName());
         viewHolder.tvCommentText.setText(comment.getText());
+
+        String timestamp = DateUtils.getRelativeTimeSpanString(comment.getCreatedAt().getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+
+        viewHolder.tvTimestamp.setText(timestamp);
 
         // Transformation for rounded views
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
-                .cornerRadiusDp(25)
+                .cornerRadiusDp(30)
                 .oval(false)
                 .build();
 

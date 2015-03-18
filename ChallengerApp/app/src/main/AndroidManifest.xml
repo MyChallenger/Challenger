@@ -101,12 +101,12 @@
         <activity
             android:name=".activities.CompletedChallengeDetailActivity"
             android:label="@string/title_activity_completed_challenge_detail"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.CompleteChallengeActivity" >
         </activity>
         <activity
             android:name=".activities.CommentActivity"
             android:label="@string/title_activity_comment"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activities.CompleteChallengeActivity"
             android:theme="@style/PopupTheme" >
         </activity>
         <activity
@@ -160,7 +160,6 @@
         <activity
             android:name=".activities.PaymentActivity"
             android:label="@string/title_activity_payment" >
->>>>>>> d111e2996cf97965476ae43084ee40858b94ab3c
         </activity>
         <activity
             android:name=".activities.NewChallengeActivity"
