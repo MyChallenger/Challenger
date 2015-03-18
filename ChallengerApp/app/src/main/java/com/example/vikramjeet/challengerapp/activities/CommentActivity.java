@@ -1,7 +1,6 @@
 package com.example.vikramjeet.challengerapp.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.fragments.CommentListFragment;
@@ -37,6 +35,7 @@ import butterknife.InjectView;
 public class CommentActivity extends ActionBarActivity {
 
     private Challenge challenge;
+    private CommentListFragment commentFragment;
 
     @InjectView(R.id.ivCommentUserPhoto)
     ImageView ivUserPhoto;
@@ -84,7 +83,7 @@ public class CommentActivity extends ActionBarActivity {
 
         // Get the fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        CommentListFragment commentFragment = CommentListFragment.newInstance(challengeId, false);
+        commentFragment = CommentListFragment.newInstance(challengeId, false);
         ft.replace(R.id.my_placeholder, commentFragment);
         ft.commit();
 
@@ -139,6 +138,17 @@ public class CommentActivity extends ActionBarActivity {
 
         this.finish();
 
+//        int commentCount = challenge.getComments().size();
+
+//        // Prepare data intent
+//        Intent data = new Intent();
+//        // Pass relevant data back as a result
+//        data.putExtra("number", commentCount);
+//        data.putExtra("code", 200); // ints work too
+//        // Activity finished ok, return the data
+//        setResult(RESULT_OK, data); // set result code and bundle data for response
+//        finish(); // closes the activity, pass data to parent
+
     }
 
     public void onPost(View v) {
@@ -150,19 +160,10 @@ public class CommentActivity extends ActionBarActivity {
         challenge.addComment(comment, new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Toast.makeText(getApplicationContext(), "Posted comment: " + etComment.getText().toString(), Toast.LENGTH_SHORT).show();
                 etComment.setText("");
                 // Refresh comment list here
-                int commentCount = challenge.getComments().size();
+                commentFragment.refreshComments();
 
-                // Prepare data intent
-                Intent data = new Intent();
-                // Pass relevant data back as a result
-                data.putExtra("number", commentCount);
-                data.putExtra("code", 200); // ints work too
-                // Activity finished ok, return the data
-                setResult(RESULT_OK, data); // set result code and bundle data for response
-                finish(); // closes the activity, pass data to parent
             }
         });
 

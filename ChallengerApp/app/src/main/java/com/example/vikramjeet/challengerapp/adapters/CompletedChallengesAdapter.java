@@ -338,16 +338,9 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                     @Override
                     public void onClick(View v) {
                         // Ask for comment screen here
-//                        if (myContext instanceof  CompleteChallengeActivity) {
-//                            CompleteChallengeActivity act = (CompleteChallengeActivity) getContext();
-//                            act.showCommentActivity(challenge.getObjectId());
-//
-//                        }
-
                         Intent i = new Intent(getContext(), CommentActivity.class);
                         i.putExtra("challenge_id", challenge.getObjectId());
                         ((Activity) getContext()).startActivityForResult(i, 200);
-
                     }
                 });
 
