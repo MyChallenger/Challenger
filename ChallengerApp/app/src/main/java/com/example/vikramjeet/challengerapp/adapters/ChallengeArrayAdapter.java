@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.R;
+import com.parse.GetCallback;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -30,10 +32,10 @@ public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
     @InjectView(R.id.tvGoal) TextView tvGoal;
     @InjectView(R.id.tvExpiry) TextView tvExpiry;
     @InjectView(R.id.ivProfile) ImageView ivProfile;
+    @InjectView(R.id.btnAdd) Button btnSponsor;
     public ChallengeArrayAdapter(Context context, List<Challenge> challengeList) {
         super(context, android.R.layout.simple_list_item_1, challengeList);
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -49,13 +51,29 @@ public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
         tvGoal.setText("Goal:"+ " $" + challenge.getPrize());
         if(challenge.getCreatedMedia() != null)
             Picasso.with(getContext()).load(challenge.getCreatedMedia().getUrl()).into(ivProfile);
-        // FIXME: Format this date!
         tvExpiry.setText("expires " +getRelativeTimeAgo(challenge.getExpiryDate().toString()));
-        //tvExpiry.setText("2 days left");
+        btnSponsor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnSponsor.setText("SPONSORED");
+                btnSponsor.setEnabled(false);
+
+                challenge.back(new GetCallback<Challenge>() {
+                    @Override
+                    public void done(Challenge challenge, com.parse.ParseException e) {
+                        btnSponsor.setText("SPONSORED");
+                        btnSponsor.setEnabled(false);
+
+                    }
+
+                });
+
+            }
+        });
+
         return convertView;
     }
 
-    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
