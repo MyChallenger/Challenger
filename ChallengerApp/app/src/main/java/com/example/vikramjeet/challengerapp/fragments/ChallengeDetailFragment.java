@@ -198,7 +198,7 @@ public class ChallengeDetailFragment extends Fragment {
 
             switch(status) {
                 case OPEN: {
-                    if (currentUser.getObjectId() != poster.getObjectId()) {
+                    if (!currentUser.getObjectId().equals(poster.getObjectId())) {
                         btnStatus.setText("SPONSOR");
                     } else {
                         btnStatus.setText("OPEN");
@@ -207,7 +207,7 @@ public class ChallengeDetailFragment extends Fragment {
                     break;
                 }
                 case BACKED: {
-                    if (currentUser.getObjectId() == poster.getObjectId()) {
+                    if (currentUser.getObjectId().equals(poster.getObjectId())) {
                         btnStatus.setText("COMPLETE");
 
                     } else {
@@ -217,7 +217,7 @@ public class ChallengeDetailFragment extends Fragment {
                     break;
                 }
                 case COMPLETED: {
-                    if (currentUser.getObjectId() == backer.getObjectId()) {
+                    if (currentUser.getObjectId().equals(backer.getObjectId())) {
                         btnStatus.setText("VERIFY");
                     } else {
                         btnStatus.setText("COMPLETED");
