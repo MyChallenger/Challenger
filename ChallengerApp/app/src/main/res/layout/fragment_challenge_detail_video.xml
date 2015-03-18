@@ -38,8 +38,17 @@
         <!--android:layout_alignParentRight="true"-->
         <!--android:layout_alignParentEnd="true" />-->
 
-    <FrameLayout
-        android:id="@+id/flChallengeDetail"
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/viewpager"
+        app:pageColor="@color/purple"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="wrap_content"
         android:layout_height="165dp"
         android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"
@@ -50,13 +59,25 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <!--<FrameLayout-->
+        <!--android:id="@+id/flChallengeDetail"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="165dp"-->
+        <!--android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"-->
+        <!--android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"-->
+        <!--android:layout_below="@+id/tvChallengeDetailTitle"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
+
     <TextView
         android:id="@+id/tvChallengeDetailLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/flChallengeDetail"
+        android:layout_below="@+id/viewpager"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
@@ -82,9 +103,9 @@
         android:id="@+id/btnStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/flChallengeDetail"
-        android:layout_alignRight="@+id/flChallengeDetail"
-        android:layout_below="@+id/flChallengeDetail"
+        android:layout_alignEnd="@+id/viewpager"
+        android:layout_alignRight="@+id/viewpager"
+        android:layout_below="@+id/viewpager"
         android:text="Sponsor"
         android:gravity="center_vertical" />
 
@@ -111,9 +132,9 @@
         android:id="@+id/tvChallengeDetailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/flChallengeDetail"
+        android:layout_alignEnd="@+id/viewpager"
         android:layout_alignLeft="@+id/tvChallengeDetailUserName"
-        android:layout_alignRight="@+id/flChallengeDetail"
+        android:layout_alignRight="@+id/viewpager"
         android:layout_alignStart="@+id/tvChallengeDetailUserName"
         android:layout_below="@+id/tvChallengeDetailUserName"
         android:layout_marginBottom="5dp"

@@ -302,7 +302,19 @@ public class Challenge extends ParseObject {
         query.getInBackground(challengeID, getCallback);
     }
 
-    public boolean isVideo() {
+    public boolean isCreatedMediaVideo() {
+        boolean isVideo = false;
+        if (getCreatedMediaProvider() != null) {
+            switch (getCreatedMediaProvider()) {
+                case YOUTUBE:
+                    isVideo = true;
+                    break;
+            }
+        }
+        return isVideo;
+    }
+
+    public boolean isCompletedMediaVideo() {
         boolean isVideo = false;
         if (getCompletedMediaProvider() != null) {
             switch (getCompletedMediaProvider()) {
