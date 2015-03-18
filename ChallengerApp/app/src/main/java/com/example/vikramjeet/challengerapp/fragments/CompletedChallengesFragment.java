@@ -43,7 +43,7 @@ public class CompletedChallengesFragment extends Fragment{
         // Create DataSource
         challenges = new ArrayList<Challenge>();
         // Create Adapter
-        completedAdapter = new CompletedChallengesAdapter(getActivity(), challenges);
+        completedAdapter = new CompletedChallengesAdapter(getActivity(), challenges, getActivity().getSupportFragmentManager());
     }
 
     @Override
@@ -118,10 +118,10 @@ public class CompletedChallengesFragment extends Fragment{
 //    }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        completedAdapter.onActivityResult(requestCode, resultCode, data);
-
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        completedAdapter.onActivityResult(requestCode, resultCode, data);
+//
+//    }
 }

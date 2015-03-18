@@ -18,14 +18,17 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
+import com.example.vikramjeet.challengerapp.services.UploadService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
-import com.example.vikramjeet.challengerapp.services.UploadService;
-
 public class ReviewVideoActivity extends ActionBarActivity {
+
+    public static String EXTRA_CHALLENGE_ID = "com.example.vikramjeet.challengerapp.challenge_id";
+    public static String EXTRA_MEDIA_TYPE = "com.example.vikramjeet.challengerapp.media_type";
+
     @InjectView(R.id.vv)
     VideoView vv;
     @InjectView(R.id.btnUpload)
@@ -92,12 +95,15 @@ public class ReviewVideoActivity extends ActionBarActivity {
             uploadIntent.setData(mFileUri);
             uploadIntent.putExtra(PickVideoActivity.ACCOUNT_KEY, mChosenAccountName);
             uploadIntent.putExtra("receiver", mUploadResultReceiver);
-            uploadIntent.putExtra("receiver", mUploadResultReceiver);
+            uploadIntent.putExtra(UploadService.EXTRA_CHALLENGE_ID, getIntent().getStringExtra(EXTRA_CHALLENGE_ID));
+            uploadIntent.putExtra(UploadService.EXTRA_MEDIA_TYPE, getIntent().getIntExtra(EXTRA_MEDIA_TYPE, 0));
             startService(uploadIntent);
             Toast.makeText(this, R.string.youtube_upload_started,
                     Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
             // Go back to PickVideoActivity after upload
-            finish();
+//            finish();
         }
     }
 
@@ -110,7 +116,7 @@ public class ReviewVideoActivity extends ActionBarActivity {
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == RESULT_OK) {
                     String videoId = resultData.getString("resultValue");
-                    Toast.makeText(ReviewVideoActivity.this, videoId, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReviewVideoActivity.this, getResources().getString(R.string.upload_completed), Toast.LENGTH_SHORT).show();
                 }
             }
         });

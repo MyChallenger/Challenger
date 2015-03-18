@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.vikramjeet.challengerapp.activities.CompleteChallengeActivity;
 import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.activities.LeaderboardActivity;
 import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
@@ -71,8 +70,8 @@ public class ChallengerPushBroadcastReceiver extends ParsePushBroadcastReceiver 
                 case OPEN:
                     break;
                 case BACKED:
-                    clazz = CompleteChallengeActivity.class;
-                    name = CompleteChallengeActivity.EXTRA_CHALLENGE_ID;
+                    clazz = CompletedChallengeDetailActivity.class;
+                    name = CompletedChallengeDetailActivity.EXTRA_CHALLENGE_ID;
                     break;
                 case COMPLETED:
                     clazz = CompletedChallengeDetailActivity.class;

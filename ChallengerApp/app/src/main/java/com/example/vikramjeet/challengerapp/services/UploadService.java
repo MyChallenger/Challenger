@@ -26,6 +26,10 @@ import android.util.Log;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.PickVideoActivity;
+import com.example.vikramjeet.challengerapp.configurations.Auth;
+import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.example.vikramjeet.challengerapp.models.MediaProvider;
+import com.example.vikramjeet.challengerapp.models.MediaType;
 import com.example.vikramjeet.challengerapp.services.utilities.ResumableUpload;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -35,12 +39,12 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.youtube.YouTube;
 import com.google.common.collect.Lists;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.example.vikramjeet.challengerapp.configurations.Auth;
 
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>
@@ -48,6 +52,9 @@ import com.example.vikramjeet.challengerapp.configurations.Auth;
  *         Intent service to handle uploads.
  */
 public class UploadService extends IntentService {
+
+    public static String EXTRA_CHALLENGE_ID = "com.example.vikramjeet.challengerapp.challenge_id";
+    public static String EXTRA_MEDIA_TYPE = "com.example.vikramjeet.challengerapp.media_type";
 
     /**
      * defines how long we'll wait for a video to finish processing
@@ -79,6 +86,8 @@ public class UploadService extends IntentService {
      */
     private int mUploadAttemptCount;
 
+    private Challenge mChallenge;
+
     public UploadService() {
         super("YTUploadService");
     }
@@ -102,32 +111,60 @@ public class UploadService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        // Extract the receiver passed into the service
-        ResultReceiver rec = intent.getParcelableExtra("receiver");
-
-        Uri fileUri = intent.getData();
-        String chosenAccountName = intent.getStringExtra(PickVideoActivity.ACCOUNT_KEY);
-
-        credential =
-                GoogleAccountCredential.usingOAuth2(getApplicationContext(), Lists.newArrayList(Auth.SCOPES));
-        credential.setSelectedAccountName(chosenAccountName);
-        credential.setBackOff(new ExponentialBackOff());
-
-        String appName = getResources().getString(R.string.app_name);
-        final YouTube youtube =
-                new YouTube.Builder(transport, jsonFactory, credential).setApplicationName(
-                        appName).build();
-
-
+        String challengeId = intent.getStringExtra(EXTRA_CHALLENGE_ID);
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         try {
-            String videoId = tryUploadAndShowSelectableNotification(fileUri, youtube);
-            // To send a message to the Activity, create a pass a Bundle
-            Bundle bundle = new Bundle();
-            bundle.putString("resultValue", videoId);
-            // Here we call send passing a resultCode and the bundle of extras
-            rec.send(Activity.RESULT_OK, bundle);
-        } catch (InterruptedException e) {
-            // ignore
+            mChallenge = query.get(challengeId);
+            // Extract the receiver passed into the service
+            ResultReceiver rec = intent.getParcelableExtra("receiver");
+
+            Uri fileUri = intent.getData();
+            String chosenAccountName = intent.getStringExtra(PickVideoActivity.ACCOUNT_KEY);
+
+            credential =
+                    GoogleAccountCredential.usingOAuth2(getApplicationContext(), Lists.newArrayList(Auth.SCOPES));
+            credential.setSelectedAccountName(chosenAccountName);
+            credential.setBackOff(new ExponentialBackOff());
+
+            String appName = getResources().getString(R.string.app_name);
+            final YouTube youtube =
+                    new YouTube.Builder(transport, jsonFactory, credential).setApplicationName(
+                            appName).build();
+
+
+            try {
+                String videoId = tryUploadAndShowSelectableNotification(fileUri, youtube);
+                // Now that we have a videoId, let's update Parse
+                updateChallengeWithVideoInformation(videoId, intent);
+                // To send a message to the Activity, create a pass a Bundle
+                Bundle bundle = new Bundle();
+                bundle.putString("resultValue", videoId);
+                // Here we call send passing a resultCode and the bundle of extras
+                rec.send(Activity.RESULT_OK, bundle);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateChallengeWithVideoInformation(String videoId, Intent intent) {
+        MediaType mediaType = MediaType.values()[intent.getIntExtra(EXTRA_MEDIA_TYPE, 0)];
+        try {
+            switch (mediaType) {
+                case CREATED:
+                    mChallenge.setCreatedMediaId(videoId);
+                    mChallenge.setCreatedMediaProvider(MediaProvider.YOUTUBE);
+                    break;
+                case COMPLETED:
+                    mChallenge.setCompletedMediaId(videoId);
+                    mChallenge.setCompletedMediaProvider(MediaProvider.YOUTUBE);
+                    break;
+            }
+            mChallenge.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
@@ -190,7 +227,7 @@ public class UploadService extends IntentService {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
 
-            videoId = ResumableUpload.upload(youtube, fileInputStream, fileSize, mFileUri, cursor.getString(column_index), getApplicationContext());
+            videoId = ResumableUpload.upload(mChallenge, youtube, fileInputStream, fileSize, mFileUri, cursor.getString(column_index), getApplicationContext());
 
 
         } catch (FileNotFoundException e) {

@@ -1,6 +1,6 @@
 package com.example.vikramjeet.challengerapp.models;
 
-public enum Provider {
+public enum AuthProvider {
     FACEBOOK("FACEBOOK"),
     TWITTER("TWITTER"),
     PARSE("PARSE")
@@ -8,7 +8,7 @@ public enum Provider {
 
     private final String text;
 
-    private Provider(final String text) {
+    private AuthProvider(final String text) {
         this.text = text;
     }
 
