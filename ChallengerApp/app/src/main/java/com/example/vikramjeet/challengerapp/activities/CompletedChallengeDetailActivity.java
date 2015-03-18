@@ -16,34 +16,67 @@ import com.parse.ParseException;
 public class CompletedChallengeDetailActivity extends ActionBarActivity {
 
     public static final String EXTRA_CHALLENGE_ID = "challenge_id";
+    public static final String EXTRA_OPEN_CHALLENGE_ID = "challenge_open_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed_challenge_detail);
-        //Action Bar
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle("Completed Challenge");
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
         // Get challege_id from Intent
         final String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
+        if(challengeId != null) {
+            //Action Bar
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setTitle("Completed Challenge");
+            actionBar.setDisplayUseLogoEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
-        // Get challenge from challenge_id
-        Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
-            public void done(Challenge challenge, ParseException e) {
-                if (e == null) {
-                    // item was found
+            // final String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
 
-                    // Get the fragment
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, challenge.isCompletedMediaVideo());
-                    ft.replace(R.id.my_placeholder, challengeDetailFragment);
-                    ft.commit();
+            // Get challenge from challenge_id
+            Challenge.getChallengeByID(challengeId, new GetCallback<Challenge>() {
+                public void done(Challenge challenge, ParseException e) {
+                    if (e == null) {
+                        // item was found
+
+                        // Get the fragment
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(challengeId, challenge.isCompletedMediaVideo());
+                        ft.replace(R.id.my_placeholder, challengeDetailFragment);
+                        ft.commit();
+                    }
                 }
+            });
+        }
+        else {
+            final String open_challengeId = getIntent().getStringExtra(EXTRA_OPEN_CHALLENGE_ID);
+            if(open_challengeId != null) {
+                //Action Bar
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.setDisplayShowHomeEnabled(true);
+                actionBar.setTitle("Open Challenges");
+                actionBar.setDisplayUseLogoEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+
+                // final String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
+
+                // Get challenge from challenge_id
+                Challenge.getChallengeByID(open_challengeId, new GetCallback<Challenge>() {
+                    public void done(Challenge challenge, ParseException e) {
+                        if (e == null) {
+                            // item was found
+
+                            // Get the fragment
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ChallengeDetailFragment challengeDetailFragment = ChallengeDetailFragment.newInstance(open_challengeId, challenge.isCompletedMediaVideo());
+                            ft.replace(R.id.my_placeholder, challengeDetailFragment);
+                            ft.commit();
+                        }
+                    }
+                });
             }
-        });
+        }
 
 
     }

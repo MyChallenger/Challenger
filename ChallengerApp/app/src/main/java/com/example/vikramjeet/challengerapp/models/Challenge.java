@@ -180,6 +180,8 @@ public class Challenge extends ParseObject {
         put(FIELD_CATEGORY, category);
     }
 
+    public void setStatus(String status) {put(FIELD_STATUS, status); }
+
     public ChallengeStatus getStatus() {
         return ChallengeStatus.valueOf(getString(FIELD_STATUS));
     }

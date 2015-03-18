@@ -29,6 +29,7 @@ public class OpenChallengesFragment extends Fragment {
     private ArrayList<Challenge> challenges;
     private ChallengeArrayAdapter aOpenChallenges;
     private ListView lvOpenChallenges;
+    public static final String EXTRA_OPEN_CHALLENGE_ID = "challenge_open_id";
 
     private int mPage;
     private SwipeRefreshLayout swipeContainer;
@@ -55,12 +56,7 @@ public class OpenChallengesFragment extends Fragment {
     private void populateData() {
 //        //Download json objects
 //        //Fill into data Model
-//        //Populating dummy data for now
-//        Challenge challenge = new Challenge("Jump the hoop", "danger",350,"4 hours left");
-//        aChallenges.add(challenge);
-//        aChallenges.add( new TChallenge("Clean park", "community",350,"2 days left"));
-//        aChallenges.notifyDataSetChanged();
-//        Toast.makeText(getActivity(), "Populate data", Toast.LENGTH_SHORT).show();
+
         Challenge.getOpenChallenges(new FindCallback<Challenge>() {
             @Override
             public void done(List<Challenge> challenges, ParseException e) {
@@ -95,7 +91,8 @@ public class OpenChallengesFragment extends Fragment {
                 // Get the challenge
                 Challenge challenge = challenges.get(position);
                 // Pass challenge into the intent
-                challengeDetailIntent.putExtra("challenge_id", challenge.getObjectId());
+
+                challengeDetailIntent.putExtra(EXTRA_OPEN_CHALLENGE_ID, challenge.getObjectId());
                 Log.d("ObjectID:", challenge.getObjectId());
                 // Start activity
                 startActivity(challengeDetailIntent);
