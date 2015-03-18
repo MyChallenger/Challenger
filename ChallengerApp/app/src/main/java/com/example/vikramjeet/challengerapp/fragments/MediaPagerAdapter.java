@@ -15,6 +15,8 @@ public class MediaPagerAdapter extends FragmentPagerAdapter {
 
     private static final String TAG = MediaPagerAdapter.class.getName();
 
+    YouTubePlayer mYouTubePlayer;
+
     private final Challenge mChallenge;
     private String tabTitles[] = {"Info", "Tagline"};
 
@@ -28,6 +30,8 @@ public class MediaPagerAdapter extends FragmentPagerAdapter {
         mChallenge = challenge;
     }
 
+
+
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
@@ -40,7 +44,8 @@ public class MediaPagerAdapter extends FragmentPagerAdapter {
                             public void onInitializationSuccess(
                                     YouTubePlayer.Provider provider,
                                     YouTubePlayer youTubePlayer, boolean b) {
-                                youTubePlayer.cueVideo(mChallenge.getCreatedMediaId());
+                                mYouTubePlayer = youTubePlayer;
+                                mYouTubePlayer.cueVideo(mChallenge.getCreatedMediaId());
                             }
 
                             @Override
@@ -63,7 +68,7 @@ public class MediaPagerAdapter extends FragmentPagerAdapter {
                             public void onInitializationSuccess(
                                     YouTubePlayer.Provider provider,
                                     YouTubePlayer youTubePlayer, boolean b) {
-                                youTubePlayer.cueVideo(mChallenge.getCompletedMediaId());
+                                mYouTubePlayer = youTubePlayer;
                             }
 
                             @Override
@@ -90,5 +95,13 @@ public class MediaPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return tabTitles.length;
+    }
+
+    public void onPageSelected(int position) {
+        if (position == 0) {
+            mYouTubePlayer.cueVideo(mChallenge.getCreatedMediaId());
+        } else if (position == 1) {
+            mYouTubePlayer.cueVideo(mChallenge.getCompletedMediaId());
+        }
     }
 }

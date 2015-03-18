@@ -142,8 +142,31 @@ public class ChallengeDetailFragment extends Fragment {
 
                     configureButton();
 
-                    viewPager.setAdapter(new MediaPagerAdapter(getActivity().getSupportFragmentManager(), challenge));
+                    final MediaPagerAdapter adapter = new MediaPagerAdapter(getActivity().getSupportFragmentManager(), challenge);
+                    viewPager.setAdapter(adapter);
                     indicator.setViewPager(viewPager);
+                    // Attach the page change listener inside the activity
+                    indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+                        // This method will be invoked when a new page becomes selected.
+                        @Override
+                        public void onPageSelected(int position) {
+                            adapter.onPageSelected(position);
+                        }
+
+                        // This method will be invoked when the current page is scrolled
+                        @Override
+                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                            // Code goes here
+                        }
+
+                        // Called when the scroll state changes:
+                        // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+                        @Override
+                        public void onPageScrollStateChanged(int state) {
+                            // Code goes here
+                        }
+                    });
                 }
 
                 // Populate dictionary with challenge detail
