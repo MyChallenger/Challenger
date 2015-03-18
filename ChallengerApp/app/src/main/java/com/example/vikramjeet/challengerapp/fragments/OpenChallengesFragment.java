@@ -1,5 +1,6 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,9 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.adapters.ChallengeArrayAdapter;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.FindCallback;
@@ -83,6 +86,21 @@ public class OpenChallengesFragment extends Fragment {
         View view = inflater.inflate(R.layout.open_challenges_fragment, container, false);
         lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
         lvOpenChallenges.setAdapter(aOpenChallenges);
+        //Listener
+        lvOpenChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Create an intent
+                Intent challengeDetailIntent = new Intent(getActivity(), CompletedChallengeDetailActivity.class);
+                // Get the challenge
+                Challenge challenge = challenges.get(position);
+                // Pass challenge into the intent
+                challengeDetailIntent.putExtra("challenge_id", challenge.getObjectId());
+                Log.d("ObjectID:", challenge.getObjectId());
+                // Start activity
+                startActivity(challengeDetailIntent);
+            }
+        });
 
         // Get SwipeContainer
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerOpenChallenges);

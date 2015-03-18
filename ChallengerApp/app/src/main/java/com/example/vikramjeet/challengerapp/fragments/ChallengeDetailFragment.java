@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
@@ -280,9 +281,14 @@ public class ChallengeDetailFragment extends Fragment {
 
                 // Start activity to upload the video
                 Intent i = new Intent(getActivity(), PickVideoActivity.class);
-                i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, challengeId);
-                i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
-                startActivity(i);
+                if(challenge.getObjectId() != null) {
+                    i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, challenge.getObjectId());
+                    i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
+                    startActivity(i);
+                }
+                else {
+                    Toast.makeText(getActivity(), "no id"+challengeId+"and "+challenge.getObjectId(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
