@@ -280,7 +280,7 @@ public class ChallengeDetailFragment extends Fragment {
 
                 // Start activity to upload the video
                 Intent i = new Intent(getActivity(), PickVideoActivity.class);
-                i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, "dTAyxFogOz");
+                i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, challengeId);
                 i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
                 startActivity(i);
             }
