@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.R;
+import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
 import com.parse.GetCallback;
 import com.squareup.picasso.Picasso;
 
@@ -62,10 +63,13 @@ public class ChallengeArrayAdapter extends ArrayAdapter<Challenge> {
         if(challenge.getCreatedMedia() != null)
             Picasso.with(getContext()).load(challenge.getCreatedMedia().getUrl()).into(ivProfile);
         tvExpiry.setText("expires " +getRelativeTimeAgo(challenge.getExpiryDate().toString()));
+        if(challenge.getStatus() != ChallengeStatus.OPEN)
+            btnSponsor.setEnabled(false);
         btnSponsor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onChallengeSponsor(challenge);
+                btnSponsor.setEnabled(false);
             }
         });
 
