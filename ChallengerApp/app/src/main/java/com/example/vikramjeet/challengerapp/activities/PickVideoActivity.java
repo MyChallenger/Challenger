@@ -90,7 +90,7 @@ public class PickVideoActivity extends ActionBarActivity {
     private static final int RESULT_PICK_IMAGE_CROP = 4;
     private static final int RESULT_VIDEO_CAP = 5;
     private static final int REQUEST_DIRECT_TAG = 6;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = PickVideoActivity.class.getName();
     final HttpTransport transport = AndroidHttp.newCompatibleTransport();
     final JsonFactory jsonFactory = new GsonFactory();
     GoogleAccountCredential credential;

@@ -173,7 +173,7 @@
 
         <activity
             android:name=".activities.PickVideoActivity"
-            android:label="@string/title_activity_payment" >
+            android:label="@string/title_activity_pick_video" >
         </activity>
 
         <activity

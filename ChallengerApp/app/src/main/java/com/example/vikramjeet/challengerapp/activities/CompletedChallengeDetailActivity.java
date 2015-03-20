@@ -55,7 +55,7 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
                 //Action Bar
                 ActionBar actionBar = getSupportActionBar();
                 actionBar.setDisplayShowHomeEnabled(true);
-                actionBar.setTitle("Open Challenges");
+                actionBar.setTitle("Open Challenge");
                 actionBar.setDisplayUseLogoEnabled(true);
                 actionBar.setDisplayHomeAsUpEnabled(true);
 
