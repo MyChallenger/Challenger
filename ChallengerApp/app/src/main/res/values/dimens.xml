@@ -3,4 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="left_margin_new_challenge">80dp</dimen>
+    <dimen name="com_parse_ui_xlarge_vertical_spacing">0dp</dimen>
+    <dimen name="com_parse_ui_small_vertical_spacing">450dp</dimen>
 </resources>
