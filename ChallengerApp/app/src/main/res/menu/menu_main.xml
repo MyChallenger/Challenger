@@ -8,6 +8,11 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
+        android:id="@+id/miLogout"
+        android:title="@string/logout_label"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/muProfile"
         app:showAsAction="ifRoom"
         android:icon="@mipmap/ic_profile1"

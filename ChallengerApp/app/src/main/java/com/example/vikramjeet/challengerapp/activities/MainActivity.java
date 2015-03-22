@@ -73,7 +73,12 @@ public class MainActivity extends ActionBarActivity {
             Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
             return true;
-        } 
+        } else if (id == R.id.miLogout) {
+            ParseUser.logOut();
+            Intent i = new Intent(this, ChallengerDispatchActivity.class);
+            startActivity(i);
+            return true;
+        }
 
 
         return super.onOptionsItemSelected(item);

@@ -3,6 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="logout_label">Log Out</string>
     <string name="enter_comment">Enter Comment</string>
     <string name="open_challenges">Open Challenges</string>
     <string name="completed_challenges">Completed Challenges</string>
