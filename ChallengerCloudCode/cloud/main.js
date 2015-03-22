@@ -175,12 +175,12 @@ Parse.Cloud.define("verifyChallenge", function(request, response) {
     query.get(challenge.id, {
       success: function(fetchedChallenge) {
         // The object was retrieved successfully.
-        var query = new Parse.Query(Parse.Installation);
         var poster = fetchedChallenge.get("poster");
-        query.equalTo('user', poster);
         poster.increment("pointsEarned", 100);
         poster.increment("challengesCompleted");
-        poster.save().then(function(obj) {
+        poster.save(null, { useMasterKey: true }).then(function(obj) {
+          var query = new Parse.Query(Parse.Installation);
+          query.equalTo('user', poster);
           // the object was saved successfully.
           Parse.Push.send({
             where: query,
@@ -204,6 +204,8 @@ Parse.Cloud.define("verifyChallenge", function(request, response) {
           });
         }, function(error) {
           // the save failed.
+          console.error(error);
+          response.error(error);
         });
       },
       error: function(object, error) {
