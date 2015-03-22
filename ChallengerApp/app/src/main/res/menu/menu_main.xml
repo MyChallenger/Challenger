@@ -12,10 +12,4 @@
         app:showAsAction="ifRoom"
         android:icon="@mipmap/ic_profile1"
         android:title="Profile" />
-
-    <item
-        android:id="@+id/muAddChallenge"
-        app:showAsAction="ifRoom"
-        android:icon="@mipmap/ic_plus2"
-        android:title="Add"></item>
 </menu>

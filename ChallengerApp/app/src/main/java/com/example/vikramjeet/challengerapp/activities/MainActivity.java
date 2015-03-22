@@ -73,11 +73,7 @@ public class MainActivity extends ActionBarActivity {
             Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
             return true;
-        } else if (id == R.id.muAddChallenge) {
-            Intent i = new Intent(this, NewChallengeActivity.class);
-            startActivity(i);
-            return true;
-        }
+        } 
 
 
         return super.onOptionsItemSelected(item);

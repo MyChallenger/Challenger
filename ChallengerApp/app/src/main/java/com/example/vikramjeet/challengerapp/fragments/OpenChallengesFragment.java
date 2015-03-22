@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
+import com.example.vikramjeet.challengerapp.activities.NewChallengeActivity;
 import com.example.vikramjeet.challengerapp.adapters.ChallengeArrayAdapter;
 import com.example.vikramjeet.challengerapp.models.Challenge;
+import com.melnykov.fab.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -97,6 +99,16 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.open_challenges_fragment, container, false);
         lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
+        // Adding floating button to listview
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.attachToListView(lvOpenChallenges);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), NewChallengeActivity.class);
+                startActivity(i);
+            }
+        });
         lvOpenChallenges.setAdapter(aOpenChallenges);
         //Listener
         lvOpenChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,7 +121,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                 // Pass challenge into the intent
 
                 challengeDetailIntent.putExtra(EXTRA_OPEN_CHALLENGE_ID, challenge.getObjectId());
-                Log.d("ObjectID:", challenge.getObjectId());
+               // Log.d("ObjectID:", challenge.getObjectId());
                 // Start activity
                 startActivity(challengeDetailIntent);
             }
