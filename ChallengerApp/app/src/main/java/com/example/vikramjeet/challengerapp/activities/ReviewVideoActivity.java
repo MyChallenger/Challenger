@@ -20,6 +20,7 @@ import android.widget.VideoView;
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
 import com.example.vikramjeet.challengerapp.services.UploadService;
+import com.melnykov.fab.FloatingActionButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,7 +33,7 @@ public class ReviewVideoActivity extends ActionBarActivity {
     @InjectView(R.id.vv)
     VideoView vv;
     @InjectView(R.id.btnUpload)
-    Button btnUpload;
+    FloatingActionButton btnUpload;
 
     MediaController mc;
     private String mChosenAccountName;

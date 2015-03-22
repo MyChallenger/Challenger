@@ -28,7 +28,7 @@
     <string name="cant_access_play">Can\'t access to Google Play services</string>
     <string name="title_activity_play">Click below to submit</string>
     <string name="send">Click send</string>
-    <string name="title_activity_review">Click below to upload</string>
+    <string name="title_activity_review">Click icon to upload</string>
     <string name="pick_one_of_your_videos_to_submit">Submit an existing YouTube video or upload a new video using the options below</string>
     <string name="no_videos_to_show_here_">No videos to show here.</string>
     <string name="avatar">avatar</string>
