@@ -23,6 +23,7 @@
             android:layout_margin="32dp"
             android:elevation="8dp"
             android:src="@drawable/ic_av_upload"
+            android:onClick="uploadVideo"
             />
     </FrameLayout>
 
