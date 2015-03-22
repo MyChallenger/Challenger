@@ -30,6 +30,7 @@
         <Button
             android:id="@+id/btnUpload"
             style="?android:attr/borderlessButtonStyle"
+            android:background="@color/india_green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_av_upload"
@@ -40,7 +41,7 @@
             android:onClick="uploadVideo"
             android:padding="8dp"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textColorHint="#c00"
+            android:textColorHint="@android:color/white"
             android:textStyle="bold" />
 
     </LinearLayout>
