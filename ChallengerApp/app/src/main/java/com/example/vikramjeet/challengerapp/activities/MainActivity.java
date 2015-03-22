@@ -1,13 +1,12 @@
 package com.example.vikramjeet.challengerapp.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
@@ -70,13 +69,11 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.muProfile) {
+        } else if (id == R.id.muProfile) {
             Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
             return true;
-        }
-        else if(id == R.id.muAddChallenge) {
+        } else if (id == R.id.muAddChallenge) {
             Intent i = new Intent(this, NewChallengeActivity.class);
             startActivity(i);
             return true;

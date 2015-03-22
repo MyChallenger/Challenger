@@ -35,7 +35,7 @@ public class Challenge extends ParseObject {
     private static final String FIELD_COMPLETED_MEDIA = "completedMedia";
     private static final String FIELD_NUMBER_OF_LIKES = "numberOfLikes";
     private static final String FIELD_NUMBER_OF_VIEWS = "numberOfViews";
-//    private static final String FIELD_NUMBER_OF_COMMENTS = "numberOfComments";
+    //    private static final String FIELD_NUMBER_OF_COMMENTS = "numberOfComments";
     private static final String FIELD_LOCATION = "location";
     private static final String FIELD_PRIZE = "prize";
     private static final String FIELD_CATEGORY = "category";
@@ -180,7 +180,9 @@ public class Challenge extends ParseObject {
         put(FIELD_CATEGORY, category);
     }
 
-    public void setStatus(String status) {put(FIELD_STATUS, status); }
+    public void setStatus(String status) {
+        put(FIELD_STATUS, status);
+    }
 
     public ChallengeStatus getStatus() {
         return ChallengeStatus.valueOf(getString(FIELD_STATUS));
@@ -192,8 +194,8 @@ public class Challenge extends ParseObject {
         query.whereGreaterThan(FIELD_EXPIRY_DATE, now);
         String[] statuses = {ChallengeStatus.OPEN.toString(), ChallengeStatus.BACKED.toString()};
         query.whereContainedIn(FIELD_STATUS, Arrays.asList(statuses));
-                // Show the ones expiring soonest first
-                        query.orderByAscending(FIELD_EXPIRY_DATE);
+        // Show the ones expiring soonest first
+        query.orderByAscending(FIELD_EXPIRY_DATE);
         query.findInBackground(findCallback);
     }
 
@@ -224,7 +226,7 @@ public class Challenge extends ParseObject {
         return (ArrayList<Comment>) get(FIELD_COMMENTS);
     }
 
-// Request:
+    // Request:
 //    curl -X POST \
 //            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
 //            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \
@@ -248,7 +250,7 @@ public class Challenge extends ParseObject {
         });
     }
 
-// Request:
+    // Request:
 //    curl -X POST \
 //            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
 //            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \
@@ -272,7 +274,7 @@ public class Challenge extends ParseObject {
         });
     }
 
-// Request:
+    // Request:
 //    curl -X POST \
 //            -H "X-Parse-Application-Id: gOqloKyikrHShtt0qNC9NcOpJipx2ijnVepC1dX1" \
 //            -H "X-Parse-REST-API-Key: RQwuBnSNpKlm5bRVJktDwDqgHbgqt4KZeETB0Cks" \

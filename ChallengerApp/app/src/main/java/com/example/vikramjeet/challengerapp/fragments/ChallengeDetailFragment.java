@@ -174,7 +174,7 @@ public class ChallengeDetailFragment extends Fragment {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("description", challenge.getDescription());
                 map.put("challenger_name", challenge.getPoster().getName());
-                if(challenge.getBacker() != null)
+                if (challenge.getBacker() != null)
                     map.put("backer_name", challenge.getBacker().getName());
                 else
                     map.put("backer_name", "none");
@@ -188,55 +188,55 @@ public class ChallengeDetailFragment extends Fragment {
     }
 
 
-        private void configureButton() {
-            User currentUser = (User) ParseUser.getCurrentUser();
-            User poster = challenge.getPoster();
-            User backer = challenge.getBacker();
+    private void configureButton() {
+        User currentUser = (User) ParseUser.getCurrentUser();
+        User poster = challenge.getPoster();
+        User backer = challenge.getBacker();
 
-            // Set proper button text
-            ChallengeStatus status = challenge.getStatus();
+        // Set proper button text
+        ChallengeStatus status = challenge.getStatus();
 
-            switch(status) {
-                case OPEN: {
-                    if (!currentUser.getObjectId().equals(poster.getObjectId())) {
-                        btnStatus.setText("SPONSOR");
-                    } else {
-                        btnStatus.setText("OPEN");
-                        btnStatus.setEnabled(false);
-                    }
-                    break;
-                }
-                case BACKED: {
-                    if (currentUser.getObjectId().equals(poster.getObjectId())) {
-                        btnStatus.setText("COMPLETE");
-
-                    } else {
-                        btnStatus.setText("SPONSORED");
-                        btnStatus.setEnabled(false);
-                    }
-                    break;
-                }
-                case COMPLETED: {
-                    if (currentUser.getObjectId().equals(backer.getObjectId())) {
-                        btnStatus.setText("VERIFY");
-                    } else {
-                        btnStatus.setText("COMPLETED");
-                        btnStatus.setEnabled(false);
-                    }
-                    break;
-                }
-                case VERIFIED: {
-                    btnStatus.setText("VERIFIED");
+        switch (status) {
+            case OPEN: {
+                if (!currentUser.getObjectId().equals(poster.getObjectId())) {
+                    btnStatus.setText("SPONSOR");
+                } else {
+                    btnStatus.setText("OPEN");
                     btnStatus.setEnabled(false);
-                    break;
                 }
-                default:
-                    break;
+                break;
             }
+            case BACKED: {
+                if (currentUser.getObjectId().equals(poster.getObjectId())) {
+                    btnStatus.setText("COMPLETE");
 
-            // Add click listeners
-            addClickListenerToStatusButton();
+                } else {
+                    btnStatus.setText("SPONSORED");
+                    btnStatus.setEnabled(false);
+                }
+                break;
+            }
+            case COMPLETED: {
+                if (currentUser.getObjectId().equals(backer.getObjectId())) {
+                    btnStatus.setText("VERIFY");
+                } else {
+                    btnStatus.setText("COMPLETED");
+                    btnStatus.setEnabled(false);
+                }
+                break;
+            }
+            case VERIFIED: {
+                btnStatus.setText("VERIFIED");
+                btnStatus.setEnabled(false);
+                break;
+            }
+            default:
+                break;
         }
+
+        // Add click listeners
+        addClickListenerToStatusButton();
+    }
 
 
     private void addClickListenerToStatusButton() {
@@ -292,13 +292,12 @@ public class ChallengeDetailFragment extends Fragment {
 
                 // Start activity to upload the video
                 Intent i = new Intent(getActivity(), PickVideoActivity.class);
-                if(challenge.getObjectId() != null) {
+                if (challenge.getObjectId() != null) {
                     i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, challenge.getObjectId());
                     i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
                     startActivity(i);
-                }
-                else {
-                    Toast.makeText(getActivity(), "no id"+challengeId+"and "+challenge.getObjectId(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "no id" + challengeId + "and " + challenge.getObjectId(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -317,7 +316,7 @@ public class ChallengeDetailFragment extends Fragment {
 
     public class ChallengeDetailPagerAdapter extends FragmentPagerAdapter {
 
-        private String tabTitles[] = { getString(R.string.description), getString(R.string.comments) };
+        private String tabTitles[] = {getString(R.string.description), getString(R.string.comments)};
 
         public ChallengeDetailPagerAdapter(FragmentManager fm) {
             super(fm);

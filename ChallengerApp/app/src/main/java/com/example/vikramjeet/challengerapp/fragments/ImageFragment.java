@@ -6,16 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
-import com.example.vikramjeet.challengerapp.configurations.Auth;
-import com.example.vikramjeet.challengerapp.models.MediaType;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.parse.ParseFile;
 import com.squareup.picasso.Picasso;
 

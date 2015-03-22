@@ -24,8 +24,10 @@ import butterknife.InjectView;
 
 public class ChallengeActivity extends ActionBarActivity {
 
-    @InjectView(R.id.viewpager) ViewPager vpPager;
-    @InjectView(R.id.tabs) PagerSlidingTabStrip tabStrip;
+    @InjectView(R.id.viewpager)
+    ViewPager vpPager;
+    @InjectView(R.id.tabs)
+    PagerSlidingTabStrip tabStrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class ChallengeActivity extends ActionBarActivity {
 
     public class ChallengePagerAdapter extends FragmentPagerAdapter {
 
-        private String tabTitles[] = { getString(R.string.open_challenges), getString(R.string.completed_challenges) };
+        private String tabTitles[] = {getString(R.string.open_challenges), getString(R.string.completed_challenges)};
 
         public ChallengePagerAdapter(FragmentManager fm) {
             super(fm);

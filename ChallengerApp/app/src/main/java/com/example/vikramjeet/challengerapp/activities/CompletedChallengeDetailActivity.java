@@ -24,7 +24,7 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_completed_challenge_detail);
         // Get challege_id from Intent
         final String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
-        if(challengeId != null) {
+        if (challengeId != null) {
             //Action Bar
             ActionBar actionBar = getSupportActionBar();
             actionBar.setDisplayShowHomeEnabled(true);
@@ -48,10 +48,9 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
                     }
                 }
             });
-        }
-        else {
+        } else {
             final String open_challengeId = getIntent().getStringExtra(EXTRA_OPEN_CHALLENGE_ID);
-            if(open_challengeId != null) {
+            if (open_challengeId != null) {
                 //Action Bar
                 ActionBar actionBar = getSupportActionBar();
                 actionBar.setDisplayShowHomeEnabled(true);

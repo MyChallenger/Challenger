@@ -5,6 +5,9 @@
     <color name="simple_yellow">#ECD078</color>
     <color name="white">#F5F8FA</color>
     <color name="purple">#9c27b0</color>
-    <color name="link_water">#D8E6F3</color> <!-- Leaderboard background for current user -->
-    <color name="india_green">#177A13</color> <!-- App green -->
+    <color name="link_water">#D8E6F3</color>
+    <!-- Leaderboard background for current user -->
+    <color name="india_green">#177A13</color>
+    <!-- App green -->
+    <color name="primary_black">#170000</color>
 </resources>

@@ -86,7 +86,7 @@ public class ChallengeTest extends ChallengerTestCase {
                 challenge.save();
                 // Hack since we don't have a setter
                 ParseQuery<User> query = ParseQuery.getQuery(User.class);
-                query.whereEqualTo("objectId","vUpSb4YwWd");
+                query.whereEqualTo("objectId", "vUpSb4YwWd");
                 User user = query.find().get(0);
                 challenge.put("backer", user);
                 challenge.put("status", "VERIFIED");
@@ -109,7 +109,7 @@ public class ChallengeTest extends ChallengerTestCase {
         // We will save the createdMedia first and then save the challenge if the upload succeeds!
         Drawable backgroundImage = getContext().getResources().getDrawable(R.drawable.background);
         if (backgroundImage != null) {
-            Bitmap bitmap = ((BitmapDrawable)backgroundImage).getBitmap();
+            Bitmap bitmap = ((BitmapDrawable) backgroundImage).getBitmap();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] bitmapdata = stream.toByteArray();
@@ -176,7 +176,7 @@ public class ChallengeTest extends ChallengerTestCase {
             public void done(ParseException e) {
                 // Hack since we don't have a setter
                 ParseQuery<User> query = ParseQuery.getQuery(User.class);
-                query.whereEqualTo("objectId","vUpSb4YwWd");
+                query.whereEqualTo("objectId", "vUpSb4YwWd");
                 User user = null;
                 try {
                     user = query.find().get(0);
@@ -215,7 +215,7 @@ public class ChallengeTest extends ChallengerTestCase {
             public void done(ParseException e) {
                 // Hack since we don't have a setter
                 ParseQuery<User> query = ParseQuery.getQuery(User.class);
-                query.whereEqualTo("objectId","vUpSb4YwWd");
+                query.whereEqualTo("objectId", "vUpSb4YwWd");
                 User user = null;
                 try {
                     user = query.find().get(0);

@@ -1,13 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity" >
+    tools:context="com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rlComposeComment"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/ivCommentUserPhoto"
@@ -72,7 +73,6 @@
         android:id="@+id/my_placeholder"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_below="@+id/rlComposeComment">
-    </FrameLayout>
+        android:layout_below="@+id/rlComposeComment"></FrameLayout>
 
 </RelativeLayout>

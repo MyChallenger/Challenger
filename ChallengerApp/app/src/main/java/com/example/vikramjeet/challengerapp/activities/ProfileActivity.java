@@ -1,9 +1,9 @@
 package com.example.vikramjeet.challengerapp.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,14 +49,14 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
     private void getUserData() {
-       User user = (User)ParseUser.getCurrentUser();
-        if(user == null) {
+        User user = (User) ParseUser.getCurrentUser();
+        if (user == null) {
             Log.e("wtf", "wtf");
             return;
         }
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle("Welcome "+ user.getName());
+        actionBar.setTitle("Welcome " + user.getName());
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         ivProfile.setEnabled(false);
@@ -64,10 +64,10 @@ public class ProfileActivity extends ActionBarActivity {
         tvName.setText(user.getName());
 
         tvLocation.setText(user.getLocation());
-       // tvPoint.setText("100");
+        // tvPoint.setText("100");
         tvPoint.setText("Points Earned: " + user.getPointsEarned());
-        btnRank.setText("Your Rank: "+user.getLeaderBoardRank());
-        tvChallengesCount.setText("Challenges Accepted: " +user.getChallengesBacked()+ user.getChallengesCompleted());
+        btnRank.setText("Your Rank: " + user.getLeaderBoardRank());
+        tvChallengesCount.setText("Challenges Accepted: " + user.getChallengesBacked() + user.getChallengesCompleted());
 
 
     }
@@ -94,6 +94,7 @@ public class ProfileActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void onRankBoard(View view) {
         Intent intent = new Intent(this, LeaderboardActivity.class);
         startActivity(intent);

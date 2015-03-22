@@ -96,7 +96,7 @@ public class PickVideoActivity extends ActionBarActivity {
     GoogleAccountCredential credential;
     private String mChosenAccountName;
     private Uri mFileURI = null;
-//    private VideoData mVideoData;
+    //    private VideoData mVideoData;
     private UploadBroadcastReceiver broadcastReceiver;
 
     @Override

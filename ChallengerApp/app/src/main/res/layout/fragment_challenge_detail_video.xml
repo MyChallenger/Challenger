@@ -27,16 +27,16 @@
         android:text="Username" />
 
     <!--<VideoView-->
-        <!--android:id="@+id/vvChallengeDetail"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="165dp"-->
-        <!--android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"-->
-        <!--android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"-->
-        <!--android:layout_below="@+id/tvChallengeDetailTitle"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true" />-->
+    <!--android:id="@+id/vvChallengeDetail"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="165dp"-->
+    <!--android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"-->
+    <!--android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"-->
+    <!--android:layout_below="@+id/tvChallengeDetailTitle"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentEnd="true" />-->
 
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
@@ -46,7 +46,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/tvChallengeDetailTitle"
         app:fillColor="@color/primary_blue"
-        app:pageColor="@color/white"/>
+        app:pageColor="@color/white" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
@@ -61,16 +61,16 @@
         android:layout_alignParentEnd="true" />
 
     <!--<FrameLayout-->
-        <!--android:id="@+id/flChallengeDetail"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="165dp"-->
-        <!--android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"-->
-        <!--android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"-->
-        <!--android:layout_below="@+id/tvChallengeDetailTitle"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true" />-->
+    <!--android:id="@+id/flChallengeDetail"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="165dp"-->
+    <!--android:layout_alignLeft="@+id/ivChallengeDetailUserPhoto"-->
+    <!--android:layout_alignStart="@+id/ivChallengeDetailUserPhoto"-->
+    <!--android:layout_below="@+id/tvChallengeDetailTitle"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentEnd="true" />-->
 
     <TextView
         android:id="@+id/tvChallengeDetailLike"

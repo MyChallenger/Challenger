@@ -31,7 +31,6 @@ public class MediaPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {

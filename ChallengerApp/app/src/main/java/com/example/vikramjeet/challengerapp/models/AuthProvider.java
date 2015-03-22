@@ -3,8 +3,7 @@ package com.example.vikramjeet.challengerapp.models;
 public enum AuthProvider {
     FACEBOOK("FACEBOOK"),
     TWITTER("TWITTER"),
-    PARSE("PARSE")
-    ;
+    PARSE("PARSE");
 
     private final String text;
 

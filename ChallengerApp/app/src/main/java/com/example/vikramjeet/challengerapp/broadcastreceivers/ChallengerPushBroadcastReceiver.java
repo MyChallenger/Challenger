@@ -24,7 +24,7 @@ public class ChallengerPushBroadcastReceiver extends ParsePushBroadcastReceiver 
         processPush(context, intent);
     }
 
-//    {
+    //    {
 //        "title": "Game on!",
 //        "alert": "Challenge YourChallenge has been backed by Vik",
 //        "customdata": {
@@ -82,7 +82,7 @@ public class ChallengerPushBroadcastReceiver extends ParsePushBroadcastReceiver 
                     break;
             }
             Intent pupInt = new Intent(context, clazz);
-            pupInt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+            pupInt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (name != null) {
                 pupInt.putExtra(name, datavalue.optString("id"));
             }

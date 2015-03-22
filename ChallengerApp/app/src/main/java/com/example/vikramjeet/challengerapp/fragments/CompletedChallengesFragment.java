@@ -28,7 +28,7 @@ import butterknife.InjectView;
 /**
  * Created by vikramjeet on 3/7/2015.
  */
-public class CompletedChallengesFragment extends Fragment{
+public class CompletedChallengesFragment extends Fragment {
     @InjectView(R.id.lvCompletedChallenges)
     ListView lvCompletedChallenges;
     @InjectView(R.id.swipeContainer)
@@ -71,7 +71,7 @@ public class CompletedChallengesFragment extends Fragment{
         });
 
         // Get completed Challenges
-           fetchCompletedChallenges();
+        fetchCompletedChallenges();
 
         // Get SwipeContainer
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);

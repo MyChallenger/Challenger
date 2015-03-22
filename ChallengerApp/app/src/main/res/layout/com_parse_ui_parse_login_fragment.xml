@@ -26,6 +26,6 @@
             android:drawableStart="@drawable/com_parse_ui_facebook_login_logo"
             android:text="@string/com_parse_ui_facebook_login_button_label"
             android:layout_width="250dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.vikramjeet.challengerapp" >
+    package="com.example.vikramjeet.challengerapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -53,14 +53,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".activities.ChallengerDispatchActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,12 +71,11 @@
         <activity
             android:name=".activities.ChallengeActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
-        </activity>
+            android:launchMode="singleTop"></activity>
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
                 android:value="false" />
@@ -101,27 +101,23 @@
         <activity
             android:name=".activities.CompletedChallengeDetailActivity"
             android:label="@string/title_activity_completed_challenge_detail"
-            android:parentActivityName=".activities.MainActivity" >
-        </activity>
+            android:parentActivityName=".activities.MainActivity"></activity>
         <activity
             android:name=".activities.CommentActivity"
             android:label="@string/title_activity_comment"
             android:parentActivityName=".activities.CompletedChallengeDetailActivity"
-            android:theme="@style/PopupTheme" >
-        </activity>
+            android:theme="@style/PopupTheme"></activity>
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_second"
-            android:parentActivityName=".activities.MainActivity" >
-        </activity>
+            android:parentActivityName=".activities.MainActivity"></activity>
 
         <service android:name="com.parse.PushService" />
 
-        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+        <receiver android:name="com.parse.ParseBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -129,7 +125,7 @@
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -139,7 +135,7 @@
         </receiver>
         <receiver
             android:name=".broadcastreceivers.ChallengerPushBroadcastReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
@@ -150,8 +146,7 @@
         <activity
             android:name=".activities.LeaderboardActivity"
             android:label="@string/title_activity_leaderboard"
-            android:parentActivityName=".activities.ProfileActivity" >
-        </activity>
+            android:parentActivityName=".activities.ProfileActivity"></activity>
 
         <!-- Activities responsible for gathering payment info -->
         <activity
@@ -160,12 +155,10 @@
         <activity android:name="io.card.payment.DataEntryActivity" />
         <activity
             android:name=".activities.PaymentActivity"
-            android:label="@string/title_activity_payment" >
-        </activity>
+            android:label="@string/title_activity_payment"></activity>
         <activity
             android:name=".activities.NewChallengeActivity"
-            android:label="@string/title_activity_new_challenge" >
-        </activity>
+            android:label="@string/title_activity_new_challenge"></activity>
 
         <service
             android:name=".services.UploadService"
@@ -173,18 +166,17 @@
 
         <activity
             android:name=".activities.PickVideoActivity"
-            android:label="@string/title_activity_pick_video" >
-        </activity>
+            android:label="@string/title_activity_pick_video"></activity>
 
         <activity
             android:name=".activities.ReviewVideoActivity"
             android:label="@string/title_activity_review"
-            android:parentActivityName=".activities.PickVideoActivity"/>
+            android:parentActivityName=".activities.PickVideoActivity" />
 
         <activity
             android:name=".activities.PlayVideoActivity"
             android:label="@string/title_activity_review"
-            android:parentActivityName=".activities.PickVideoActivity"/>
+            android:parentActivityName=".activities.PickVideoActivity" />
 
     </application>
 

@@ -165,8 +165,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                 expiryMonth = String.valueOf(scanResult.expiryMonth);
                 expiryYear = String.valueOf(scanResult.expiryYear);
                 cvv = scanResult.cvv;
-            }
-            else {
+            } else {
                 redactedNumber = "XXXX-XXXX-XXXX-3258";
                 expiryMonth = "5";
                 expiryYear = "15";
