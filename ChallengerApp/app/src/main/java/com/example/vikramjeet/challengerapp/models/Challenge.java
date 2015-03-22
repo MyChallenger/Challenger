@@ -1,5 +1,7 @@
 package com.example.vikramjeet.challengerapp.models;
 
+import android.util.Log;
+
 import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
@@ -26,6 +28,8 @@ import java.util.List;
  */
 @ParseClassName("Challenge")
 public class Challenge extends ParseObject {
+
+    private static final String TAG = Challenge.class.getName();
 
     // Constants for fields
     private static final String FIELD_TITLE = "title";
@@ -377,5 +381,28 @@ public class Challenge extends ParseObject {
         }
         put(FIELD_COMMENTS, comments);
         saveInBackground(callback);
+    }
+
+    // Run in a background thread! It's synchronous
+    public boolean updateMediaInformation(String mediaId, MediaProvider mediaProvider, MediaType mediaType) {
+        boolean success = true;
+        try {
+            switch (mediaType) {
+                case CREATED:
+                    setCreatedMediaId(mediaId);
+                    setCreatedMediaProvider(mediaProvider);
+                    break;
+                case COMPLETED:
+                    setCompletedMediaId(mediaId);
+                    setCompletedMediaProvider(mediaProvider);
+                    break;
+            }
+            save();
+        } catch (ParseException e) {
+            Log.e(TAG, "Could not add mediaId: " + e);
+            success = false;
+        }
+
+        return success;
     }
 }

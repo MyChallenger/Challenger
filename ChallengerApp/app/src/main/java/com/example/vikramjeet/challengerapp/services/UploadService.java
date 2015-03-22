@@ -135,7 +135,8 @@ public class UploadService extends IntentService {
             try {
                 String videoId = tryUploadAndShowSelectableNotification(fileUri, youtube);
                 // Now that we have a videoId, let's update Parse
-                updateChallengeWithVideoInformation(videoId, intent);
+                MediaType mediaType = MediaType.values()[intent.getIntExtra(EXTRA_MEDIA_TYPE, 0)];
+                mChallenge.updateMediaInformation(videoId, MediaProvider.YOUTUBE, mediaType);
                 // To send a message to the Activity, create a pass a Bundle
                 Bundle bundle = new Bundle();
                 bundle.putString("resultValue", videoId);
@@ -144,25 +145,6 @@ public class UploadService extends IntentService {
             } catch (InterruptedException e) {
                 // ignore
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateChallengeWithVideoInformation(String videoId, Intent intent) {
-        MediaType mediaType = MediaType.values()[intent.getIntExtra(EXTRA_MEDIA_TYPE, 0)];
-        try {
-            switch (mediaType) {
-                case CREATED:
-                    mChallenge.setCreatedMediaId(videoId);
-                    mChallenge.setCreatedMediaProvider(MediaProvider.YOUTUBE);
-                    break;
-                case COMPLETED:
-                    mChallenge.setCompletedMediaId(videoId);
-                    mChallenge.setCompletedMediaProvider(MediaProvider.YOUTUBE);
-                    break;
-            }
-            mChallenge.save();
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -139,6 +139,9 @@ public class PickVideoActivity extends ActionBarActivity {
         SharedPreferences sp = PreferenceManager
                 .getDefaultSharedPreferences(this);
         mChosenAccountName = sp.getString(ACCOUNT_KEY, null);
+        if (credential != null) {
+            credential.setSelectedAccountName(mChosenAccountName);
+        }
         supportInvalidateOptionsMenu();
     }
 
