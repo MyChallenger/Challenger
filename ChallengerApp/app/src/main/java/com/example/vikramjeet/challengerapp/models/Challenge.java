@@ -383,26 +383,17 @@ public class Challenge extends ParseObject {
         saveInBackground(callback);
     }
 
-    // Run in a background thread! It's synchronous
-    public boolean updateMediaInformation(String mediaId, MediaProvider mediaProvider, MediaType mediaType) {
-        boolean success = true;
-        try {
-            switch (mediaType) {
-                case CREATED:
-                    setCreatedMediaId(mediaId);
-                    setCreatedMediaProvider(mediaProvider);
-                    break;
-                case COMPLETED:
-                    setCompletedMediaId(mediaId);
-                    setCompletedMediaProvider(mediaProvider);
-                    break;
-            }
-            save();
-        } catch (ParseException e) {
-            Log.e(TAG, "Could not add mediaId: " + e);
-            success = false;
+    public bolts.Task<Void> updateMediaInformation(String mediaId, MediaProvider mediaProvider, MediaType mediaType) {
+        switch (mediaType) {
+            case CREATED:
+                setCreatedMediaId(mediaId);
+                setCreatedMediaProvider(mediaProvider);
+                break;
+            case COMPLETED:
+                setCompletedMediaId(mediaId);
+                setCompletedMediaProvider(mediaProvider);
+                break;
         }
-
-        return success;
+        return saveInBackground();
     }
 }

@@ -46,6 +46,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import bolts.Task;
+
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>
  *         <p/>
@@ -136,7 +138,8 @@ public class UploadService extends IntentService {
                 String videoId = tryUploadAndShowSelectableNotification(fileUri, youtube);
                 // Now that we have a videoId, let's update Parse
                 MediaType mediaType = MediaType.values()[intent.getIntExtra(EXTRA_MEDIA_TYPE, 0)];
-                mChallenge.updateMediaInformation(videoId, MediaProvider.YOUTUBE, mediaType);
+                Task<Void> task = mChallenge.updateMediaInformation(videoId, MediaProvider.YOUTUBE, mediaType);
+                task.waitForCompletion();
                 // To send a message to the Activity, create a pass a Bundle
                 Bundle bundle = new Bundle();
                 bundle.putString("resultValue", videoId);
