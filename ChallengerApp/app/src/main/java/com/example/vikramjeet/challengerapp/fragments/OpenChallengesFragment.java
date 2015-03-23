@@ -183,7 +183,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                 expiryYear = "15";
                 cvv = "123";
             }
-            String confirmation = "You will be charged: " + currentlySponsoredChallenge.getPrize();
+            String confirmation = "You will be charged: $" + currentlySponsoredChallenge.getPrize();
             confirmation += "\nCredit Card Number: " + redactedNumber;
             confirmation += "\nExpiration: " + expiryMonth + "/" + expiryYear;
             confirmation += "\nCVV: " + cvv;
