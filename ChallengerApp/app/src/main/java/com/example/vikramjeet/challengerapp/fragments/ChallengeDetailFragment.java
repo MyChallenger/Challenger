@@ -1,8 +1,14 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,16 +20,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.vikramjeet.challengerapp.R;
-import com.example.vikramjeet.challengerapp.activities.PickVideoActivity;
+import com.example.vikramjeet.challengerapp.activities.ReviewVideoActivity;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
 import com.example.vikramjeet.challengerapp.models.MediaType;
 import com.example.vikramjeet.challengerapp.models.User;
+import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
 import com.makeramen.RoundedTransformationBuilder;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -64,6 +72,11 @@ public class ChallengeDetailFragment extends Fragment {
     private ChallengeDescriptionFragment descriptionFragment;
     private CommentListFragment commentFragment;
 
+    private UploadResultReceiver mUploadResultReceiver;
+
+    private static final int RESULT_PICK_IMAGE_CROP = 4;
+    private static final int RESULT_VIDEO_CAP = 5;
+
     public static ChallengeDetailFragment newInstance(String challengeID, boolean isVideoChallenge) {
         // Create fragment
         ChallengeDetailFragment fragment = new ChallengeDetailFragment();
@@ -84,6 +97,30 @@ public class ChallengeDetailFragment extends Fragment {
 
         // Get arguments and populate fragmentType
         challengeId = getArguments().getString("challenge_id");
+
+        setupServiceReceiver();
+    }
+
+    private void setupServiceReceiver() {
+        mUploadResultReceiver = new UploadResultReceiver(new Handler());
+        // This is where we specify what happens when data is received from the service
+        mUploadResultReceiver.setReceiver(new UploadResultReceiver.Receiver() {
+            @Override
+            public void onReceiveResult(int resultCode, Bundle resultData) {
+                if (resultCode == Activity.RESULT_OK) {
+                    String videoId = resultData.getString(UploadResultReceiver.EXTRA_RESULT_VALUE);
+                    challenge.complete(new GetCallback<Challenge>() {
+                        @Override
+                        public void done(Challenge challenge, ParseException e) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.challenge_completed_label), Toast.LENGTH_SHORT).show();
+                            //Update button
+                            btnStatus.setText("COMPLETED");
+                            btnStatus.setEnabled(false);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -283,24 +320,62 @@ public class ChallengeDetailFragment extends Fragment {
     }
 
     private void completeChallenge() {
-        challenge.complete(new GetCallback<Challenge>() {
-            @Override
-            public void done(Challenge challenge, ParseException e) {
-                //Update button
-                btnStatus.setText("COMPLETED");
-                btnStatus.setEnabled(false);
+        // FIXME: Copy/paste from NewChallengeActivity.java
+        AlertDialog levelDialog;
+        // Strings to Show In Dialog with Radio Buttons
+        final CharSequence[] items = {"Choose from Gallery", "Record a new video"};
 
-                // Start activity to upload the video
-                Intent i = new Intent(getActivity(), PickVideoActivity.class);
-                if (challenge.getObjectId() != null) {
-                    i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, challenge.getObjectId());
-                    i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getActivity(), "no id" + challengeId + "and " + challenge.getObjectId(), Toast.LENGTH_SHORT).show();
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("How do you want to upload the video?");
+        builder.setSingleChoiceItems(items, 0, null);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                ListView listView = ((AlertDialog)dialog).getListView();
+                switch (listView.getCheckedItemPosition()) {
+                    case 0:
+                        pickFile();
+                        break;
+                    case 1:
+                        recordVideo();
+                        break;
                 }
+                dialog.dismiss();
             }
         });
+        builder.setNegativeButton("Skip", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                Toast.makeText(getActivity(), "Could not complete a challenge without uploading a video!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        levelDialog = builder.create();
+        levelDialog.show();
+    }
+
+    private void pickFile() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("video/*");
+        startActivityForResult(intent, RESULT_PICK_IMAGE_CROP);
+    }
+
+    public void recordVideo() {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+
+        // Workaround for Nexus 7 Android 4.3 Intent Returning Null problem
+        // create a file to save the video in specific folder (this works for
+        // video only)
+        // mFileURI = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+        // intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileURI);
+
+        // set the video image quality to high
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+        // set the video image quality to low
+//        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+
+        // start the Video Capture Intent
+        startActivityForResult(intent, RESULT_VIDEO_CAP);
     }
 
     private void verifyChallenge() {
@@ -342,6 +417,26 @@ public class ChallengeDetailFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             return tabTitles[position];
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RESULT_PICK_IMAGE_CROP:
+            case RESULT_VIDEO_CAP:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri uri = data.getData();
+                    if (uri != null) {
+                        Intent intent = new Intent(getActivity(), ReviewVideoActivity.class);
+                        intent.putExtra(ReviewVideoActivity.EXTRA_RECEIVER, mUploadResultReceiver);
+                        intent.putExtra(ReviewVideoActivity.EXTRA_CHALLENGE_ID, challengeId);
+                        intent.putExtra(ReviewVideoActivity.EXTRA_MEDIA_TYPE, MediaType.COMPLETED.ordinal());
+                        intent.setData(uri);
+                        startActivity(intent);
+                    }
+                }
+                break;
         }
     }
 }

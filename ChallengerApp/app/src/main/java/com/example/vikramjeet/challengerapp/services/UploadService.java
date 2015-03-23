@@ -57,6 +57,7 @@ public class UploadService extends IntentService {
 
     public static String EXTRA_CHALLENGE_ID = "com.example.vikramjeet.challengerapp.challenge_id";
     public static String EXTRA_MEDIA_TYPE = "com.example.vikramjeet.challengerapp.media_type";
+    public static String EXTRA_RECEIVER = "com.example.vikramjeet.challengerapp.receiver";
 
     /**
      * defines how long we'll wait for a video to finish processing
@@ -118,7 +119,7 @@ public class UploadService extends IntentService {
         try {
             mChallenge = query.get(challengeId);
             // Extract the receiver passed into the service
-            ResultReceiver rec = intent.getParcelableExtra("receiver");
+            ResultReceiver rec = intent.getParcelableExtra(EXTRA_RECEIVER);
 
             Uri fileUri = intent.getData();
             String chosenAccountName = intent.getStringExtra(PickVideoActivity.ACCOUNT_KEY);
@@ -140,11 +141,14 @@ public class UploadService extends IntentService {
                 MediaType mediaType = MediaType.values()[intent.getIntExtra(EXTRA_MEDIA_TYPE, 0)];
                 Task<Void> task = mChallenge.updateMediaInformation(videoId, MediaProvider.YOUTUBE, mediaType);
                 task.waitForCompletion();
-                // To send a message to the Activity, create a pass a Bundle
-                Bundle bundle = new Bundle();
-                bundle.putString("resultValue", videoId);
-                // Here we call send passing a resultCode and the bundle of extras
-                rec.send(Activity.RESULT_OK, bundle);
+
+                if (rec != null) {
+                    // To send a message to the Activity, create a pass a Bundle
+                    Bundle bundle = new Bundle();
+                    bundle.putString(UploadResultReceiver.EXTRA_RESULT_VALUE, videoId);
+                    // Here we call send passing a resultCode and the bundle of extras
+                    rec.send(Activity.RESULT_OK, bundle);
+                }
             } catch (InterruptedException e) {
                 // ignore
             }

@@ -1,5 +1,7 @@
 package com.example.vikramjeet.challengerapp.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -41,6 +44,9 @@ public class NewChallengeActivity extends ActionBarActivity {
     private String mChallengeId;
 
     Uri photoUri;
+
+    private static final int RESULT_PICK_IMAGE_CROP = 4;
+    private static final int RESULT_VIDEO_CAP = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +87,6 @@ public class NewChallengeActivity extends ActionBarActivity {
     public void onAddChallenge(View view) {
         try {
             if (validateInput()) {
-                finish();
                 uploadVideo();
             } else {
                 //Display Error message
@@ -94,10 +99,62 @@ public class NewChallengeActivity extends ActionBarActivity {
     }
 
     private void uploadVideo() {
-        Intent i = new Intent(this, PickVideoActivity.class);
-        i.putExtra(PickVideoActivity.EXTRA_CHALLENGE_ID, mChallengeId);
-        i.putExtra(PickVideoActivity.EXTRA_MEDIA_TYPE, MediaType.CREATED.ordinal());
-        startActivity(i);
+        AlertDialog levelDialog;
+        // Strings to Show In Dialog with Radio Buttons
+        final CharSequence[] items = {"Choose from Gallery", "Record a new video"};
+
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("How do you want to upload the video?");
+        builder.setSingleChoiceItems(items, 0, null);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                ListView listView = ((AlertDialog)dialog).getListView();
+                switch (listView.getCheckedItemPosition()) {
+                    case 0:
+                        pickFile();
+                        break;
+                    case 1:
+                        recordVideo();
+                        break;
+                }
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Skip", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                Intent i = new Intent(NewChallengeActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+        levelDialog = builder.create();
+        levelDialog.show();
+    }
+
+    private void pickFile() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("video/*");
+        startActivityForResult(intent, RESULT_PICK_IMAGE_CROP);
+    }
+
+    public void recordVideo() {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+
+        // Workaround for Nexus 7 Android 4.3 Intent Returning Null problem
+        // create a file to save the video in specific folder (this works for
+        // video only)
+        // mFileURI = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+        // intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileURI);
+
+        // set the video image quality to high
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+        // set the video image quality to low
+//        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+
+        // start the Video Capture Intent
+        startActivityForResult(intent, RESULT_VIDEO_CAP);
     }
 
     private boolean validateInput() throws IOException {
@@ -196,17 +253,37 @@ public class NewChallengeActivity extends ActionBarActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            photoUri = data.getData();
-            try {
-                // Do something with the photo based on Uri
-                Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-                // Load the selected image into a preview
-                ImageView ivPreview = (ImageView) findViewById(R.id.imageButton);
-                ivPreview.setImageBitmap(selectedImage);
-            } catch (IOException e) {
-                Log.e(TAG, "Image could not be loaded(Gallery");
-            }
+        switch (requestCode) {
+            case RESULT_PICK_IMAGE_CROP:
+            case RESULT_VIDEO_CAP:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    if (uri != null) {
+                        Intent intent = new Intent(this, ReviewVideoActivity.class);
+                        intent.putExtra(ReviewVideoActivity.EXTRA_CHALLENGE_ID, mChallengeId);
+                        intent.putExtra(ReviewVideoActivity.EXTRA_MEDIA_TYPE, MediaType.CREATED.ordinal());
+                        intent.setData(uri);
+                        startActivity(intent);
+                    }
+                }
+                break;
+            case PICK_PHOTO_CODE:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        photoUri = data.getData();
+                        try {
+                            // Do something with the photo based on Uri
+                            Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                            // Load the selected image into a preview
+                            ImageView ivPreview = (ImageView) findViewById(R.id.imageButton);
+                            ivPreview.setImageBitmap(selectedImage);
+                        } catch (IOException e) {
+                            Log.e(TAG, "Image could not be loaded(Gallery");
+                        }
+
+                    }
+                }
+                break;
 
         }
     }

@@ -27,6 +27,7 @@
     <string name="title_activity_complete">CompleteActivity</string>
     <string name="title_activity_leaderboard">Leaderboard</string>
     <string name="back_confirmation">Do you want to continue?</string>
+    <string name="challenge_completed_label">Challenge completed successfully!</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
