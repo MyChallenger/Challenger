@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.activities.NewChallengeActivity;
 import com.example.vikramjeet.challengerapp.adapters.ChallengeArrayAdapter;
+import com.example.vikramjeet.challengerapp.adapters.SimpleRecycleViewAdapter;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.melnykov.fab.FloatingActionButton;
 import com.parse.FindCallback;
@@ -35,11 +38,12 @@ import io.card.payment.CreditCard;
  */
 public class OpenChallengesFragment extends Fragment implements ChallengeArrayAdapter.ChallengeArrayAdapterListener {
     public static final String ARG_PAGE = "ARG_PAGE";
-    private ArrayList<Challenge> challenges;
+    private ArrayList<Challenge> mchallenges;
     private ChallengeArrayAdapter aOpenChallenges;
     private ListView lvOpenChallenges;
+    private  RecyclerView rvOpenChallenges;
     public static final String EXTRA_OPEN_CHALLENGE_ID = "challenge_open_id";
-
+    private SimpleRecycleViewAdapter adapter;
     private static final int SCAN_REQUEST_CODE = 100;
 
     private int mPage;
@@ -58,10 +62,14 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPage = getArguments().getInt(ARG_PAGE);
-        challenges = new ArrayList<>();
-        aOpenChallenges = new ChallengeArrayAdapter(getActivity(), challenges, this);
+        mchallenges = new ArrayList<>();
+       // aOpenChallenges = new ChallengeArrayAdapter(getActivity(), challenges, this);*/
+
         //Connect to the client
         //Generate the timeLine
+       // setContentView(R.layout.activity_main);
+
+
         populateData();
     }
 
@@ -71,13 +79,17 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
 
         Challenge.getOpenChallenges(new FindCallback<Challenge>() {
             @Override
-            public void done(List<Challenge> challenges, ParseException e) {
+            public void done(List<Challenge> local_challenges, ParseException e) {
                 if (e == null) {
-                    aOpenChallenges.clear();
+/*                    aOpenChallenges.clear();
                     // Add new data to tweetAdapter
                     aOpenChallenges.addAll(challenges);
+
                     // Now we call setRefreshing(false) to signal refresh has finished
-                    swipeContainer.setRefreshing(false);
+                    swipeContainer.setRefreshing(false);*/
+                    //for recycle view
+                    mchallenges.addAll(local_challenges);
+                    adapter.notifyDataSetChanged();
                 } else {
                     Log.d("Completed Challenges", "Error: " + e.getMessage());
                 }
@@ -97,11 +109,23 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
     // Set the associated text for the title
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.open_challenges_fragment, container, false);
-        lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
+        View view = inflater.inflate(R.layout.fragment_open_challenges, container, false);
+       // lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
+          rvOpenChallenges = (RecyclerView) view.findViewById((R.id.rvOpenChallenges));
+        // Setup layout manager for items
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        // Control orientation of the items
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.scrollToPosition(0);
+        // Attach layout manager
+        rvOpenChallenges.setLayoutManager(layoutManager);
+        //lvOpenChallenges.setAdapter(aOpenChallenges);
+        adapter = new SimpleRecycleViewAdapter(getActivity(),mchallenges,this);
+        rvOpenChallenges.setAdapter(adapter);
         // Adding floating button to listview
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.attachToListView(lvOpenChallenges);
+        //fab.attachToListView(lvOpenChallenges);
+        fab.attachToRecyclerView(rvOpenChallenges);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,9 +133,9 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                 startActivity(i);
             }
         });
-        lvOpenChallenges.setAdapter(aOpenChallenges);
+
         //Listener
-        lvOpenChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* lvOpenChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Create an intent
@@ -143,7 +167,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+                android.R.color.holo_red_light);*/
         return view;
     }
 

@@ -1,70 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="16dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="8dp"
+    android:descendantFocusability="blocksDescendants"
+
+    >
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    >
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/ivProfile"
-        android:src="@mipmap/ic_launcher"
-        android:paddingRight="5dp" />
+        android:src="@drawable/ic_image_res"
+        android:scaleType="fitXY"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textStyle="bold"
-        android:id="@+id/tvTitle"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivProfile"
-        android:layout_toEndOf="@+id/ivProfile" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Category"
-        android:id="@+id/tvCategory"
-        android:layout_below="@+id/tvTitle"
-        android:layout_toRightOf="@+id/ivProfile"
-        android:layout_toEndOf="@+id/ivProfile" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Goal : $100"
-        android:id="@+id/tvGoal"
-        android:layout_below="@+id/tvCategory"
-        android:layout_toRightOf="@+id/ivProfile"
-        android:layout_toEndOf="@+id/ivProfile" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Expiry Date"
-        android:id="@+id/tvExpiry"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:paddingEnd="5dp"
-        android:paddingRight="5dp" />
+        android:layout_alignParentEnd="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ivProfile"
+        android:paddingLeft="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textStyle="bold"
+            android:id="@+id/tvTitle"
+            android:textSize="@dimen/contact_text_size"
+            android:textColor="@android:color/black"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <Button
-        android:background="@color/india_green"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sponsor"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:id="@+id/tvCategory"
+            android:paddingTop="5dp"
+            android:textSize="@dimen/contact_text_size"
+            android:textColor="@android:color/black"
+            android:layout_below="@+id/tvTitle"
+            android:layout_alignLeft="@+id/tvTitle"
+            android:layout_alignStart="@+id/tvTitle" />
 
-        android:textColor="@color/white"
-        android:id="@+id/btnAdd"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/ivProfile"
-        android:layout_alignTop="@+id/tvCategory"
-        android:paddingEnd="10dp"
-        android:paddingRight="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Goal : $100"
+            android:id="@+id/tvGoal"
 
-</RelativeLayout>
+            android:paddingRight="10dp"
+            android:textSize="@dimen/contact_text_size"
+            android:textColor="@android:color/black"
+            android:layout_above="@+id/tvCategory"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expiry Date"
+            android:id="@+id/tvExpiry"
+            android:paddingTop="5dp"
+
+            android:textSize="@dimen/contact_text_size"
+            android:layout_below="@+id/tvCategory"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sponsor"
+
+            android:textColor="@android:color/black"
+            android:id="@+id/btnAdd"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignBottom="@+id/tvExpiry"
+            android:layout_alignLeft="@+id/tvGoal"
+            android:layout_alignStart="@+id/tvGoal" />
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
