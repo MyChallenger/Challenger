@@ -27,7 +27,7 @@
         android:hint="Enter a bike race"
         android:paddingBottom="10dp"
         android:layout_marginLeft="@dimen/left_margin_new_challenge"
-        android:layout_alignBottom="@+id/tvTitle" />
+        android:layout_alignBaseline="@+id/tvTitle" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textSize="15dp"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_marginTop="20dp" />
 
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:text="Category"
         android:id="@+id/tvCategory"
-        android:paddingTop="10dp"
+        android:paddingTop="0dp"
         android:paddingBottom="10dp"
         android:textSize="15dp"
         android:layout_below="@+id/etShortBurb"
@@ -102,7 +102,7 @@
         android:spinnerMode="dropdown"
         android:entries="@array/category_array"
         android:prompt="@string/category_prompt"
-        android:paddingBottom="20dp"
+        android:paddingBottom="0dp"
         android:layout_alignTop="@+id/tvCategory"
         android:layout_alignLeft="@+id/etShortBurb"
         android:layout_alignStart="@+id/etShortBurb" />
@@ -126,7 +126,7 @@
         android:id="@+id/etLocation"
         android:hint="Zip code"
         android:inputType="number"
-        android:layout_alignBottom="@+id/tvLocation"
+        android:layout_alignBaseline="@+id/tvLocation"
         android:layout_alignLeft="@+id/etTitle"
         android:layout_alignStart="@+id/etTitle"
         android:paddingTop="10dp"
@@ -137,7 +137,7 @@
         android:layout_height="wrap_content"
         android:text="End Date"
         android:id="@+id/tvEndDate"
-        android:paddingTop="10dp"
+        android:paddingTop="0dp"
         android:paddingBottom="10dp"
         android:textSize="15dp"
         android:layout_marginTop="46dp"
@@ -152,8 +152,9 @@
         android:spinnerMode="dropdown"
         android:entries="@array/endDateTemplate_array"
         android:prompt="@string/endDateTemplate_prompt"
-        android:layout_alignTop="@+id/tvEndDate"
-        android:layout_marginLeft="@dimen/left_margin_new_challenge" />
+        android:layout_alignBaseline="@+id/tvEndDate"
+        android:layout_marginLeft="@dimen/left_margin_new_challenge"
+        android:layout_marginStart="@dimen/left_margin_new_challenge" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -163,7 +164,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="44dp"
-        android:paddingTop="10dp"
+        android:paddingTop="0dp"
         android:paddingBottom="10dp"
         android:textSize="15dp"
         android:layout_below="@+id/tvEndDate" />
@@ -173,8 +174,7 @@
         android:layout_height="wrap_content"
         android:text="$"
         android:id="@+id/tvDollar"
-        android:layout_alignBaseline="@+id/etGoal"
-        android:layout_alignTop="@+id/etGoal"
+        android:layout_alignBaseline="@+id/tvGoal"
         android:layout_marginLeft="@dimen/left_margin_new_challenge"
         android:textSize="15dp" />
 
@@ -184,8 +184,9 @@
         android:id="@+id/etGoal"
         android:hint="100"
         android:inputType="number|numberDecimal"
-        android:layout_alignTop="@+id/tvGoal"
+        android:layout_alignBaseline="@+id/tvGoal"
         android:layout_toRightOf="@+id/tvDollar"
+        android:layout_toEndOf="@+id/tvDollar"
         android:layout_centerHorizontal="true" />
 
 
@@ -198,7 +199,9 @@
         android:id="@+id/btnAdd"
         android:onClick="onAddChallenge"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"/>
 
 
 </RelativeLayout>
