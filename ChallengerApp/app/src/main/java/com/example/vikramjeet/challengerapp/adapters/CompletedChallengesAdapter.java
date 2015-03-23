@@ -210,10 +210,10 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                 // clear previous photo
                 viewHolder1.ivUserPhoto.setImageResource(0);
                 // Show user info
-                viewHolder1.tvUserName.setText(challenge.getBacker().getName());
+                viewHolder1.tvUserName.setText(challenge.getPoster().getName());
 
                 Picasso.with(getContext())
-                        .load(challenge.getBacker().getPhotoURL())
+                        .load(challenge.getPoster().getPhotoURL())
                         .placeholder(R.drawable.photo_placeholder)
                         .fit()
                         .transform(transformation)
@@ -288,10 +288,10 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                 // clear previous photo
                 viewHolder2.ivUserPhoto.setImageResource(0);
                 // show user info
-                viewHolder2.tvUserName.setText(challenge.getBacker().getName());
+                viewHolder2.tvUserName.setText(challenge.getPoster().getName());
 
                 Picasso.with(getContext())
-                        .load(challenge.getBacker().getPhotoURL())
+                        .load(challenge.getPoster().getPhotoURL())
                         .transform(transformation)
                         .fit()
                         .placeholder(R.drawable.photo_placeholder)
@@ -300,7 +300,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                 viewHolder2.tvTitle.setText(challenge.getTitle());
                 viewHolder2.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
                 viewHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-                viewHolder2.tvCategory.setText(challenge.getCategory());
+                viewHolder2.tvCategory.setText("Category: " + challenge.getCategory());
 
                 // Get ViewHolder to call inside callback method
                 final ImageViewHolder tempHolder2 = viewHolder2;
