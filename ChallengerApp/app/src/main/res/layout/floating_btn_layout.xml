@@ -1,0 +1,23 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@android:layout/list_content"/>
+
+    <ImageButton
+        android:id="@+id/imbuttonFloating"
+        android:background="@drawable/ripple_effect"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="16dp"
+        android:src="@drawable/ic_add_white_48dp"
+        android:tint="@android:color/white"
+        android:scaleType="fitXY"
+        android:elevation="8dp"
+        android:focusable="false"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/fab"
+        android:layout_toStartOf="@+id/fab"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="115dp" />
+</FrameLayout>

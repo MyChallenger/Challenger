@@ -1,8 +1,11 @@
 package com.example.vikramjeet.challengerapp.fragments;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Outline;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -45,7 +50,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
     public static final String EXTRA_OPEN_CHALLENGE_ID = "challenge_open_id";
     private SimpleRecycleViewAdapter adapter;
     private static final int SCAN_REQUEST_CODE = 100;
-
+    private View addButton;
     private int mPage;
     private SwipeRefreshLayout swipeContainer;
     private Challenge currentlySponsoredChallenge;
@@ -107,8 +112,10 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
 
     // Inflate the fragment layout we defined above for this fragment
     // Set the associated text for the title
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+      //  inflater(R.id.floating_btn_layout)
         View view = inflater.inflate(R.layout.fragment_open_challenges, container, false);
        // lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
           rvOpenChallenges = (RecyclerView) view.findViewById((R.id.rvOpenChallenges));
@@ -133,7 +140,31 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                 startActivity(i);
             }
         });
+       // int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
+       // Outline outline = new Outline();
+        //outline.setOval(0, 0, diameter, diameter);
+         addButton = view.findViewById(R.id.imbuttonFloating);
+        if(addButton == null)
+            return view;
+        //addButton.setOutline(outline);
 
+        ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                // Or read size directly from the view's width/height
+                int size = getResources().getDimensionPixelSize(R.dimen.diameter);
+                outline.setOval(0, 0, size, size);
+            }
+        };
+        addButton.setOutlineProvider(viewOutlineProvider);
+        addButton.setClipToOutline(true);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), NewChallengeActivity.class);
+                startActivity(i);
+            }
+        });
         //Listener
        /* lvOpenChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

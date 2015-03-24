@@ -20,11 +20,11 @@
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/primary_black</item>
+        <item name="android:background">@color/primary</item>
         <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@color/primary_black</item>
+        <item name="background">@color/primary</item>
         <item name="titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
     </style>
 

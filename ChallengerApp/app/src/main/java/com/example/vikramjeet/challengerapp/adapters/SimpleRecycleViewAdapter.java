@@ -84,11 +84,13 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     //Challenge challenge = mchallenges.get(position);
                     // Pass challenge into the intent
 
-                    //challengeDetailIntent.putExtra(EXTRA_OPEN_CHALLENGE_ID, challenge.getObjectId());
-                    // Log.d("ObjectID:", challenge.getObjectId());
+
                     // Start activity
                     context.startActivity(challengeDetailIntent);
                     String position = (String) tvTitle.getTag();
+                    challengeDetailIntent.putExtra(CompletedChallengeDetailActivity.EXTRA_OPEN_CHALLENGE_ID, position);
+                    context.startActivity(challengeDetailIntent);
+                    // Log.d("ObjectID:", challenge.getObjectId());
                     Toast.makeText(context, "position"+position, Toast.LENGTH_SHORT).show();
 
                 }

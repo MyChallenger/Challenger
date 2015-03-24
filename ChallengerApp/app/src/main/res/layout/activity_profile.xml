@@ -80,4 +80,5 @@
         android:onClick="onRankBoard"
         android:layout_centerHorizontal="true" />
 
+
 </RelativeLayout>
