@@ -29,10 +29,15 @@ import butterknife.InjectView;
 /**
  * Created by vrumale on 3/23/15.
  */
-public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycleViewAdapter.SimpleItemViewHolder> {
+public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycleViewAdapter.SimpleItemViewHolder> implements View.OnClickListener{
     private List<Challenge> mChallenges;
     private Context mContext;
     private final ChallengeArrayAdapter.ChallengeArrayAdapterListener mlistener;
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     public interface ChallengeArrayAdapterListener {
         void onChallengeSponsor(Challenge challenge);
@@ -83,6 +88,9 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     // Log.d("ObjectID:", challenge.getObjectId());
                     // Start activity
                     context.startActivity(challengeDetailIntent);
+                    String position = (String) tvTitle.getTag();
+                    Toast.makeText(context, "position"+position, Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -133,6 +141,7 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
 
             }
         });
+        viewHolder.tvTitle.setTag(challenge.getObjectId());
     }
     public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
