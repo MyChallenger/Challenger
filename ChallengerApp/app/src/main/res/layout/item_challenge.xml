@@ -103,15 +103,13 @@
 
 
             android:layout_alignBottom="@+id/tvExpiry"
-<<<<<<< HEAD
+
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_marginEnd="35dp" />
-=======
-            android:layout_alignRight="@+id/tvGoal"
-            android:layout_alignEnd="@+id/tvGoal" />
->>>>>>> ffb849a9c10d30c2d8dff8025fb34dbdab3d4702
+
+
 
         </RelativeLayout>
 
