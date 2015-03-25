@@ -134,8 +134,10 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     into(viewHolder.ivProfile);
         }
         viewHolder.tvExpiry.setText("expires " + getRelativeTimeAgo(challenge.getExpiryDate().toString()));
-        if ((challenge.getStatus() == ChallengeStatus.VERIFIED) || (challenge.getStatus() == ChallengeStatus.BACKED))
+        if ((challenge.getStatus() == ChallengeStatus.VERIFIED) || (challenge.getStatus() == ChallengeStatus.BACKED)) {
             viewHolder.btnSponsor.setEnabled(false);
+            viewHolder.btnSponsor.setText("SPONSORED");
+        }
         viewHolder.btnSponsor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

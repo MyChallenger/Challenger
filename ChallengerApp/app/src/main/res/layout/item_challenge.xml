@@ -96,11 +96,12 @@
             android:textColor="@color/accent"
             android:elevation="8dp"
             android:id="@+id/btnAdd"
+            android:padding="10dp"
 
 
             android:layout_alignBottom="@+id/tvExpiry"
-            android:layout_alignLeft="@+id/tvGoal"
-            android:layout_alignStart="@+id/tvGoal" />
+            android:layout_alignRight="@+id/tvGoal"
+            android:layout_alignEnd="@+id/tvGoal" />
 
         </RelativeLayout>
 
