@@ -1,5 +1,6 @@
 package com.example.vikramjeet.challengerapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -60,5 +61,13 @@ public class LeaderboardActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(LeaderboardActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
     }
 }
