@@ -20,7 +20,9 @@
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <!--<item name="logo">@drawable/appicon</item>-->
         <item name="android:background">@color/primary</item>
+        <!--<item name="displayOptions">useLogo|showHome|showTitle</item>-->
         <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
 
         <!-- Support library compatibility -->
