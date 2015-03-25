@@ -112,10 +112,12 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      //  inflater(R.id.floating_btn_layout)
+
         View view = inflater.inflate(R.layout.fragment_open_challenges, container, false);
-       // lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
+
           rvOpenChallenges = (RecyclerView) view.findViewById((R.id.rvOpenChallenges));
+
+
         // Setup layout manager for items
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         // Control orientation of the items
@@ -123,7 +125,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
         layoutManager.scrollToPosition(0);
         // Attach layout manager
         rvOpenChallenges.setLayoutManager(layoutManager);
-        //lvOpenChallenges.setAdapter(aOpenChallenges);
+
         adapter = new SimpleRecycleViewAdapter(getActivity(),mchallenges,this);
         rvOpenChallenges.setAdapter(adapter);
         // Adding floating button to listview
@@ -139,6 +141,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
 
             }
         });
+
        // int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
        // Outline outline = new Outline();
         //outline.setOval(0, 0, diameter, diameter);
@@ -183,7 +186,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
         });
 
         // Get SwipeContainer
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerOpenChallenges);
+    /*    swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerOpenChallenges);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

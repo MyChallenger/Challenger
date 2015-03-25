@@ -11,7 +11,7 @@
         android:padding="16dp"
         android:src="@drawable/ic_add_white_48dp"
         android:tint="@android:color/white"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:elevation="8dp"
         android:focusable="false"
         android:layout_alignParentTop="true"
@@ -19,5 +19,7 @@
         android:layout_toStartOf="@+id/fab"
         android:layout_marginRight="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginTop="115dp" />
+        android:layout_marginTop="115dp"
+        android:layout_gravity="right|bottom"
+        android:stateListAnimator="@anim/button_elevation"/>
 </FrameLayout>

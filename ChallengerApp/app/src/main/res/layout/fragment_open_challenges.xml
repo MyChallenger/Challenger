@@ -15,11 +15,12 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:background="@drawable/ripple_effect"
         android:elevation="8dp"
-        android:src="@drawable/ic_black_padding"
+        android:src="@drawable/ic_accent_button_largest"
+        android:backgroundTint="@color/accent"
         android:gravity="center"
-        style="fitXY"
+        android:scaleType="fitCenter"
         fab:fab_shadow="true"
         fab:fab_type="normal"
         android:layout_marginRight="49dp"
@@ -28,5 +29,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="49dp"
         android:layout_marginBottom="54dp" />
+
 
 </RelativeLayout>
