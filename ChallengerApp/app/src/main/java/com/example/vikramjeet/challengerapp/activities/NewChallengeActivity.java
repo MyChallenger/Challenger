@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.example.vikramjeet.challengerapp.R.color.primary_dark;
 import static junit.framework.Assert.assertNull;
 
 
@@ -52,6 +55,13 @@ public class NewChallengeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_challenge);
+        //CHANGE STATUS BAR COLOR
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(primary_dark));
+
         etTitle = (EditText) findViewById(R.id.etTitle);
         etBurb = (EditText) findViewById(R.id.etShortBurb);
         etGoal = (EditText) findViewById(R.id.etGoal);

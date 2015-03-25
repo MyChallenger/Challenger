@@ -35,6 +35,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.configurations.Auth;
@@ -65,6 +66,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;
+
+import static com.example.vikramjeet.challengerapp.R.color.primary_dark;
 
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>
@@ -104,6 +107,13 @@ public class PickVideoActivity extends ActionBarActivity {
         getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_video);
+        //CHANGE STATUS BAR COLOR
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(primary_dark));
+
         // Inject Butterknife
         ButterKnife.inject(this);
 

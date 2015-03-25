@@ -6,12 +6,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.fragments.ChallengeDetailFragment;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+
+import static com.example.vikramjeet.challengerapp.R.color.primary_dark;
 
 public class CompletedChallengeDetailActivity extends ActionBarActivity {
 
@@ -22,6 +26,12 @@ public class CompletedChallengeDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed_challenge_detail);
+        //CHANGE STATUS BAR COLOR
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(primary_dark));
         // Get challege_id from Intent
         final String challengeId = getIntent().getStringExtra(EXTRA_CHALLENGE_ID);
         if (challengeId != null) {

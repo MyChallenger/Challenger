@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -20,6 +22,8 @@ import com.parse.ParseUser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.example.vikramjeet.challengerapp.R.color.primary_dark;
 
 
 public class ChallengeActivity extends ActionBarActivity {
@@ -33,6 +37,12 @@ public class ChallengeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenge);
+        //CHANGE STATUS BAR COLOR
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(primary_dark));
         // Inject Butterknife
         ButterKnife.inject(this);
         // Set view page adapter for the pager

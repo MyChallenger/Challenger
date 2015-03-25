@@ -54,8 +54,9 @@ public class ReviewVideoActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_review_video);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ButterKnife.inject(this);
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {

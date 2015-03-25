@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.example.vikramjeet.challengerapp.R;
@@ -14,6 +16,8 @@ import com.parse.ParseQuery;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.vikramjeet.challengerapp.R.color.primary_dark;
+
 public class LeaderboardActivity extends ActionBarActivity {
 
     @InjectView(R.id.lvUsers)
@@ -23,6 +27,12 @@ public class LeaderboardActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+        //CHANGE STATUS BAR COLOR
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(primary_dark));
         ButterKnife.inject(this);
 
         LeaderboardQueryAdapter<User> adapter =

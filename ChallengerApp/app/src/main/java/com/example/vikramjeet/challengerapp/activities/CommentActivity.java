@@ -32,6 +32,8 @@ import com.squareup.picasso.Transformation;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.vikramjeet.challengerapp.R.color.primary_dark;
+
 public class CommentActivity extends ActionBarActivity {
 
     private Challenge challenge;
@@ -54,6 +56,12 @@ public class CommentActivity extends ActionBarActivity {
         showAsPopup(CommentActivity.this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+        //CHANGE STATUS BAR COLOR
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(primary_dark));
         ButterKnife.inject(this);
 
         // Get current user
