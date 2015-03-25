@@ -16,13 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
-import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.activities.NewChallengeActivity;
 import com.example.vikramjeet.challengerapp.adapters.ChallengeArrayAdapter;
 import com.example.vikramjeet.challengerapp.adapters.SimpleRecycleViewAdapter;
@@ -138,6 +135,8 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), NewChallengeActivity.class);
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+
             }
         });
        // int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
@@ -163,6 +162,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), NewChallengeActivity.class);
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
         //Listener
@@ -214,6 +214,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
 
         // SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
         startActivityForResult(scanIntent, SCAN_REQUEST_CODE);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override
