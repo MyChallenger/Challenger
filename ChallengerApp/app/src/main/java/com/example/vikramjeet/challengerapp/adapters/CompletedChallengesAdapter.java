@@ -221,11 +221,25 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
 
                 viewHolder1.tvTitle.setText(challenge.getTitle());
                 viewHolder1.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
-                viewHolder1.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-                viewHolder1.tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
+//                viewHolder1.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                viewHolder1.tvViews.setText(String.valueOf(challenge.getNumberOfViews()) + " views");
+
 
                 // Get ViewHolder to call inside callback method
                 final VideoViewHolder tempHolder = viewHolder1;
+
+                challenge.isLiked(new LikeStatusCallback<Boolean>() {
+                    @Override
+                    public void done(Boolean isLiked, ParseException e) {
+                        if (isLiked) {
+                            tempHolder.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_selected, 0, 0, 0);
+                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                        } else {
+                            tempHolder.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_unselected, 0, 0, 0);
+                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                        }
+                    }
+                });
 
                 // Add Click listener for Like button
                 viewHolder1.tvLikes.setOnClickListener(new View.OnClickListener() {
@@ -238,14 +252,16 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                                     challenge.unLike(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
-                                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                                            tempHolder.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_unselected, 0, 0, 0);
                                         }
                                     });
                                 } else {
                                     challenge.like(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
-                                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                            tempHolder.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                                            tempHolder.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_selected, 0, 0, 0);
                                         }
                                     });
                                 }
@@ -299,11 +315,23 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
 
                 viewHolder2.tvTitle.setText(challenge.getTitle());
                 viewHolder2.tvComment.setText(String.valueOf(challenge.getNumberOfComments()));
-                viewHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-                viewHolder2.tvCategory.setText("Category: " + challenge.getCategory());
+                viewHolder2.tvCategory.setText(challenge.getCategory());
 
                 // Get ViewHolder to call inside callback method
                 final ImageViewHolder tempHolder2 = viewHolder2;
+
+                challenge.isLiked(new LikeStatusCallback<Boolean>() {
+                    @Override
+                    public void done(Boolean isLiked, ParseException e) {
+                        if (isLiked) {
+                            tempHolder2.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_selected, 0, 0, 0);
+                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                        } else {
+                            tempHolder2.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_unselected, 0, 0, 0);
+                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                        }
+                    }
+                });
 
                 // Add Click listener for Like button
                 viewHolder2.tvLikes.setOnClickListener(new View.OnClickListener() {
@@ -316,14 +344,16 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                                     challenge.unLike(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
-                                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                                            tempHolder2.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_unselected, 0, 0, 0);
                                         }
                                     });
                                 } else {
                                     challenge.like(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
-                                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+                                            tempHolder2.tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                                            tempHolder2.tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_selected, 0, 0, 0);
                                         }
                                     });
                                 }

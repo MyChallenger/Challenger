@@ -22,8 +22,8 @@ public class ChallengeDescriptionFragment extends Fragment {
 
     @InjectView(R.id.tvChallengeDescription)
     TextView tvDescription;
-    @InjectView(R.id.tvChallengerName)
-    TextView tvChallengerName;
+//    @InjectView(R.id.tvChallengerName)
+//    TextView tvChallengerName;
     @InjectView(R.id.tvLocation)
     TextView tvLocation;
     @InjectView(R.id.tvBackerName)
@@ -50,8 +50,8 @@ public class ChallengeDescriptionFragment extends Fragment {
     public void populateViewsFromDict(Map<String, String> dict) {
         if (dict != null) {
             tvDescription.setText(dict.get("description"));
-            tvChallengerName.setText(dict.get("challenger_name"));
-            tvBackerName.setText(dict.get("backer_name"));
+//            tvChallengerName.setText(dict.get("challenger_name"));
+            tvBackerName.setText("Sponsored by " + dict.get("backer_name"));
             tvCategory.setText(dict.get("category"));
         }
     }

@@ -31,11 +31,13 @@ import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.ChallengeStatus;
 import com.example.vikramjeet.challengerapp.models.MediaType;
 import com.example.vikramjeet.challengerapp.models.User;
+import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
 import com.example.vikramjeet.challengerapp.services.UploadResultReceiver;
 import com.makeramen.RoundedTransformationBuilder;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -175,8 +177,58 @@ public class ChallengeDetailFragment extends Fragment {
 
                     tvTitle.setText(challenge.getTitle());
 //                    tvCategory.setText(challenge.getCategory());
-                    tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
-                    tvViews.setText(String.valueOf(challenge.getNumberOfViews()));
+//                    tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()));
+
+                    // Get ViewHolder to call inside callback method
+
+                    challenge.isLiked(new LikeStatusCallback<Boolean>() {
+                        @Override
+                        public void done(Boolean isLiked, ParseException e) {
+                            if (isLiked) {
+                                tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_selected, 0, 0, 0);
+                                tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                            } else {
+                                tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_unselected, 0, 0, 0);
+                                tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                            }
+                        }
+                    });
+
+                    // Add Click listener for Like button
+                    tvLikes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            challenge.isLiked(new LikeStatusCallback<Boolean>() {
+                                @Override
+                                public void done(Boolean isLiked, ParseException e) {
+                                    if (isLiked) {
+                                        challenge.unLike(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                                                tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_unselected, 0, 0, 0);
+                                            }
+                                        });
+                                    } else {
+                                        challenge.like(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                tvLikes.setText(String.valueOf(challenge.getNumberOfLikes()) + " likes");
+                                                tvLikes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_selected, 0, 0, 0);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    challenge.incrementViews(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            tvViews.setText(String.valueOf(challenge.getNumberOfViews()) + " views");
+                        }
+                    });
 
                     configureButton();
 
