@@ -12,14 +12,13 @@
         app:pstsTextAllCaps="true"
         app:pstsTabPaddingLeftRight="-10dp"
         app:pstsIndicatorColor="@color/white"
-        app:pstsTabBackground="@color/primary"
-
+        android:background="@color/primary"
         app:pstsDividerColor="@android:color/transparent"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:pstsUnderlineHeight="1dp"
-        app:pstsIndicatorHeight="5dp"
+        app:pstsUnderlineHeight="0dp"
+        app:pstsIndicatorHeight="7dp"
 
         />
 
