@@ -47,6 +47,12 @@ public class CompletedChallengesFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        fetchCompletedChallenges();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         // Inflate the view
         View view = inflater.inflate(R.layout.fragment_completed_challenges, parent, false);        // Inject Butterknife

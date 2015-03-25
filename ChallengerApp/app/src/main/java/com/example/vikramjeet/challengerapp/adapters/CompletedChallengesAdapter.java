@@ -180,7 +180,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         int viewType = this.getItemViewType(position);
         // Get challenge
         final Challenge challenge = getItem(position);
@@ -418,4 +418,5 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("HERE:", "I am here");
     }
+
 }

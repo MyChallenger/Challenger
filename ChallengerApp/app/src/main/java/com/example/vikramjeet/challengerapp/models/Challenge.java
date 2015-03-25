@@ -1,7 +1,5 @@
 package com.example.vikramjeet.challengerapp.models;
 
-import android.util.Log;
-
 import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
@@ -206,6 +204,7 @@ public class Challenge extends ParseObject {
     public static void getFinishedChallenges(FindCallback<Challenge> findCallback) {
         ParseQuery<Challenge> query = getChallengeParseQuery();
         query.whereEqualTo(FIELD_STATUS, ChallengeStatus.VERIFIED.toString());
+        query.addAscendingOrder("createdAt");
         query.findInBackground(findCallback);
     }
 

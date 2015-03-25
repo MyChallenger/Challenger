@@ -29,6 +29,8 @@
     <string name="back_confirmation">Do you want to continue?</string>
     <string name="challenge_completed_label">Challenge completed successfully!</string>
 
+    <string name="hack_tag">Hack tag</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

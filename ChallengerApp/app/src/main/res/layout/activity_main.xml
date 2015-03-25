@@ -10,6 +10,10 @@
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"
         app:pstsTabPaddingLeftRight="-10dp"
+        app:pstsUnderlineColor="#673AB7"
+        app:pstsIndicatorColor="#673AB7"
+        app:pstsDividerColor="#673AB7"
+        android:textColor="#673AB7"
         android:layout_width="match_parent"
         android:layout_height="48dp"></com.astuetz.PagerSlidingTabStrip>
 
