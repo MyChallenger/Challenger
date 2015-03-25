@@ -1,31 +1,39 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/com_parse_ui_vertical_margin"
-    android:paddingLeft="@dimen/com_parse_ui_horizontal_margin"
-    android:paddingRight="@dimen/com_parse_ui_horizontal_margin"
-    android:paddingBottom="@dimen/com_parse_ui_vertical_margin"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:background="@drawable/background">
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <include
+        layout="@layout/com_parse_ui_parse_login_app_logo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="260dp"
+        />
 
-        <Button
-            android:id="@+id/facebook_login"
-            style="@style/ParseLoginUI.Button.ThirdPartyLogin"
-            android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
-            android:layout_marginBottom="@dimen/com_parse_ui_xlarge_vertical_spacing"
-            android:background="@drawable/com_parse_ui_facebook_login_button_background_selector"
-            android:drawableLeft="@drawable/com_parse_ui_facebook_login_logo"
-            android:drawableStart="@drawable/com_parse_ui_facebook_login_logo"
-            android:text="@string/com_parse_ui_facebook_login_button_label"
-            android:layout_width="250dp"
-            android:visibility="gone" />
-    </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_logo"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="@string/app_name"/>
+
+    <Button
+        android:id="@+id/facebook_login"
+        android:layout_below="@+id/app_name"
+        style="@style/ParseLoginUI.Button.ThirdPartyLogin"
+        android:layout_width="250dp"
+        android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
+        android:background="@drawable/com_parse_ui_facebook_login_button_background_selector"
+        android:drawableLeft="@drawable/com_parse_ui_facebook_login_logo"
+        android:drawableStart="@drawable/com_parse_ui_facebook_login_logo"
+        android:text="@string/com_parse_ui_facebook_login_button_label"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>
