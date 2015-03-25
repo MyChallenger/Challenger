@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
 import com.example.vikramjeet.challengerapp.activities.CommentActivity;
+import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.configurations.Auth;
 import com.example.vikramjeet.challengerapp.models.Challenge;
 import com.example.vikramjeet.challengerapp.models.callbacks.LikeStatusCallback;
@@ -30,6 +31,7 @@ import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -174,9 +176,12 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
         }
     }
 
+    private ArrayList<Challenge> challengeList;
+
     public CompletedChallengesAdapter(Context context, List<Challenge> challenges, FragmentManager supportFragmentManager) {
         super(context, android.R.layout.simple_list_item_1, challenges);
         this.supportFragmentManager = supportFragmentManager;
+        this.challengeList = (ArrayList<Challenge>)challenges;
     }
 
     @Override
@@ -287,6 +292,21 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                     panToVideo(challenge.getCompletedMediaId());
                 }
 
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Create an intent
+                        Intent challengeDetailIntent = new Intent(getContext(), CompletedChallengeDetailActivity.class);
+                        // Get the challenge
+                        Challenge challenge = challengeList.get(position);
+                        // Pass challenge into the intent
+                        challengeDetailIntent.putExtra("challenge_id", challenge.getObjectId());
+                        Log.d("ObjectID:", challenge.getObjectId());
+                        // Start activity
+                        getContext().startActivity(challengeDetailIntent);
+                    }
+                });
+
                 return convertView;
             case 1:
                 // View look up cache stored in tag
@@ -389,6 +409,22 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                 } else {
                     viewHolder2.ivCompletedImage.setImageResource(R.drawable.photo_placeholder);
                 }
+
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Create an intent
+                        Intent challengeDetailIntent = new Intent(getContext(), CompletedChallengeDetailActivity.class);
+                        // Get the challenge
+                        Challenge challenge = challengeList.get(position);
+                        // Pass challenge into the intent
+                        challengeDetailIntent.putExtra("challenge_id", challenge.getObjectId());
+                        Log.d("ObjectID:", challenge.getObjectId());
+                        // Start activity
+                        getContext().startActivity(challengeDetailIntent);
+                    }
+                });
 
                 return convertView;
             default:
