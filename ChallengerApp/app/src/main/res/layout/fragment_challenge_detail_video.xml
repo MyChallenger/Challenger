@@ -45,8 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/tvChallengeDetailTitle"
-        app:fillColor="@color/primary_blue"
-        app:pageColor="@color/white" />
+        app:fillColor="@color/primary"
+        app:pageColor="@color/primary_light" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
