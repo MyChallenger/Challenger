@@ -115,10 +115,12 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      //  inflater(R.id.floating_btn_layout)
+
         View view = inflater.inflate(R.layout.fragment_open_challenges, container, false);
-       // lvOpenChallenges = (ListView) view.findViewById(R.id.lvOpenChallenges);
+
           rvOpenChallenges = (RecyclerView) view.findViewById((R.id.rvOpenChallenges));
+
+
         // Setup layout manager for items
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         // Control orientation of the items
@@ -126,7 +128,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
         layoutManager.scrollToPosition(0);
         // Attach layout manager
         rvOpenChallenges.setLayoutManager(layoutManager);
-        //lvOpenChallenges.setAdapter(aOpenChallenges);
+
         adapter = new SimpleRecycleViewAdapter(getActivity(),mchallenges,this);
         rvOpenChallenges.setAdapter(adapter);
         // Adding floating button to listview
@@ -140,50 +142,10 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                 startActivity(i);
             }
         });
-       // int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
-       // Outline outline = new Outline();
-        //outline.setOval(0, 0, diameter, diameter);
-         addButton = view.findViewById(R.id.imbuttonFloating);
-        if(addButton == null)
-            return view;
-        //addButton.setOutline(outline);
 
-        ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                // Or read size directly from the view's width/height
-                int size = getResources().getDimensionPixelSize(R.dimen.diameter);
-                outline.setOval(0, 0, size, size);
-            }
-        };
-        addButton.setOutlineProvider(viewOutlineProvider);
-        addButton.setClipToOutline(true);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), NewChallengeActivity.class);
-                startActivity(i);
-            }
-        });
-        //Listener
-       /* lvOpenChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Create an intent
-                Intent challengeDetailIntent = new Intent(getActivity(), CompletedChallengeDetailActivity.class);
-                // Get the challenge
-                Challenge challenge = challenges.get(position);
-                // Pass challenge into the intent
-
-                challengeDetailIntent.putExtra(EXTRA_OPEN_CHALLENGE_ID, challenge.getObjectId());
-               // Log.d("ObjectID:", challenge.getObjectId());
-                // Start activity
-                startActivity(challengeDetailIntent);
-            }
-        });
 
         // Get SwipeContainer
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerOpenChallenges);
+    /*    swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerOpenChallenges);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
