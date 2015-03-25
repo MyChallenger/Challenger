@@ -111,4 +111,10 @@ public class PaymentActivity extends ActionBarActivity {
         }
         // else handle other activity results
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
 }

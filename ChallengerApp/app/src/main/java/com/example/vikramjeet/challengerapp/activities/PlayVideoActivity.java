@@ -172,5 +172,7 @@ public class PlayVideoActivity extends ActionBarActivity implements
     public void onBackPressed() {
         super.onBackPressed();
         NavUtils.navigateUpFromSameTask(this);
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
+
 }

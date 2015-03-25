@@ -1,5 +1,6 @@
 package com.example.vikramjeet.challengerapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +23,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by vrumale on 3/23/15.
@@ -90,8 +88,10 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     String position = (String) tvTitle.getTag();
                     challengeDetailIntent.putExtra(CompletedChallengeDetailActivity.EXTRA_OPEN_CHALLENGE_ID, position);
                     context.startActivity(challengeDetailIntent);
+                    ((Activity) context).overridePendingTransition(R.anim.right_in, R.anim.left_out);
+
                     // Log.d("ObjectID:", challenge.getObjectId());
-                    Toast.makeText(context, "position"+position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "position"+position, Toast.LENGTH_SHORT).show();
 
                 }
             });

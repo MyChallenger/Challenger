@@ -16,13 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.vikramjeet.challengerapp.R;
-import com.example.vikramjeet.challengerapp.activities.CompletedChallengeDetailActivity;
 import com.example.vikramjeet.challengerapp.activities.NewChallengeActivity;
 import com.example.vikramjeet.challengerapp.adapters.ChallengeArrayAdapter;
 import com.example.vikramjeet.challengerapp.adapters.SimpleRecycleViewAdapter;
@@ -140,9 +137,53 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), NewChallengeActivity.class);
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+
             }
         });
 
+       // int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
+       // Outline outline = new Outline();
+        //outline.setOval(0, 0, diameter, diameter);
+         addButton = view.findViewById(R.id.imbuttonFloating);
+        if(addButton == null)
+            return view;
+        //addButton.setOutline(outline);
+
+        ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                // Or read size directly from the view's width/height
+                int size = getResources().getDimensionPixelSize(R.dimen.diameter);
+                outline.setOval(0, 0, size, size);
+            }
+        };
+        addButton.setOutlineProvider(viewOutlineProvider);
+        addButton.setClipToOutline(true);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), NewChallengeActivity.class);
+                startActivity(i);
+                getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            }
+        });
+        //Listener
+       /* lvOpenChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Create an intent
+                Intent challengeDetailIntent = new Intent(getActivity(), CompletedChallengeDetailActivity.class);
+                // Get the challenge
+                Challenge challenge = challenges.get(position);
+                // Pass challenge into the intent
+
+                challengeDetailIntent.putExtra(EXTRA_OPEN_CHALLENGE_ID, challenge.getObjectId());
+               // Log.d("ObjectID:", challenge.getObjectId());
+                // Start activity
+                startActivity(challengeDetailIntent);
+            }
+        });
 
         // Get SwipeContainer
     /*    swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerOpenChallenges);
@@ -176,6 +217,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
 
         // SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
         startActivityForResult(scanIntent, SCAN_REQUEST_CODE);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override

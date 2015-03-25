@@ -304,6 +304,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                         Log.d("ObjectID:", challenge.getObjectId());
                         // Start activity
                         getContext().startActivity(challengeDetailIntent);
+                        ((Activity) getContext()).overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     }
                 });
 
@@ -423,6 +424,7 @@ public class CompletedChallengesAdapter extends ArrayAdapter<Challenge> implemen
                         Log.d("ObjectID:", challenge.getObjectId());
                         // Start activity
                         getContext().startActivity(challengeDetailIntent);
+                        ((Activity) getContext()).overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     }
                 });
 
