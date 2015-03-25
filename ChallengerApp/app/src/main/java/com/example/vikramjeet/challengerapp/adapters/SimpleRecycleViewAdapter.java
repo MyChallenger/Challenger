@@ -49,6 +49,8 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
         if (items == null) {
             throw new IllegalArgumentException("contacts must not be null");
         }
+        if(mChallenges != null)
+            mChallenges.clear();
         mChallenges = items;
         mlistener = listener;
     }
@@ -137,15 +139,29 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
         viewHolder.tvExpiry.setText("expires " + getRelativeTimeAgo(challenge.getExpiryDate().toString()));
         if ((challenge.getStatus() == ChallengeStatus.VERIFIED) || (challenge.getStatus() == ChallengeStatus.BACKED))
             viewHolder.btnSponsor.setEnabled(false);
-        viewHolder.btnSponsor.setOnClickListener(new View.OnClickListener() {
+
+            viewHolder.btnSponsor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mlistener.onChallengeSponsor(challenge);
-               viewHolder.btnSponsor.setEnabled(false);
+                if(challenge.getStatus().equals(ChallengeStatus.BACKED)){
+                    viewHolder.btnSponsor.setTextColor(R.color.primary_light);
+                    viewHolder.btnSponsor.setText("SPONSORED");
+                    viewHolder.btnSponsor.setEnabled(false);
+
+                }
 
             }
         });
+        if(challenge.getStatus().equals(ChallengeStatus.OPEN)) {
+            viewHolder.btnSponsor.setTextColor(R.color.accent);
+            viewHolder.btnSponsor.setText("SPONSOR");
+            viewHolder.btnSponsor.setEnabled(true);
+
+
+        }
         viewHolder.tvTitle.setTag(challenge.getObjectId());
+
     }
     public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";

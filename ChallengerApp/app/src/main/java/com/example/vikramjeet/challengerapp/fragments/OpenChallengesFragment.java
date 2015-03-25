@@ -71,8 +71,11 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
         //Generate the timeLine
        // setContentView(R.layout.activity_main);
 
+       // mchallenges.clear();
+        adapter = new SimpleRecycleViewAdapter(getActivity(),mchallenges,this);
 
-        populateData();
+
+       populateData();
     }
 
     private void populateData() {
@@ -92,6 +95,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                     //for recycle view
                     mchallenges.addAll(local_challenges);
                     adapter.notifyDataSetChanged();
+                    Log.e("please", "  "+mchallenges.size());
                 } else {
                     Log.d("Completed Challenges", "Error: " + e.getMessage());
                 }
@@ -104,7 +108,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
     @Override
     public void onResume() {
         super.onResume();
-        populateData();
+        //populateData();
     }
 
     // Inflate the fragment layout we defined above for this fragment
@@ -125,9 +129,8 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
         layoutManager.scrollToPosition(0);
         // Attach layout manager
         rvOpenChallenges.setLayoutManager(layoutManager);
-
-        adapter = new SimpleRecycleViewAdapter(getActivity(),mchallenges,this);
         rvOpenChallenges.setAdapter(adapter);
+
         // Adding floating button to listview
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         //fab.attachToListView(lvOpenChallenges);
@@ -202,6 +205,7 @@ public class OpenChallengesFragment extends Fragment implements ChallengeArrayAd
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);*/
+        //populateData();
         return view;
     }
 
