@@ -19,7 +19,7 @@ public class User extends ParseUser {
     private static final String FIELD_CHALLENGES_BACKED = "challengesBacked"; // read-only
     private static final String FIELD_LEADERBOARD_RANK = "leaderBoardRank"; // read-only
 
-    private static final String FACEBOOK_PROFILE_PICTURE = "https://graph.facebook.com/v2.2/%s/picture?type=large";
+    private static final String FACEBOOK_PROFILE_PICTURE = "https://graph.facebook.com/v2.2/%s/picture?width=200&height=200";
 
 //    private List<Challenge> currentlyAcceptedChallenges;        // challenges that he needs to complete
 
