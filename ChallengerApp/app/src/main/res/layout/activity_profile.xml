@@ -42,16 +42,42 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="15dp"
+        android:text="Last seen 3 days ago "
+
+        android:id="@+id/tvRank"
+        android:background="@color/accent"
+        android:textColor="@color/white"
+        android:layout_marginTop="91dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_below="@+id/ivBG"
+        android:onClick="onRankBoard"
+        android:layout_centerHorizontal="true" />
+    <View
+        android:id="@+id/separator"
+
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvRank"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_baige"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Challenges Accepted 12"
+        android:text="Accepted Challenges 1452"
         android:id="@+id/tvChallengesCount"
-        android:layout_below="@+id/tvRank"
-        android:layout_toLeftOf="@+id/ivProfileFG"
         android:paddingLeft="10dp"
-        android:paddingTop="15dp" />
+        android:paddingTop="15dp"
+        android:layout_above="@+id/tvPoints"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,26 +85,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Points Earned 2000"
         android:id="@+id/tvPoints"
-        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:paddingTop="15dp"
         android:singleLine="false"
-        android:layout_below="@+id/tvRank"
-        android:layout_toRightOf="@+id/ivProfileFG"
-        android:layout_toEndOf="@+id/ivProfileFG" />
+        android:layout_marginBottom="51dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Last seen 3 days ago "
-        android:id="@+id/tvRank"
-        android:background="@color/primary_blue"
-        android:textColor="@color/white"
-        android:layout_marginTop="91dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:layout_below="@+id/ivBG"
-        android:onClick="onRankBoard"
-        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

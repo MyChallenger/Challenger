@@ -76,7 +76,7 @@ public class ProfileActivity extends ActionBarActivity {
         tvLocation.setText(user.getLocation());
         // tvPoint.setText("100");
         tvPoint.setText("Points Earned: " + user.getPointsEarned());
-        btnRank.setText("Your Rank: " + user.getLeaderBoardRank());
+        btnRank.setText(" Your Rank: " + user.getLeaderBoardRank()+ " ");
         tvChallengesCount.setText("Challenges Accepted: " + user.getChallengesBacked() + user.getChallengesCompleted());
 
 
