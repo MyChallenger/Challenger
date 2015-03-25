@@ -18,13 +18,14 @@
         android:layout_alignParentStart="true"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:textColor="@android:color/black"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/etTitle"
-        android:hint="Enter a bike race"
+        android:hint="Title"
         android:paddingBottom="10dp"
         android:layout_marginLeft="@dimen/left_margin_new_challenge"
         android:layout_alignBaseline="@+id/tvTitle" />
@@ -39,7 +40,8 @@
         android:layout_alignParentStart="true"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:textColor="@android:color/black"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -66,13 +68,14 @@
         android:textSize="15dp"
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/black"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/etShortBurb"
-        android:hint="Short description of the task"
+        android:hint="Short description"
         android:maxLines="3"
         android:minLines="3"
         android:gravity="left|top"
@@ -93,7 +96,8 @@
         android:layout_below="@+id/etShortBurb"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="22dp" />
+        android:layout_marginTop="22dp"
+        android:textColor="@android:color/black"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -118,7 +122,8 @@
         android:layout_below="@+id/spinnerCategory"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
+        android:layout_marginTop="18dp"
+        android:textColor="@android:color/black"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -143,7 +148,8 @@
         android:layout_marginTop="46dp"
         android:layout_below="@+id/tvLocation"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/black"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -167,7 +173,8 @@
         android:paddingTop="0dp"
         android:paddingBottom="10dp"
         android:textSize="15dp"
-        android:layout_below="@+id/tvEndDate" />
+        android:layout_below="@+id/tvEndDate"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -191,7 +198,7 @@
 
 
     <Button
-        android:background="@color/india_green"
+        android:background="@color/primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
