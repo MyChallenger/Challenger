@@ -93,28 +93,29 @@
         android:id="@+id/tvChallengeDetailViews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvChallengeDetailLike"
-        android:layout_alignTop="@+id/tvChallengeDetailLike"
-        android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
         android:text="5000 Views"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_margin="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/tvChallengeDetailLike"
+        android:layout_alignLeft="@+id/tvChallengeDetailLike"
+        android:layout_alignStart="@+id/tvChallengeDetailLike" />
 
     <Button
         android:id="@+id/btnStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/viewpager"
-        android:layout_alignRight="@+id/viewpager"
-        android:layout_below="@+id/viewpager"
         android:text="Sponsor"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:layout_above="@+id/challengeDetailTabs"
+        android:layout_alignRight="@+id/challengeDetailTabs"
+        android:layout_alignEnd="@+id/challengeDetailTabs" />
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/challengeDetailTabs"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/btnStatus"
+        android:layout_below="@+id/tvChallengeDetailViews"
         android:layout_marginTop="10dp"
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"></com.astuetz.PagerSlidingTabStrip>
