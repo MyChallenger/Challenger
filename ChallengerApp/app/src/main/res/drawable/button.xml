@@ -9,7 +9,6 @@
     android:scaleType="fitXY"
     android:elevation="8dp"
     android:focusable="false"
-    android:
     android:layout_alignParentTop="true"
     android:layout_toLeftOf="@+id/fab"
     android:layout_toStartOf="@+id/fab"
