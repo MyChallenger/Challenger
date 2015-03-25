@@ -143,10 +143,14 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
             @Override
             public void onClick(View v) {
                 mlistener.onChallengeSponsor(challenge);
-               viewHolder.btnSponsor.setEnabled(false);
-
+                if(challenge.getStatus().equals(ChallengeStatus.BACKED)) {
+                    viewHolder.btnSponsor.setTextColor(R.color.primary_light);
+                    viewHolder.btnSponsor.setText("SPONSORED");
+                    viewHolder.btnSponsor.setEnabled(false);
+                }
             }
         });
+        viewHolder.tvCategory.setText(challenge.getCategory());
         viewHolder.tvTitle.setTag(challenge.getObjectId());
     }
     public String getRelativeTimeAgo(String rawJsonDate) {
