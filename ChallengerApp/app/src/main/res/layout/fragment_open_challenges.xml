@@ -9,7 +9,7 @@
         android:id="@+id/rvOpenChallenges"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="15dp"
+        android:paddingBottom="5dp"
 
         tools:listitem="@layout/item_challenge" />
     <com.melnykov.fab.FloatingActionButton

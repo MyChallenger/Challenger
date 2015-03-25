@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ivProfile"
-        android:paddingBottom="10dp"
+
         android:paddingTop="10dp"
         >
         <TextView
@@ -90,7 +90,7 @@
 
         <View
             android:id="@+id/separator"
-            android:layout_marginBottom="10dp"
+
             android:layout_marginTop="10dp"
             android:layout_below="@+id/tvExpiry"
             android:layout_width="match_parent"
@@ -104,15 +104,12 @@
             android:text="SPONSOR"
             android:textSize="15sp"
             android:clickable="true"
-            android:background="@color/white"
+
             android:textColor="@color/accent"
             android:maxLines="1"
             android:id="@+id/btnAdd"
-            android:padding="10dp"
-
-
             android:layout_below="@+id/separator"
-
+            style="?android:attr/borderlessButtonStyle"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="5dp"

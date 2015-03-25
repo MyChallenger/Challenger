@@ -107,8 +107,10 @@
         android:id="@+id/btnStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/accent"
         android:text="Sponsor"
         android:gravity="center_vertical"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_above="@+id/challengeDetailTabs"
         android:layout_alignRight="@+id/challengeDetailTabs"
         android:layout_alignEnd="@+id/challengeDetailTabs" />
