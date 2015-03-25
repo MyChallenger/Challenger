@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:text="Username"
         android:id="@+id/tvCompletedUserName"
+        android:textColor="@color/primary"
         android:layout_toRightOf="@+id/ivCompletedUserPhoto"
         android:layout_alignTop="@+id/ivCompletedUserPhoto"
         android:layout_marginLeft="10dp"

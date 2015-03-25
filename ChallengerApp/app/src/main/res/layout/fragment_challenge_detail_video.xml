@@ -24,7 +24,8 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/ivChallengeDetailUserPhoto"
         android:gravity="center_vertical"
-        android:text="Username" />
+        android:text="Username"
+        android:textColor="@color/primary"        />
 
     <!--<VideoView-->
     <!--android:id="@+id/vvChallengeDetail"-->
@@ -117,6 +118,9 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/tvChallengeDetailViews"
+        app:pstsIndicatorColor="@color/primary"
+        app:pstsDividerColor="@android:color/transparent"
+        android:textColor="@color/primary"
         android:layout_marginTop="10dp"
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"></com.astuetz.PagerSlidingTabStrip>
