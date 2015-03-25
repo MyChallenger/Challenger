@@ -22,7 +22,7 @@
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <!--<item name="logo">@drawable/appicon</item>-->
-
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:background">@color/primary</item>
         <!--<item name="displayOptions">useLogo|showHome|showTitle</item>-->
         <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
@@ -40,6 +40,7 @@
 
     <style name="MyActionBarTabText" parent="@style/Widget.AppCompat.ActionBar.TabText">
         <item name="android:textColor">@color/india_green</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <!-- All customizations that are NOT specific to a particular API-level can go here. -->

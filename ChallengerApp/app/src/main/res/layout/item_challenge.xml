@@ -8,10 +8,10 @@
     android:layout_marginRight="10dp"
     android:layout_marginTop="16dp"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="8dp"
-    android:descendantFocusability="blocksDescendants"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4dp"
+    android:descendantFocusability="blocksDescendants">
 
     >
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +27,6 @@
         android:id="@+id/ivProfile"
         android:src="@drawable/ic_image_res"
         android:scaleType="centerCrop"
-
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
