@@ -13,6 +13,7 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="android:windowContentOverlay">@null</item>
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
@@ -21,6 +22,7 @@
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <!--<item name="logo">@drawable/appicon</item>-->
+
         <item name="android:background">@color/primary</item>
         <!--<item name="displayOptions">useLogo|showHome|showTitle</item>-->
         <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
@@ -32,6 +34,8 @@
 
     <style name="MyActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+
     </style>
 
     <style name="MyActionBarTabText" parent="@style/Widget.AppCompat.ActionBar.TabText">

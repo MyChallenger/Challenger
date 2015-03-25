@@ -79,9 +79,6 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     // Create an intent
                     Intent challengeDetailIntent = new Intent(context, CompletedChallengeDetailActivity.class);
                     // Get the challenge
-                    //Challenge challenge = mchallenges.get(position);
-                    // Pass challenge into the intent
-
 
                     // Start activity
                     context.startActivity(challengeDetailIntent);
@@ -91,7 +88,6 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     ((Activity) context).overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
                     // Log.d("ObjectID:", challenge.getObjectId());
-//                    Toast.makeText(context, "position"+position, Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -139,7 +135,6 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
             public void onClick(View v) {
                 mlistener.onChallengeSponsor(challenge);
                viewHolder.btnSponsor.setEnabled(false);
-                Toast.makeText(mContext, "What happen", Toast.LENGTH_SHORT).show();
 
             }
         });
