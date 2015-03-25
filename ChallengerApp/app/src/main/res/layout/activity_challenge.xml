@@ -7,7 +7,7 @@
         android:id="@+id/tabs"
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"
-        app:pstsTabPaddingLeftRight="-5dp"
+        app:pstsTabPaddingLeftRight="-10dp"
         android:layout_width="match_parent"
         android:layout_height="48dp"></com.astuetz.PagerSlidingTabStrip>
 
