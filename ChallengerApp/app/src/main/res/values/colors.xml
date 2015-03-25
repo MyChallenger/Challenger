@@ -20,5 +20,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="bg_baige">#E5E5E5</color>
+    <color name="title_gray">#757575</color>
 
 </resources>

@@ -34,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ivProfile"
-        android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         >
@@ -42,13 +41,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textStyle="bold"
             android:id="@+id/tvTitle"
             android:textSize="@dimen/contact_text_size"
-            android:textColor="@android:color/black"
+            android:textColor="@color/title_gray"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:paddingLeft="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,7 +59,8 @@
             android:textColor="@android:color/black"
             android:layout_below="@+id/tvTitle"
             android:layout_alignLeft="@+id/tvTitle"
-            android:layout_alignStart="@+id/tvTitle" />
+            android:layout_alignStart="@+id/tvTitle"
+            android:paddingLeft="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
 
             android:paddingRight="10dp"
             android:textSize="@dimen/contact_text_size"
-            android:textColor="@android:color/black"
+            android:textColor="@color/title_gray"
             android:layout_above="@+id/tvCategory"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
@@ -81,11 +81,21 @@
             android:text="Expiry Date"
             android:id="@+id/tvExpiry"
             android:paddingTop="5dp"
-
+            android:textColor="@android:color/black"
             android:textSize="@dimen/contact_text_size"
             android:layout_below="@+id/tvCategory"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:paddingLeft="10dp"/>
+
+        <View
+            android:id="@+id/separator"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tvExpiry"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_baige"/>
 
         <Button
 
@@ -101,7 +111,7 @@
             android:padding="10dp"
 
 
-            android:layout_alignBottom="@+id/tvExpiry"
+            android:layout_below="@+id/separator"
 
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

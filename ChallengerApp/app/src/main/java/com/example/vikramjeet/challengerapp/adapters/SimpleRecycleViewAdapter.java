@@ -133,7 +133,7 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     placeholder(R.drawable.photo_placeholder).
                     into(viewHolder.ivProfile);
         }
-        viewHolder.tvExpiry.setText("expires " + getRelativeTimeAgo(challenge.getExpiryDate().toString()));
+        viewHolder.tvExpiry.setText("Expires " + getRelativeTimeAgo(challenge.getExpiryDate().toString()));
         if ((challenge.getStatus() == ChallengeStatus.VERIFIED) || (challenge.getStatus() == ChallengeStatus.BACKED)) {
             viewHolder.btnSponsor.setEnabled(false);
             viewHolder.btnSponsor.setTextColor(R.color.primary_light);
