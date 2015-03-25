@@ -127,6 +127,7 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
 //        viewHolder.tvCategory.setText(challenge.getCategory());
         viewHolder.tvTitle.setText(challenge.getTitle());
         viewHolder.tvGoal.setText("Goal:" + " $" + challenge.getPrize());
+        viewHolder.tvCategory.setText(challenge.getCategory());
         if (challenge.getCreatedMediaId() != null) {
             Picasso.with(mContext).
                     load(String.format(YOUTUBE_VIDEO_THUMBNAIL, challenge.getCreatedMediaId())).

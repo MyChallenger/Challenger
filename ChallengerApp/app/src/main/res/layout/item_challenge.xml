@@ -18,6 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="10dp"
     >
 
     <ImageView
@@ -35,6 +36,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/ivProfile"
         android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -94,7 +97,7 @@
             android:clickable="true"
             android:background="@color/white"
             android:textColor="@color/accent"
-            android:elevation="8dp"
+
             android:id="@+id/btnAdd"
 
 
