@@ -32,6 +32,8 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
     private Context mContext;
     private final ChallengeArrayAdapter.ChallengeArrayAdapterListener mlistener;
 
+    private static final String YOUTUBE_VIDEO_THUMBNAIL = "http://img.youtube.com/vi/%s/hqdefault.jpg";
+
     @Override
     public void onClick(View v) {
 
@@ -125,8 +127,12 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
 //        viewHolder.tvCategory.setText(challenge.getCategory());
         viewHolder.tvTitle.setText(challenge.getTitle());
         viewHolder.tvGoal.setText("Goal:" + " $" + challenge.getPrize());
-        if (challenge.getCreatedMedia() != null)
-            Picasso.with(mContext).load(challenge.getCreatedMedia().getUrl()).into(viewHolder.ivProfile);
+        if (challenge.getCreatedMediaId() != null) {
+            Picasso.with(mContext).
+                    load(String.format(YOUTUBE_VIDEO_THUMBNAIL, challenge.getCreatedMediaId())).
+                    placeholder(R.drawable.photo_placeholder).
+                    into(viewHolder.ivProfile);
+        }
         viewHolder.tvExpiry.setText("expires " + getRelativeTimeAgo(challenge.getExpiryDate().toString()));
         if ((challenge.getStatus() == ChallengeStatus.VERIFIED) || (challenge.getStatus() == ChallengeStatus.BACKED))
             viewHolder.btnSponsor.setEnabled(false);
