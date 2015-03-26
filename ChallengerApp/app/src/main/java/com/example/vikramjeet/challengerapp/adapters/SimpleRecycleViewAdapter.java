@@ -83,7 +83,6 @@ public class SimpleRecycleViewAdapter extends RecyclerView.Adapter<SimpleRecycle
                     // Get the challenge
 
                     // Start activity
-                    context.startActivity(challengeDetailIntent);
                     String position = (String) tvTitle.getTag();
                     challengeDetailIntent.putExtra(CompletedChallengeDetailActivity.EXTRA_OPEN_CHALLENGE_ID, position);
                     context.startActivity(challengeDetailIntent);
