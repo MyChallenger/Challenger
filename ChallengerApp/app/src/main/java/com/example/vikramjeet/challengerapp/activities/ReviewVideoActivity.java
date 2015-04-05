@@ -132,7 +132,9 @@ public class ReviewVideoActivity extends ActionBarActivity {
                         Bundle bundle = new Bundle();
                         bundle.putString(UploadResultReceiver.EXTRA_RESULT_VALUE, videoId);
                         // Here we call send passing a resultCode and the bundle of extras
-                        mUploadResultReceiver.send(Activity.RESULT_OK, bundle);
+                        if (mUploadResultReceiver != null) {
+                            mUploadResultReceiver.send(Activity.RESULT_OK, bundle);
+                        }
                     }
                 });
             } else {
